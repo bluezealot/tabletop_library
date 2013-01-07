@@ -1,0 +1,16 @@
+<h1>New checkout</h1>
+
+<p id="notice"><%= notice %></p>
+
+<%= form_tag checkouts_path do %>
+    <div class="field">
+        <%= label_tag :game_barcode %><br />
+        <%= text_field_tag :g_id %>
+    </div>
+    
+    <div class="actions">
+    <%= submit_tag "confirm checkout" %>
+    </div>
+<% end %>
+
+<%= link_to 'Back', checkouts_path %>

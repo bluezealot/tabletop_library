@@ -1,0 +1,29 @@
+<h1>Listing paxes</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Location</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @paxes.each do |paxis| %>
+  <tr>
+    <td><%= paxis.name %></td>
+    <td><%= paxis.start %></td>
+    <td><%= paxis.end %></td>
+    <td><%= paxis.location %></td>
+    <td><%= link_to 'Show', paxis %></td>
+    <td><%= link_to 'Edit', edit_paxis_path(paxis) %></td>
+    <td><%= link_to 'Destroy', paxis, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Pax', new_paxis_path %>

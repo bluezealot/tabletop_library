@@ -1,0 +1,22 @@
+<h1>Listing publishers</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Title Count</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @publishers.each do |publisher| %>
+  <tr>
+    <td><%= publisher.name %></td>
+    <td><%= publisher.titles.count %></td>
+    <td><%= link_to 'Show', publisher %></td>
+    <td><%= link_to 'Edit', edit_publisher_path(publisher) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

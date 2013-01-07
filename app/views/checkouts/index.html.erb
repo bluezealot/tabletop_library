@@ -1,0 +1,28 @@
+<h1>Listing checkouts</h1>
+
+<table style='border-spacing:5px;'>
+  <tr>
+    <th>Barcode</th>
+    <th>Game</th>
+    <th>Attendee</th>
+    <th>Pax</th>
+    <th>Check out time</th>
+    <th>Return time</th>
+    <th>Closed</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @checkouts.each do |checkout| %>
+  <tr>
+    <td><%= link_to checkout.game.barcode, checkout %></td>
+    <td><%= checkout.game.title.title %></td>
+    <td><%= checkout.attendee.name %></td>
+    <td><%= checkout.pax_id %></td>
+    <td><%= checkout.check_out_time.strftime("%a %I:%M%p") %></td>
+    <td><%= checkout.return_time %></td>
+    <td><%= checkout.closed %></td>
+  </tr>
+<% end %>
+</table>

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Game:</b>
+  <%= @checkout.game.title.title %>
+</p>
+
+<p>
+  <b>Attendee:</b>
+  <%= @checkout.attendee.name %>
+</p>
+
+<p>
+  <b>Pax:</b>
+  <%= @checkout.pax_id %>
+</p>
+
+<p>
+  <b>Check out time:</b>
+  <%= @checkout.check_out_time %>
+</p>
+
+<p>
+  <b>Return time:</b>
+  <%= @checkout.return_time %>
+</p>
+
+<p>
+  <b>Closed:</b>
+  <%= @checkout.closed %>
+</p>
+
+
+<%= link_to 'Back', checkouts_path %>

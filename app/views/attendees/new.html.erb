@@ -1,0 +1,16 @@
+<h1>New attendee</h1>
+
+<p id="notice"><%= notice %></p>
+
+<%= form_tag attendees_path do %>
+    <div class="field">
+        <%= label_tag :attendee_barcode %><br />
+        <%= text_field_tag :a_id, params[:a_id] %>
+    </div>
+    
+    <div class="actions">
+    <%= submit_tag "attendee - next step" %>
+    </div>
+<% end %>
+
+<%= link_to 'Back', attendees_path %>

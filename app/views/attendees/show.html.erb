@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Barcode:</b>
+  <%= @attendee.barcode %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @attendee.name %>
+</p>
+
+<p>
+  <b>First name:</b>
+  <%= @attendee.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%= @attendee.last_name %>
+</p>
+
+<p>
+  <b>Enforcer:</b>
+  <%= @attendee.enforcer? %>
+</p>
+
+<p>
+  <b>Handle:</b>
+  <%= @attendee.handle %>
+</p>
+
+<p>
+  <b>Game currently checked out: ...uh yes I'll get to this, having issues atm</b>
+</p>
+
+<%= link_to 'Back', attendees_path %>

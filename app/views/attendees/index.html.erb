@@ -1,0 +1,24 @@
+<h1>Listing attendees</h1>
+
+<table style='border-spacing:5px;'>
+  <tr>
+    <th>Barcode</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Enforcer</th>
+    <th>Handle</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @attendees.each do |attendee| %>
+  <tr>
+    <td><%= link_to attendee.barcode, attendee %></td>
+    <td><%= attendee.first_name %></td>
+    <td><%= attendee.last_name %></td>
+    <td><%= attendee.enforcer? %></td>
+    <td><%= attendee.handle %></td>
+  </tr>
+<% end %>
+</table>

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <b>Barcode:</b>
+  <%= @game.barcode %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @game.title.title %>
+</p>
+
+<p>
+  <b>Publisher:</b>
+  <%= @game.title.publisher.name %>
+</p>
+
+<p>
+  <b>Loaner:</b>
+  <%= @game.loaner_id %>
+</p>
+
+<p>
+  <b>Section:</b>
+  <%= @game.section.name %>
+</p>
+
+<p>
+  <b>Checked in:</b>
+  <%= @game.checked_in %>
+</p>
+
+
+<%= link_to 'Back', games_path %>

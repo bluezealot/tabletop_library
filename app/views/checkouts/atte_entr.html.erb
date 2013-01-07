@@ -1,0 +1,16 @@
+<h1>New checkout - attendee barcode entry</h1>
+
+<p>Checking out: <%= @game.title.title %> with barcode: <%= @game.barcode %><br>
+
+<p id="notice"><%= notice %></p>
+
+<%= form_tag checkouts_attendee_path do %>
+    <div class="field">
+        <%= label_tag :attendee_barcode %><br />
+        <%= text_field_tag :a_id, session[:a_id] %>
+    </div>
+    
+    <div class="actions">
+    <%= submit_tag "confirm checkout" %>
+    </div>
+<% end %>

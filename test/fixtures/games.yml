@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  barcode: MyString
+  title_id: 1
+  loaner_id: 1
+  section_id: 1
+  checked_in: 1
+
+two:
+  barcode: MyString
+  title_id: 1
+  loaner_id: 1
+  section_id: 1
+  checked_in: 1

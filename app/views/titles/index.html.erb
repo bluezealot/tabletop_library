@@ -1,0 +1,23 @@
+<h1>Listing titles</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Publisher</th>
+    <th># of games</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @titles.each do |title| %>
+  <tr>
+    <td><%= title.title %></td>
+    <td><%= title.publisher.name %></td>
+    <td><%= title.games.count %></td>
+    <td><%= link_to 'Edit', edit_title_path(title) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

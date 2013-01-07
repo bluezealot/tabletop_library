@@ -1,0 +1,34 @@
+<h1>Listing games</h1>
+
+<%= form_tag games_path, :method=>'get' do %>
+    <div class="field">
+        <%= label_tag :section %><br />
+        <%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for), :prompt=>'Select a Department'%>
+    </div>
+    <%= submit_tag "search" %>
+<% end %>
+
+<table style='border-spacing:5px;'>
+  <tr>
+    <th>Barcode</th>
+    <th>Title</th>
+    <th>Publisher</th>
+    <th>Loaner</th>
+    <th>Section</th>
+    <th>Checked in</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @games.each do |game| %>
+  <tr>
+    <td><%= link_to game.barcode, game %></td>
+    <td><%= game.title.title %></td>
+    <td><%= game.title.publisher.name %></td>
+    <td><%= game.loaner_id %></td>
+    <td><%= game.section.name %></td>
+    <td><%= game.checked_in %></td>
+  </tr>
+<% end %>
+</table>
