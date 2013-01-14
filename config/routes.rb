@@ -21,10 +21,13 @@ PaxTTlib::Application.routes.draw do
     match 'returns/confirm',    to:'returns#show', via: :get
     match 'returns/confirm',    to:'returns#confirm', via: :post
     
+    resources :sessions, only: [:new, :create, :destroy]
+    
     resources :checkouts, :attendees, :games, :loaners, :titles   
-    resources :sections do #allows /sections/1/games
-      resources :games
-    end
+    
+    resources :sections #do
+    #  resources :games
+    #end
 
     #resources :publishers do
         #resources :titles
