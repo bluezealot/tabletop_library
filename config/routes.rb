@@ -1,7 +1,4 @@
 PaxTTlib::Application.routes.draw do
-    
-
-  resources :paxes
 
     root :to => "checkouts#index"
     
@@ -21,13 +18,16 @@ PaxTTlib::Application.routes.draw do
     match 'returns/confirm',    to:'returns#show', via: :get
     match 'returns/confirm',    to:'returns#confirm', via: :post
     
+    match 'signin',             to:'sessions#new', via: :get
+    match 'signout',            to:'sessions#destroy', via: :delete
+    
     resources :sessions, only: [:new, :create, :destroy]
+    resources :users, only: [:new, :index, :create]
+    resources :checkouts, :attendees, :games, :titles, :paxes
     
-    resources :checkouts, :attendees, :games, :loaners, :titles   
-    
-    resources :sections #do
-    #  resources :games
-    #end
+    resources :sections do
+      resources :games
+    end
 
     #resources :publishers do
         #resources :titles

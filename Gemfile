@@ -8,6 +8,7 @@ gem 'rails', '3.2.8'
 # gem 'sqlite3'
 gem 'pg'
 gem 'validates_existence'
+gem 'bcrypt-ruby', '3.0.1'
 
 # Gems used only for assets and not required
 # in production environments by default.

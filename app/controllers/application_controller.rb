@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  include SessionsHelper
     
     def checkout_game(a_id, g_id)
         Game.find(g_id).update_attributes({
@@ -65,6 +66,10 @@ class ApplicationController < ActionController::Base
         session[:g_id] = nil
         session[:a_id] = nil
         session[:redirect] = nil
+    end
+    
+    def signed_in_user
+      redirect_to signin_url, notice: "Please sign in." unless signed_in?
     end
   
 end

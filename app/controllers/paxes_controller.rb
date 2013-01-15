@@ -1,83 +1,49 @@
 class PaxesController < ApplicationController
-  # GET /paxes
-  # GET /paxes.json
+    before_filter :signed_in_user, only: [:index, :show, :new, :edit]
+
   def index
     @paxes = Pax.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @paxes }
-    end
   end
 
-  # GET /paxes/1
-  # GET /paxes/1.json
   def show
-    @paxis = Pax.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @paxis }
-    end
+    @pax = Pax.find(params[:id])
   end
 
-  # GET /paxes/new
-  # GET /paxes/new.json
   def new
-    @paxis = Pax.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @paxis }
-    end
+    @pax = Pax.new
   end
 
-  # GET /paxes/1/edit
   def edit
-    @paxis = Pax.find(params[:id])
+    @pax = Pax.find(params[:id])
   end
 
-  # POST /paxes
-  # POST /paxes.json
   def create
-    @paxis = Pax.new(params[:paxis])
+    @pax = Pax.new(params[:pax])
 
-    respond_to do |format|
-      if @paxis.save
-        format.html { redirect_to @paxis, notice: 'Pax was successfully created.' }
-        format.json { render json: @paxis, status: :created, location: @paxis }
+      if @pax.save
+        redirect_to @pax, notice: 'Pax was successfully created.'
       else
-        format.html { render action: "new" }
-        format.json { render json: @paxis.errors, status: :unprocessable_entity }
+        render action: "new"
       end
-    end
   end
 
-  # PUT /paxes/1
-  # PUT /paxes/1.json
   def update
-    @paxis = Pax.find(params[:id])
+    @pax = Pax.find(params[:id])
 
-    respond_to do |format|
-      if @paxis.update_attributes(params[:paxis])
-        format.html { redirect_to @paxis, notice: 'Pax was successfully updated.' }
-        format.json { head :no_content }
+      if @pax.update_attributes(params[:pax])
+        redirect_to @pax, notice: 'Pax was successfully updated.'
       else
-        format.html { render action: "edit" }
-        format.json { render json: @paxis.errors, status: :unprocessable_entity }
+        render action: "edit"
       end
-    end
   end
-
-  # DELETE /paxes/1
-  # DELETE /paxes/1.json
+  
+=begin
   def destroy
-    @paxis = Pax.find(params[:id])
-    @paxis.destroy
+    @pax = Pax.find(params[:id])
+    @pax.destroy
 
-    respond_to do |format|
-      format.html { redirect_to paxes_url }
-      format.json { head :no_content }
-    end
+    redirect_to paxes_url
   end
+=end
+
 end

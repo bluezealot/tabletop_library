@@ -1,4 +1,5 @@
 class TitlesController < ApplicationController
+    before_filter :signed_in_user, only: [:index, :edit]
 
     def index
         @titles = Title.all

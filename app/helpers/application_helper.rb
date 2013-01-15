@@ -9,4 +9,13 @@ module ApplicationHelper
         end
     end
     
+    def admin_name(user)
+        base = "[Admin]"
+        if user.nil?
+            base
+        else
+            "Logged in as: " + user.name
+        end
+    end
+    
 end

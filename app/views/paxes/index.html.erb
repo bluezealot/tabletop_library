@@ -3,23 +3,22 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Location</th>
     <th>Start</th>
     <th>End</th>
-    <th>Location</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @paxes.each do |paxis| %>
+<% @paxes.each do |pax| %>
   <tr>
-    <td><%= paxis.name %></td>
-    <td><%= paxis.start %></td>
-    <td><%= paxis.end %></td>
-    <td><%= paxis.location %></td>
-    <td><%= link_to 'Show', paxis %></td>
-    <td><%= link_to 'Edit', edit_paxis_path(paxis) %></td>
-    <td><%= link_to 'Destroy', paxis, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= pax.name %></td>
+    <td><%= pax.location %></td>
+    <td><%= pax.start %></td>
+    <td><%= pax.end %></td>
+    <td><%= link_to 'Show', pax %></td>
+    <td><%= link_to 'Edit', edit_paxis_path(pax) %></td>
   </tr>
 <% end %>
 </table>

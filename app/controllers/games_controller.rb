@@ -2,6 +2,7 @@ class GamesController < ApplicationController
     before_filter :reset_session, :only => [:index, :new, :show]
     before_filter :get_section, :only => [:index]
     before_filter :select_sections, :only => [:index, :new, :info_get]
+    before_filter :signed_in_user, only: [:new]
 
     def index
         if @section
