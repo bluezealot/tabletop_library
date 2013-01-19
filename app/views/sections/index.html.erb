@@ -11,7 +11,7 @@
 <% @sections.each do |section| %>
   <tr>
     <td><%= section.name %></td>
-    <td>Games: <%= section.games.count %></td>
+    <td>Games: <%= section_game_count(section) %></td>
     <td><%= link_to 'Show Games', games_path(:section_id => section.id) %></td>
   </tr>
 <% end %>
