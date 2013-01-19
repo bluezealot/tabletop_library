@@ -2,13 +2,13 @@ class GamesController < ApplicationController
     before_filter :reset_session, :only => [:index, :new, :show]
     before_filter :get_section, :only => [:index]
     before_filter :select_sections, :only => [:index, :new, :info_get]
-    before_filter :signed_in_user, only: [:new]
+    before_filter :signed_in_user, only: [:new, :remove]
 
     def index
         if @section
-            @games = @section.games
+            @games = @section.games.where({:returned => false})
         else
-            @games = Game.all
+            @games = Game.where({:returned => false})
         end
     end
 
@@ -25,7 +25,8 @@ class GamesController < ApplicationController
         if bc.empty? || !/[a-z]{3}\d{4}[a-z0-9]{2}/i.match(bc)
             redirect_to new_game_path(params), notice:'Invalid barcode.'
         else
-            if get_game(bc)
+            game = get_game(bc)
+            if game && game.returned == false
                 redirect_to new_game_path(params), notice: 'Game barcode already exists in the system.'
             else
                 session[:g_id] = bc
@@ -39,22 +40,52 @@ class GamesController < ApplicationController
     
     def info_post
         t_id = get_title_id(params[:title], params[:publisher])
+        g_id = session[:g_id]
+        @game = get_game(g_id)
         
-        @game = Game.new({
-            :title_id => t_id, 
-            :barcode => session[:g_id], 
-            :section_id => params[:section_id]
-            })
+        if @game && @game.returned == true
+            @game.update_attributes({
+                :title_id => t_id, 
+                #:barcode => g_id, 
+                :section_id => params[:section_id],
+                :returned => false,
+                :checked_in => true #just in case!
+                })
+        else
+            @game = Game.new({
+                :title_id => t_id, 
+                :barcode => g_id, 
+                :section_id => params[:section_id]
+                })
+        end
         
         if @game.save
             if session[:redirect] == 'checkout'
                 redirect_to checkouts_attendee_path
             else
                 session[:g_id] = nil;
-                redirect_to @game, notice: 'Game was successfully created.'
+                redirect_to @game, notice: 'Game was successfully added.'
             end
         else
             redirect_to games_info_path(params)
+        end
+    end
+    
+    def remove
+        g_id = params[:g_id]
+        if g_id
+            if get_game(g_id)
+                if game_has_unclosed_co(g_id)
+                    redirect_to games_remove_path, notice: 'Game is still checked out. Please return the game first.'
+                else
+                    Game.find(g_id).update_attributes({
+                        :returned => true
+                    })
+                    redirect_to games_remove_path, notice: 'Game removed from the library.'
+                end
+            else
+                redirect_to games_remove_path, notice: 'Game does not exist.'
+            end
         end
     end
 

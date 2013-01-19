@@ -50,8 +50,9 @@ ActiveRecord::Schema.define(:version => 20130115021553) do
     t.string   "location"
     t.date     "start"
     t.date     "end"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "current",    :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "publishers", :force => true do |t|

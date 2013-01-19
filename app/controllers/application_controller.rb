@@ -6,10 +6,15 @@ class ApplicationController < ActionController::Base
         Game.find(g_id).update_attributes({
             :checked_in => false
             })
+        pax = Pax.where({:current => true})
+        
+        if pax.size <= 0
+            pax = Pax.find(:all, :order => 'start DESC').first
+        end
             
         @checkout = Checkout.new({
                     :check_out_time => Time.new,
-                    #:pax_id => p_id,
+                    :pax_id => pax.id,
                     :game_id => g_id,
                     :attendee_id => a_id
                     })

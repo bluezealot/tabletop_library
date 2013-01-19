@@ -5,6 +5,7 @@ class CreatePaxes < ActiveRecord::Migration
       t.string :location
       t.date :start
       t.date :end
+      t.boolean :current, :default => false
 
       t.timestamps
     end

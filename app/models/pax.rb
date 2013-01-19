@@ -5,4 +5,9 @@ class Pax < ActiveRecord::Base
   validates :location, presence: true
   validates :end, presence: true
   validates :start, presence: true
+  
+  def full_name
+      name + " | " + location
+  end
+  
 end

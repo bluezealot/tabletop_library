@@ -14,8 +14,9 @@ class CheckoutsController < ApplicationController
 
     def create
         g_id = params[:g_id].upcase
+        game = get_game(g_id)
         
-        if get_game(g_id)
+        if game && game.returned == false
             if game_has_unclosed_co(g_id)#fixme
                 redirect_to new_checkout_path, notice: 'Game is already checked out!'
             else
@@ -43,6 +44,7 @@ class CheckoutsController < ApplicationController
                 checkout_game(a_id, session[:g_id])
             else
                 #redirect_to new_checkout_path, notice: 'Attendee already has a game checked out!'
+                @game = get_game(session[:g_id])
                 session[:redirect] = 'morethanone'
                 render 'already'
             end

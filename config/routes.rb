@@ -7,6 +7,8 @@ PaxTTlib::Application.routes.draw do
     
     match 'games/info',         to:'games#info_get', via: :get
     match 'games/info',         to:'games#info_post', via: :post
+    match 'games/remove',       to:'games#remove', via: :get
+    match 'games/remove',       to:'games#remove', via: :post
     
     match 'checkouts/attendee', to:'checkouts#atte_entr', via: :get
     match 'checkouts/attendee', to:'checkouts#attendee', via: :post

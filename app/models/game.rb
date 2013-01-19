@@ -6,6 +6,7 @@ class Game < ActiveRecord::Base
   
   has_many :checkouts
   
+  validate :barcode, length: { maximum: 9 }
   validates_format_of :barcode, :with => /[a-z]{3}\d{4}[a-z0-9]{2}/i
   #validates :barcode, presence: true
   validates_existence_of :title, :both => false
