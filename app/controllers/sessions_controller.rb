@@ -1,4 +1,9 @@
 class SessionsController < ApplicationController
+    before_filter :signed_in_user, only: [:index]
+    
+    def index
+        
+    end
     
     def new
         
@@ -8,7 +13,7 @@ class SessionsController < ApplicationController
         user = User.find_by_user_name(params[:session][:user_name])
         if user && user.authenticate(params[:session][:password])
             sign_in user
-            redirect_to root_url
+            redirect_to admin_path
         else
             redirect_to signin_path, notice: 'Invalid user/pass combo.'
         end

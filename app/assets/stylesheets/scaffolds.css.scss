@@ -1,10 +1,4 @@
-body {
-  background-color: #fff;
-  color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-}
+
 
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -13,13 +7,14 @@ p, ol, ul, td {
 }
 
 pre {
-  background-color: #eee;
+  background-color: #000;
   padding: 10px;
   font-size: 11px;
 }
 
 a {
   color: #000;
+  color:#FFF;
   &:visited {
     color: #666;
   }
@@ -59,7 +54,7 @@ div {
     font-size: 12px;
     margin: -7px;
     margin-bottom: 0px;
-    background-color: #c00;
+    background-color: #000;
     color: #fff;
   }
   ul li {

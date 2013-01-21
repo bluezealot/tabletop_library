@@ -4,6 +4,7 @@ class ReturnsController < ApplicationController
     end
     
     def create
+        params[:a_id].upcase!
         if get_attendee(params[:a_id])
             if atte_has_unclosed_co(params[:a_id]).empty?
                 redirect_to returns_new_path, notice: 'Attendee has no games checked out!'
@@ -21,6 +22,7 @@ class ReturnsController < ApplicationController
     end
     
     def confirm
+        params[:g_id].upcase!
         if return_game(params[:a_id], params[:g_id])
             redirect_to returns_new_path, notice: 'Return complete.'
         else

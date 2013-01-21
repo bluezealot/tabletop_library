@@ -1,57 +1,14 @@
-<header>
-    PAX TT HQ Library Database
+<header class='header'>
+    <%= link_to image_tag("title_default.png", alt: "TableTop DB mk2"), root_path %>
+    <nav>
+        <ul>
+            <li><%= link_to 'check out', new_checkout_path, :class => tab_class('checkout') %></li>
+            <li><%= link_to 'return', returns_new_path, :class => tab_class('return') %></li>
+            <li><%= link_to 'new attendee', new_attendee_path, :class => tab_class('newattendee') %></li>
+            <li><%= link_to 'admin', admin_path, :class => tab_class('admin') %></li>
+            <li><%= admin_name current_user %></li>
+            </ul>
+        </nav>
     </header>
-<table style='border-spacing:5px;'>
-    <tr>
-        <th>Checkout</th>
-        <th>Return</th>
-        <th>Attendees</th>
-        <th>Games</th>
-        <th><%= admin_name current_user %></th>
-        </tr>
-    <tr>
-        <td>
-            <ul>
-                <li><%= link_to 'checkouts', checkouts_path %></li>
-                <li><%= link_to 'check out a game', new_checkout_path %></li>
-                </ul>
-            </td>
-        <td>
-            <li><%= link_to 'return', returns_new_path %></li>
-            </td>
-        <td>
-            <ul>
-                <li><%= link_to 'attendees', attendees_path %></li>
-                <li><%= link_to 'add attendee', new_attendee_path %></li>
-                </ul>
-            </td>
-        <td>
-            <ul>
-                <li><%= link_to 'games', games_path %></li>
-                </ul>
-            </td>
-        <% if signed_in? %>
-        <td>
-            <ul>
-                <li><%= link_to 'add game', new_game_path %></li>
-                <li><%= link_to 'remove game', games_remove_path %></li>
-                <li><%= link_to 'sections', sections_path %></li>
-                <li><%= link_to 'titles', titles_path %></li>
-                <li><%= link_to 'paxes', paxes_path %></li>
-                <li><%= link_to 'users', users_path %></li>
-                <li><%= link_to 'sign out', signout_path, method: "delete" %></li>
-                </ul>
-            </td>
-        <% else %>
-        <td>
-            <ul>
-                <li><%= link_to 'sign in', signin_path %></li>
-                </ul>
-            </td>
-        <% end %>
-        </tr>
-        
-    
-    </table>
 <br/>
     
