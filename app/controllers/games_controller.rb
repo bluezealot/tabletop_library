@@ -61,8 +61,6 @@ class GamesController < ApplicationController
         
         if @game.save
             if session[:redirect] == 'checkout'
-                #change to checkout game
-                #redirect_to checkouts_attendee_path
                 session[:redirect] = nil
                 checkout_game(session[:a_id], session[:g_id])
             else

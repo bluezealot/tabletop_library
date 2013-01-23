@@ -17,31 +17,15 @@ class CheckoutsController < ApplicationController
         session[:a_id] = a_id
                 
         if get_attendee(a_id)
-            #if (@current_checkouts = atte_has_unclosed_co(a_id)).empty? #|| session[:redirect] == 'morethanone'
-                #checkout_game(a_id, session[:g_id])
-            #else
-                #redirect_to new_checkout_path, notice: 'Attendee already has a game checked out!'
-                #@game = get_game(session[:g_id]
-                redirect_to checkouts_game_path
-                #session[:redirect] = 'morethanone'
-                #render 'already'
-            #end
+            redirect_to checkouts_game_path
         else
             session[:redirect] = 'checkout'
             redirect_to attendees_info_path, notice: 'Attendee doesn\'t exist, please enter information.'
         end
 
     end
-    
-    
-    
-    
-    
-    
-    
+  
     def game_get
-        #if this second calling of get_game causes perf issues, store game record in session
-        #@game = get_game(session[:g_id])
         #@attendee = blargh
     end
     
