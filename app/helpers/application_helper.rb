@@ -9,12 +9,28 @@ module ApplicationHelper
         end
     end
     
-    def admin_name(user)
+    def admin_label(user)
         base = ""
         if user.nil?
             base
         else
-            "Logged in as: " + user.name
+            "Logged in as: " + admin_name(user)
+        end
+    end
+    
+    def admin_name(user)
+        if user.nil?
+            nil
+        else
+            user.name
+        end
+    end
+    
+    def sign_out_link(user)
+        if user.nil?
+            nil
+        else
+            link_to 'sign out', signout_path, method: "delete"
         end
     end
     

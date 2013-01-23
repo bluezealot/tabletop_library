@@ -10,8 +10,8 @@ PaxTTlib::Application.routes.draw do
     match 'games/remove',       to:'games#remove', via: :get
     match 'games/remove',       to:'games#remove', via: :post
     
-    match 'checkouts/attendee', to:'checkouts#atte_entr', via: :get
-    match 'checkouts/attendee', to:'checkouts#attendee', via: :post
+    match 'checkouts/game',     to:'checkouts#game_get', via: :get
+    match 'checkouts/game',     to:'checkouts#game_post', via: :post
     match 'checkouts/swap',     to:'checkouts#swap', via: :post
     
     match 'returns/new',        to:'returns#new', via: :get

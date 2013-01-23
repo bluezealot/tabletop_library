@@ -46,13 +46,16 @@ class AttendeesController < ApplicationController
         
         if @attendee.save
             if session[:redirect] == 'checkout'
-                checkout_game(session[:a_id], session[:g_id])
+                #change to redirect to game entry in checkout
+                #checkout_game(session[:a_id], session[:g_id])
+                session[:redirect] = nil
+                redirect_to checkouts_game_path
             else
                 session[:a_id] = nil;
                 redirect_to @attendee, notice: 'Attendee was successfully created.'
             end
         else
-            redirect_to attendees_info_path(params)
+            redirect_to attendees_info_path(params) #error message needed
         end
     end
 

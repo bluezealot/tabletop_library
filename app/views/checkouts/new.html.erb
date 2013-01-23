@@ -4,12 +4,12 @@
 
 <%= form_tag checkouts_path do %>
     <div class="field">
-        <%= label_tag :game_barcode %><br />
-        <%= text_field_tag :g_id %>
+        <%= label_tag :attendee_barcode %><br />
+        <%= text_field_tag :a_id %>
     </div>
     
     <div class="actions">
-    <%= submit_tag "confirm checkout" %>
+    <%= submit_tag "checkout - next step" %>
     </div>
 <% end %>
 

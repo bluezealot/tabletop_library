@@ -1,18 +1,19 @@
 <header class='header'>
     <%= link_to image_tag("title_default.png", alt: "TableTop DB mk2"), root_path %>
     <nav>
-        <div>
+        <span>
             <%= current_pax %>
-
-            </div>
+            </span>
+        <span class='right-span'>
+            <%= admin_label current_user %>
+            </span>
         <ul>
             <li><%= link_to 'check out', new_checkout_path, :class => tab_class('checkout') %></li>
             <li><%= link_to 'return', returns_new_path, :class => tab_class('return') %></li>
             <li><%= link_to 'new attendee', new_attendee_path, :class => tab_class('newattendee') %></li>
             <li><%= link_to 'admin', admin_path, :class => tab_class('admin') %></li>
-            <li><%= admin_name current_user %></li>
+            <li><%= sign_out_link current_user %></li>
             </ul>
-        
         </nav>
     </header>
 <br/>

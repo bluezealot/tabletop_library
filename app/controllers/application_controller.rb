@@ -3,12 +3,15 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
     
     def checkout_game(a_id, g_id)
+        a_id.upcase!
+        g_id.upcase!
+        
         Game.find(g_id).update_attributes({
             :checked_in => false
             })
-        pax = Pax.where({:current => true})
+        pax = Pax.where({:current => true}).first
         
-        if pax.size <= 0
+        if !pax
             pax = Pax.find(:all, :order => 'start DESC').first
         end
             
@@ -21,7 +24,7 @@ class ApplicationController < ActionController::Base
         
         if @checkout.save
             reset_session
-            redirect_to @checkout, notice: 'Game was successfully checked out.'
+            redirect_to new_checkout_path, notice: 'Game was successfully checked out.'
         else
             redirect_to new_checkout_path, notice: 'An error has occurred during checkout.<br/>Error code: 0HB4LL5'
         end
