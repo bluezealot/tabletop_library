@@ -43,4 +43,13 @@ module ApplicationHelper
         end
     end
     
+    def current_pax
+        current_pax = Pax.where({:current => true}).first
+        if current_pax
+            current_pax.full_name
+        else
+            nil
+        end
+    end
+    
 end

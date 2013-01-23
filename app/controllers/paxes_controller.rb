@@ -21,7 +21,7 @@ class PaxesController < ApplicationController
     @pax = Pax.new(params[:pax])
 
       if @pax.save
-        redirect_to @pax, notice: 'Pax was successfully created.'
+        redirect_to paxes_path, notice: 'Pax was successfully created.'
       else
         render action: "new"
       end
@@ -37,13 +37,22 @@ class PaxesController < ApplicationController
       end
   end
   
-=begin
   def destroy
-    @pax = Pax.find(params[:id])
-    @pax.destroy
+    #@pax = Pax.find(params[:id])
+    #@pax.destroy
 
-    redirect_to paxes_url
+    #redirect_to paxes_url
+    current = Pax.where({:current => true}).first
+    if current
+        current.update_attributes({
+            :current => false
+            })
+    end
+    new_current = Pax.find(params[:id])
+    new_current.update_attributes({
+        :current => true
+        })
+    redirect_to paxes_path
   end
-=end
 
 end

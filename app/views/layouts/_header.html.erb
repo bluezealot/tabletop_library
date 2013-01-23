@@ -1,6 +1,10 @@
 <header class='header'>
     <%= link_to image_tag("title_default.png", alt: "TableTop DB mk2"), root_path %>
     <nav>
+        <div>
+            <%= current_pax %>
+
+            </div>
         <ul>
             <li><%= link_to 'check out', new_checkout_path, :class => tab_class('checkout') %></li>
             <li><%= link_to 'return', returns_new_path, :class => tab_class('return') %></li>
@@ -8,6 +12,7 @@
             <li><%= link_to 'admin', admin_path, :class => tab_class('admin') %></li>
             <li><%= admin_name current_user %></li>
             </ul>
+        
         </nav>
     </header>
 <br/>

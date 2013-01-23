@@ -6,7 +6,7 @@
     <th>Location</th>
     <th>Start</th>
     <th>End</th>
-    <th></th>
+    <th>Current</th>
     <th></th>
     <th></th>
   </tr>
@@ -17,7 +17,8 @@
     <td><%= pax.location %></td>
     <td><%= pax.start %></td>
     <td><%= pax.end %></td>
-    <td><%= link_to 'Show', pax %></td>
+    <td><%= pax.current %></td>
+    <td><%= link_to 'Set Current', pax, method: :delete %></td>
     <td><%= link_to 'Edit', edit_paxis_path(pax) %></td>
   </tr>
 <% end %>

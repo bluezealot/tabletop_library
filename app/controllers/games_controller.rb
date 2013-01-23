@@ -62,6 +62,7 @@ class GamesController < ApplicationController
         if @game.save
             if session[:redirect] == 'checkout'
                 redirect_to checkouts_attendee_path
+                
             else
                 session[:g_id] = nil;
                 redirect_to @game, notice: 'Game was successfully added.'

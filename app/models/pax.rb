@@ -1,5 +1,5 @@
 class Pax < ActiveRecord::Base
-  attr_accessible :end, :location, :name, :start
+  attr_accessible :end, :location, :name, :start, :current
   
   validates :name, presence: true
   validates :location, presence: true
