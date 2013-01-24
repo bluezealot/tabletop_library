@@ -1,7 +1,8 @@
 class CheckoutsController < ApplicationController
 
     def index
-        @checkouts = Checkout.where(:closed => false)
+        pax = get_current_pax
+        @checkouts = Checkout.where(:closed => false, :pax_id => pax.id)
     end
 
     def show

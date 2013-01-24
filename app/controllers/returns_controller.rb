@@ -18,7 +18,7 @@ class ReturnsController < ApplicationController
     
     def show
         @checkouts = atte_has_unclosed_co(params[:a_id])
-        @atte = get_attendee(@checkouts.first.attendee_id)
+        @atte = get_attendee(params[:a_id])
     end
     
     def confirm
@@ -26,7 +26,7 @@ class ReturnsController < ApplicationController
         if return_game(params[:a_id], params[:g_id])
             redirect_to returns_new_path, notice: 'Return complete.'
         else
-            redirect_to returns_new_path, notice: 'An error occurred whil returning.'
+            redirect_to returns_new_path, notice: 'An error occurred while returning.'
         end
     end
     

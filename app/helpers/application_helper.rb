@@ -47,7 +47,7 @@ module ApplicationHelper
                 current
             end
         when 'newattendee'
-            if controller.class == AttendeesController && controller.action_name != 'index' && session[:redirect] != 'checkout'
+            if controller.class == AttendeesController && controller.action_name != 'index' && controller.action_name != 'show' && session[:redirect] != 'checkout'
                 current
             end
         when 'admin'
@@ -59,12 +59,21 @@ module ApplicationHelper
         end
     end
     
-    def current_pax
-        current_pax = Pax.where({:current => true}).first
+    def current_pax_label
+        current_pax = get_current_pax
         if current_pax
             current_pax.full_name
         else
             nil
+        end
+    end
+    
+    def get_current_pax
+        pax = Pax.where({:current => true}).first
+        if !pax
+            Pax.find(:all, :order => 'start DESC').first
+        else
+            pax
         end
     end
     

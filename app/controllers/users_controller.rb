@@ -37,13 +37,17 @@ class UsersController < ApplicationController
         render action: "edit"
       end
   end
+=end
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    
+    if @user.user_name != 'admin' && @user != current_user 
+        @user.destroy
+    end
 
     redirect_to users_url
   end
-=end
+
 
 end

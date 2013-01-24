@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
+  include ApplicationHelper
     
     def checkout_game(a_id, g_id)
         a_id.upcase!
@@ -9,11 +10,7 @@ class ApplicationController < ActionController::Base
         Game.find(g_id).update_attributes({
             :checked_in => false
             })
-        pax = Pax.where({:current => true}).first
-        
-        if !pax
-            pax = Pax.find(:all, :order => 'start DESC').first
-        end
+        pax = get_current_pax
             
         @checkout = Checkout.new({
                     :check_out_time => Time.new,
@@ -32,7 +29,8 @@ class ApplicationController < ActionController::Base
     end
     
     def return_game(a_id, g_id)
-        @co = Checkout.where({:attendee_id => a_id, :game_id => g_id, :closed => false}).first
+        pax = get_current_pax
+        @co = Checkout.where({:attendee_id => a_id, :game_id => g_id, :closed => false, :pax_id => pax.id}).first
         @game = get_game(g_id)
         
         if @co && @game
@@ -60,14 +58,14 @@ class ApplicationController < ActionController::Base
     
     def game_has_unclosed_co(g_id)
         g_id = g_id.upcase
-        Checkout.where(:game_id => g_id, :closed => false).first 
-        #add :pax_id => current_pax
+        pax = get_current_pax
+        Checkout.where(:game_id => g_id, :closed => false, :pax_id => pax.id).first 
     end
     
     def atte_has_unclosed_co(a_id)
         a_id = a_id.upcase
-        Checkout.where(:attendee_id => a_id, :closed => false)
-        #add :pax_id => current_pax
+        pax = get_current_pax
+        Checkout.where(:attendee_id => a_id, :closed => false, :pax_id => pax.id)
     end
     
     def reset_session

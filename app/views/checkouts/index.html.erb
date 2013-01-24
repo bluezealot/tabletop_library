@@ -13,7 +13,7 @@
   <tr>
     <td><%= link_to checkout.game.barcode, checkout %></td>
     <td><%= checkout.game.title.title %></td>
-    <td><%= checkout.attendee.name %></td>
+    <td><%= link_to checkout.attendee.name, checkout.attendee %></td>
     <td><%= checkout.pax.full_name %></td>
     <td><%= checkout.check_out_time.strftime("%a %I:%M%p") %></td>
   </tr>

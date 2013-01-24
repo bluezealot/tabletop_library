@@ -24,8 +24,8 @@ PaxTTlib::Application.routes.draw do
     match 'signout',            to:'sessions#destroy', via: :delete
     match 'admin',              to:'sessions#index', via: :get
     
-    resources :sessions, only: [:new, :create, :destroy]
-    resources :users, only: [:new, :index, :create]
+    resources :sessions,        only: [:new, :create, :destroy]
+    resources :users,           only: [:new, :create, :destroy, :index]
     resources :checkouts, :attendees, :games, :titles, :paxes
     
     resources :sections do
