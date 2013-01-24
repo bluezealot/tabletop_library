@@ -1,14 +1,9 @@
-<h1>Return - attendee barcode entry</h1>
-
-<p id="notice"><%= notice %></p>
+<h2>Return</h2>
+<h3>Enter ATTENDEE Barcode below to continue.</h3>
 
 <%= form_tag returns_attendee_path do %>
     <div class="field">
-        <%= label_tag :attendee_barcode %><br />
         <%= text_field_tag :a_id, params[:a_id] %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "confirm checkout" %>
+        <%= submit_tag "return - next step" %>
     </div>
 <% end %>

@@ -1,16 +1,10 @@
-<h1>Return - games</h1>
-
-<p id="notice"><%= notice %></p>
-
-<p>Attendee: <%= @atte.name %> returning the following:</p>
+<h2>Return</h2>
+<h3>Attendee: <%= @atte.name %> has the following checked out:</h3>
 
 <% @checkouts.each do |co| %>
-    <p><%= co.game.barcode %> - <%= co.game.title.title %>
-        </p>
     <%= form_tag returns_confirm_path ({:a_id => co.attendee_id, :g_id => co.game_id}) do %>
-        <div class="actions">
-        <%= submit_tag "confirm return" %>
-        </div>
+        <%= submit_tag "return this game ->" %>
+        <%= co.game.barcode %> - <%= co.game.title.title %>
     <% end %>
 
 <% end %>

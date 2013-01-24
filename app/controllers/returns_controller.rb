@@ -24,7 +24,7 @@ class ReturnsController < ApplicationController
     def confirm
         params[:g_id].upcase!
         if return_game(params[:a_id], params[:g_id])
-            redirect_to returns_new_path, notice: 'Return complete.'
+            redirect_to returns_new_path, notice: 'Game was successfully RETURNED.'
         else
             redirect_to returns_new_path, notice: 'An error occurred while returning.'
         end

@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
         
         if @checkout.save
             reset_session
-            redirect_to new_checkout_path, notice: 'Game was successfully checked out.'
+            redirect_to new_checkout_path, notice: 'Game was successfully CHECKED OUT.'
         else
             redirect_to new_checkout_path, notice: 'An error has occurred during checkout.<br/>Error code: 0HB4LL5'
         end

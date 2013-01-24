@@ -1,14 +1,9 @@
-<h1>New checkout - game barcode entry</h1>
-
-<p id="notice"><%= notice %></p>
+<h2>Checkout</h2>
+<h3>Enter GAME Barcode below to continue.</h3>
 
 <%= form_tag checkouts_game_path do %>
     <div class="field">
-        <%= label_tag :game_barcode %><br />
         <%= text_field_tag :g_id, session[:g_id] %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "confirm checkout" %>
+        <%= submit_tag "checkout - next step" %>
     </div>
 <% end %>

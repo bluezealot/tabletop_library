@@ -1,16 +1,13 @@
-<h1>New checkout</h1>
-
-<p id="notice"><%= notice %></p>
+<h2>Checkout</h2>
+<h3>Enter ATTENDEE Barcode below to continue.</h3>
 
 <%= form_tag checkouts_path do %>
     <div class="field">
-        <%= label_tag :attendee_barcode %><br />
         <%= text_field_tag :a_id %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "checkout - next step" %>
-    </div>
+        <%= submit_tag "checkout - next step" %>
+        </div>
 <% end %>
+<br/>
+<h3>or</h3>
 
-<%= link_to 'all current checkouts', checkouts_path %>
+<h3>Click <%= link_to 'here', checkouts_path %> to view all current checkouts.</h3>

@@ -1,19 +1,16 @@
+<h2>Checkout</h2>
 <% if !@current_checkouts.empty? %>
     <div id="notice">
-        <p>
-            <%= pluralize(@current_checkouts.count, "game is") %> already checked out by this attendee:
-            </p>
+        <h3>Attendee already has the following checked out:</h3>
         <% @current_checkouts.each do |co| %>
-            <p><%= co.game.barcode %> - <%= co.game.title.title %></p>
             <%= form_tag checkouts_swap_path ({:g_id => params[:g_id], :old_g_id => co.game_id}) do %>
-                <div class="actions">
                 <%= submit_tag "swap" %>
-                </div>
+                <%= co.game.barcode %> - <%= co.game.title.title %>
                 <% end %>
             <% end %>
         </div>
     <% end %>
-
+<br/>
 <%= form_tag checkouts_game_path params do %>
     <div class="actions">
         <%= submit_tag "continue with checkout" %>
