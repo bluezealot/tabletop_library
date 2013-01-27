@@ -15,7 +15,6 @@ class LoanersController < ApplicationController
     end
 
     def create
-        #params[:loaner][:phone_number] = format_phone(params[:loaner][:phone_number])
         @loaner = Loaner.new(params[:loaner])
         
         if @loaner.save
@@ -30,7 +29,6 @@ class LoanersController < ApplicationController
     end
 
     def update
-        #params[:loaner][:phone_number] = format_phone(params[:loaner][:phone_number])
         @loaner = Loaner.find(params[:id])
 
         if @loaner.update_attributes(params[:loaner])

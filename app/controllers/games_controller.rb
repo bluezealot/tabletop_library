@@ -22,14 +22,11 @@ class GamesController < ApplicationController
     def create
         bc = params[:g_id].upcase
         
-        if bc.empty? || !/^[a-z]{3}\d{4}[a-z0-9]{2}$/i.match(bc)
-            #redirect_to new_game_path(params), notice:'Invalid barcode.'
-            flash[:error] = 'Invalid barcode.'
-            render 'new'
+        if bc.empty? || !barcode_check(bc)
+            redirect_to new_game_path(params), notice:'Invalid barcode.'
         else
             game = get_game(bc)
             if game && game.returned == false
-                #redirect_to new_game_path(params), notice: 'Game barcode already exists in the system.'
                 flash[:error] = 'Game barcode already exists in the system.'
                 render 'new'
             else
@@ -84,7 +81,7 @@ class GamesController < ApplicationController
             end
         else
             flash[:error] = 'Please fill in all fields.'
-            redirect_to games_info_path(params) #error message needed
+            redirect_to games_info_path(params)
         end
     end
     

@@ -14,7 +14,7 @@ class AttendeesController < ApplicationController
 
     def create
         bc = params[:a_id].upcase
-        if bc.empty? || !/^[a-z]{3}\d{4}[a-z0-9]{2}$/i.match(bc)
+        if bc.empty? || !barcode_check(bc)
             redirect_to new_attendee_path(params), notice:'Invalid barcode.'
         else
             if get_attendee(bc)
@@ -53,7 +53,8 @@ class AttendeesController < ApplicationController
                 redirect_to @attendee, notice: 'Attendee was successfully created.'
             end
         else
-            redirect_to attendees_info_path(params) #error message needed
+            flash[:error] = 'Please fill in all fields.'
+            redirect_to attendees_info_path(params)
         end
     end
 

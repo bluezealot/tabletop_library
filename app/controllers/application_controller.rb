@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
-  include SessionsHelper
-  include ApplicationHelper
+    protect_from_forgery
+    include SessionsHelper
+    include ApplicationHelper
     
     def checkout_game(a_id, g_id)
         a_id.upcase!
@@ -89,7 +89,11 @@ class ApplicationController < ActionController::Base
     end
     
     def signed_in_user
-      redirect_to signin_url, notice: "Please sign in." unless signed_in?
+        redirect_to signin_url, notice: "Please sign in." unless signed_in?
+    end
+    
+    def barcode_check(bc)
+        /^[a-z]{3}\d{4}[a-z0-9]{2}$/i.match(bc)
     end
   
 end
