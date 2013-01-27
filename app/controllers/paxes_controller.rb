@@ -39,24 +39,32 @@ class PaxesController < ApplicationController
     end
 
     def destroy
-        set_to_current_pax params
-
-        redirect_to paxes_path
+        if set_to_current_pax params
+            redirect_to paxes_path
+        else
+            flash[:error] = 'Please close all checkouts before changing current PAX.'
+            redirect_to paxes_path
+        end
     end
 
     private
   
-    def set_to_current_pax(pax)
-        current = Pax.where({:current => true}).first
-        if current
-            current.update_attributes({
-                :current => false
-            })
+        def set_to_current_pax(pax)
+            current = Pax.where({:current => true}).first
+            
+            if Checkout.where(:pax_id => current.id, :closed => false).count <= 0
+                if current
+                    current.update_attributes({
+                        :current => false
+                    })
+                end
+                new_current = Pax.find(pax[:id])
+                new_current.update_attributes({
+                    :current => true
+                })
+            else
+                false
+            end
         end
-        new_current = Pax.find(pax[:id])
-        new_current.update_attributes({
-            :current => true
-        })
-    end
 
 end
