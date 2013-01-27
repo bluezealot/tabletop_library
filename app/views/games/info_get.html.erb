@@ -22,7 +22,7 @@
 <% end %>
 
 <% if !session[:l_id].nil? %>
-    <p style='loaner-notice'>Adding game for <%= Loaner.find(session[:l_id]).name %>.</p>
+    <p class='loaner-notice'>Adding game for <%= Loaner.find(session[:l_id]).name %>.</p>
     <p><%= link_to 'back to Loaners', loaners_path %>
 <% else %>
     <%= link_to 'All Games', games_path %>
