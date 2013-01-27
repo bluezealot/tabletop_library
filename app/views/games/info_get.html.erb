@@ -1,4 +1,5 @@
-<h1>New game</h1>
+<h2>New Game</h2>
+<h3>Enter game info below to continue.</h3>
 
 <%= form_tag games_info_path do %>
     <div class="field">
@@ -12,18 +13,17 @@
     </div>
     
     <div class="field">
-        <%= label_tag :loaner %><br />
-        <%= text_field_tag :loaner, params[:loaner] %>
-    </div>
-    
-    <div class="field">
-        <%= label_tag :section %><br />
         <%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for)%>
     </div>
     
     <div class="actions">
-    <%= submit_tag "games - next step" %>
+    <%= submit_tag "new game - next step" %>
     </div>
 <% end %>
 
-<%= link_to 'Back', games_path %>
+<% if !session[:l_id].nil? %>
+    <p style='loaner-notice'>Adding game for <%= Loaner.find(session[:l_id]).name %>.</p>
+    <p><%= link_to 'back to Loaners', loaners_path %>
+<% else %>
+    <%= link_to 'All Games', games_path %>
+<% end %>

@@ -1,14 +1,16 @@
-<h1>New game</h1>
+<h2>New Game</h2>
+<h3>Enter GAME Barcode below to continue.</h3>
 
 <%= form_tag games_path do %>
     <div class="field">
-        <%= label_tag :game_barcode %><br />
-        <%= text_field_tag :g_id, params[:g_id] %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "game - next step" %>
+        <%= text_field_tag :g_id, params[:g_id] %>    
+        <%= submit_tag "new game - next step" %>
     </div>
 <% end %>
 
-<%= link_to 'Back', games_path %>
+<% if !session[:l_id].nil? %>
+    <p style='loaner-notice'>Adding game for <%= Loaner.find(session[:l_id]).name %>.</p>
+    <p><%= link_to 'back to Loaners', loaners_path %>
+<% else %>
+    <%= link_to 'All Games', games_path %>
+<% end %>

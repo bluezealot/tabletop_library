@@ -22,12 +22,16 @@ class GamesController < ApplicationController
     def create
         bc = params[:g_id].upcase
         
-        if bc.empty? || !/[a-z]{3}\d{4}[a-z0-9]{2}/i.match(bc)
-            redirect_to new_game_path(params), notice:'Invalid barcode.'
+        if bc.empty? || !/^[a-z]{3}\d{4}[a-z0-9]{2}$/i.match(bc)
+            #redirect_to new_game_path(params), notice:'Invalid barcode.'
+            flash[:error] = 'Invalid barcode.'
+            render 'new'
         else
             game = get_game(bc)
             if game && game.returned == false
-                redirect_to new_game_path(params), notice: 'Game barcode already exists in the system.'
+                #redirect_to new_game_path(params), notice: 'Game barcode already exists in the system.'
+                flash[:error] = 'Game barcode already exists in the system.'
+                render 'new'
             else
                 session[:g_id] = bc
                 redirect_to games_info_path
@@ -41,6 +45,11 @@ class GamesController < ApplicationController
     def info_post
         t_id = get_title_id(params[:title], params[:publisher])
         g_id = session[:g_id]
+        if !session[:l_id].nil? && !session[:l_id].empty?
+            l_id = session[:l_id]
+        else
+            l_id = nil
+        end
         @game = get_game(g_id)
         
         if @game && @game.returned == true
@@ -49,13 +58,15 @@ class GamesController < ApplicationController
                 #:barcode => g_id, 
                 :section_id => params[:section_id],
                 :returned => false,
-                :checked_in => true #just in case!
+                :checked_in => true, #just in case!
+                :loaner_id => l_id
                 })
         else
             @game = Game.new({
                 :title_id => t_id, 
                 :barcode => g_id, 
-                :section_id => params[:section_id]
+                :section_id => params[:section_id],
+                :loaner_id => l_id
                 })
         end
         
@@ -63,6 +74,10 @@ class GamesController < ApplicationController
             if session[:redirect] == 'checkout'
                 session[:redirect] = nil
                 checkout_game(session[:a_id], session[:g_id])
+            elsif !session[:l_id].nil?
+                #redirect to new?
+                flash[:error] ='Game was successfully added to loaner.'
+                render 'new'
             else
                 session[:g_id] = nil;
                 redirect_to @game, notice: 'Game was successfully added.'
@@ -79,10 +94,13 @@ class GamesController < ApplicationController
                 if game_has_unclosed_co(g_id)
                     redirect_to games_remove_path, notice: 'Game is still checked out. Please return the game first.'
                 else
-                    Game.find(g_id).update_attributes({
-                        :returned => true
-                    })
-                    redirect_to games_remove_path, notice: 'Game removed from the library.'
+                    game = Game.find(g_id)
+                    if game.loaner.nil?
+                        remove_game(g_id)
+                        redirect_to games_remove_path, notice: 'Game removed from the library.'
+                    else
+                        redirect_to games_remove_path, notice: 'This game is donated and can\'t be removed this way. Please remove it via the "loaners" function.'
+                    end
                 end
             else
                 redirect_to games_remove_path, notice: 'Game does not exist.'

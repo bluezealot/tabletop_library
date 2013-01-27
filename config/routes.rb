@@ -23,10 +23,12 @@ PaxTTlib::Application.routes.draw do
     match 'signin',             to:'sessions#new', via: :get
     match 'signout',            to:'sessions#destroy', via: :delete
     match 'admin',              to:'sessions#index', via: :get
-    
+
+    match 'loaners/add_game',   to:'loaners#add_game', via: :get
+            
     resources :sessions,        only: [:new, :create, :destroy]
     resources :users,           only: [:new, :create, :destroy, :index]
-    resources :checkouts, :attendees, :games, :titles, :paxes
+    resources :checkouts, :attendees, :games, :titles, :paxes, :loaners
     
     resources :sections do
       resources :games

@@ -14,7 +14,7 @@ class AttendeesController < ApplicationController
 
     def create
         bc = params[:a_id].upcase
-        if bc.empty? || !/[a-z]{3}\d{4}[a-z0-9]{2}/i.match(bc)
+        if bc.empty? || !/^[a-z]{3}\d{4}[a-z0-9]{2}$/i.match(bc)
             redirect_to new_attendee_path(params), notice:'Invalid barcode.'
         else
             if get_attendee(bc)

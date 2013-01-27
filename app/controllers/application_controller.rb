@@ -47,6 +47,19 @@ class ApplicationController < ActionController::Base
             false
         end
     end
+    
+    def remove_game(g_id)
+        g_id.upcase!
+        game  = Game.find(g_id)
+        if game
+            game.update_attributes({
+                :returned => true,
+                :loaner_id => nil
+            })
+        else
+            false
+        end
+    end
 
     def get_game(id)
         Game.where(:barcode => id).first
@@ -72,6 +85,7 @@ class ApplicationController < ActionController::Base
         session[:g_id] = nil
         session[:a_id] = nil
         session[:redirect] = nil
+        session[:l_id] = nil
     end
     
     def signed_in_user

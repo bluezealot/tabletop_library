@@ -8,7 +8,9 @@
 </head>
 <body>
 <%= render 'layouts/header' %>
-<p id="notice"><%= notice %></p>
+<% flash.each do |key, value| %>
+    <%= content_tag(:div, value, id: "notice") %>
+<% end %>
 <%= yield %>
 <%= render 'layouts/footer' %>
 </body>

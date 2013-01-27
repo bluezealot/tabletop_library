@@ -36,26 +36,18 @@ module ApplicationHelper
     
     def tab_class(tab)
         current = 'current'
-        case tab
-        when 'checkout'
-            if controller.class == CheckoutsController || session[:redirect] == 'checkout'
-                logger.debug controller.class
-                current
-            end
-        when 'return'
-            if controller.class == ReturnsController
-                current
-            end
-        when 'newattendee'
-            if controller.class == AttendeesController && controller.action_name != 'index' && controller.action_name != 'show' && session[:redirect] != 'checkout'
-                current
-            end
-        when 'admin'
-            if controller.class == SessionsController
-                current
-            end
+        if controller.class == CheckoutsController || session[:redirect] == 'checkout'
+            loc = 'checkout'
+        elsif controller.class == ReturnsController
+            loc = 'return'
+        elsif controller.class == AttendeesController && controller.action_name != 'index' && controller.action_name != 'show' && session[:redirect] != 'checkout'
+            loc = 'newattendee'
         else
-            
+            loc = 'admin'
+        end
+        
+        if loc == tab
+            current
         end
     end
     

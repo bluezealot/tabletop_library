@@ -1,0 +1,29 @@
+<h1>Listing loaners</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Contact</th>
+    <th>Phone number</th>
+    <th>Games</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @loaners.each do |loaner| %>
+  <tr>
+    <td><%= loaner.name %></td>
+    <td><%= loaner.contact %></td>
+    <td><%= loaner.phone_number %></td>
+    <td><%= loaner.games.count %></td>
+    <td><%= link_to 'Show', loaner %></td>
+    <td><%= link_to 'Edit', edit_loaner_path(loaner) %></td>
+    <td><%= link_to 'Add Game', loaners_add_game_path({:id => loaner.id}) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Loaner', new_loaner_path %>

@@ -26,7 +26,7 @@
     <td><%= link_to game.barcode, game %></td>
     <td><%= game.title.title %></td>
     <td><%= game.title.publisher.name %></td>
-    <td><%= game.loaner_id %></td>
+    <td><%= game.loaner ? game.loaner.name : nil %></td>
     <td><%= game.section.name %></td>
     <td><%= game.checked_in %></td>
   </tr>
