@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
     before_filter :reset_session, :only => [:index, :new, :show]
     before_filter :get_section, :only => [:index]
-    before_filter :select_sections, :only => [:index, :new, :info_get]
+    before_filter :select_sections, :only => [:index, :new, :info_get, :info_post]
     before_filter :signed_in_user, only: [:new, :remove]
 
     def index
@@ -83,6 +83,7 @@ class GamesController < ApplicationController
                 redirect_to @game, notice: 'Game was successfully added.'
             end
         else
+            flash[:error] = 'Please fill in all fields.'
             redirect_to games_info_path(params) #error message needed
         end
     end

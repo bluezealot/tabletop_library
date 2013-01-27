@@ -15,8 +15,9 @@ class LoanersController < ApplicationController
     end
 
     def create
+        params[:loaner][:phone_number] = format_phone(params[:loaner][:phone_number])
         @loaner = Loaner.new(params[:loaner])
-
+        
         if @loaner.save
             redirect_to loaners_path, notice: 'Loaner was successfully created.'
         else
@@ -67,5 +68,24 @@ class LoanersController < ApplicationController
             redirect_to @loaner, notice:'Some games are still checked out. Please check all games in before returning them.'
         end        
     end
+    
+    private
+    
+        def format_phone(phone_num)
+            p = phone_num.split ""
+            np = []
+            p.each do |c|
+                if /^\d$/.match(c)
+                    np.push(c)
+                end
+            end
+            if np.count != 10
+                phone_num
+            else
+                np.insert(3, "-")
+                np.insert(7, "-")
+                np.join
+            end
+        end
 
 end
