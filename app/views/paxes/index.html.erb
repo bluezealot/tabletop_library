@@ -1,6 +1,6 @@
 <h1>Listing paxes</h1>
 
-<table>
+<table style='width:100%;'>
   <tr>
     <th>Name</th>
     <th>Location</th>
@@ -15,9 +15,9 @@
   <tr>
     <td><%= pax.name %></td>
     <td><%= pax.location %></td>
-    <td><%= pax.start %></td>
-    <td><%= pax.end %></td>
-    <td><%= pax.current %></td>
+    <td style='text-align:center;'><%= pax.start %></td>
+    <td style='text-align:center;'><%= pax.end %></td>
+    <td style='text-align:center;'><%= bool_img pax.current %></td>
     <td><%= link_to 'Set Current', pax, method: :delete %></td>
     <td><%= link_to 'Edit', edit_paxis_path(pax) %></td>
   </tr>

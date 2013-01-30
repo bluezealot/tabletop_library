@@ -24,4 +24,18 @@ class SessionsController < ApplicationController
         redirect_to root_url
     end
     
+    def metrics
+        #Top Five, not done!!!!
+        @topFive = {}
+        pax = get_current_pax
+        Title.all.each do |t|
+            x = Checkout.where(:game_id => Game.where(:title_id => t), :pax_id => pax).count
+            @topFive[t.title] = x
+        end
+        @topFive = @topFive.sort_by {|a,b| b}.reverse
+        
+        #Longest Checkout!
+        @longest_checkout = Checkout.all.sort_by {|a| a.play_time_min}.reverse.first
+    end
+    
 end

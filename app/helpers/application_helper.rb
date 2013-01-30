@@ -69,4 +69,12 @@ module ApplicationHelper
         end
     end
     
+    def bool_img(bool)
+        if bool
+            image_tag("check.png", alt: "true")
+        else
+            image_tag("x.png", alt: "true")
+        end
+    end
+    
 end

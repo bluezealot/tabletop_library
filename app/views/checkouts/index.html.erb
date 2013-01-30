@@ -1,6 +1,6 @@
 <h1>Listing checkouts</h1>
 
-<table style='border-spacing:5px;'>
+<table style='width:100%;'>
   <tr>
     <th>Barcode</th>
     <th>Game</th>
@@ -11,11 +11,11 @@
 
 <% @checkouts.each do |checkout| %>
   <tr>
-    <td><%= link_to checkout.game.barcode, checkout %></td>
+    <td style='text-align:center;'><%= link_to checkout.game.barcode, checkout %></td>
     <td><%= checkout.game.title.title %></td>
     <td><%= link_to checkout.attendee.name, checkout.attendee %></td>
-    <td><%= checkout.pax.full_name %></td>
-    <td><%= checkout.check_out_time.strftime("%a %I:%M%p") %></td>
+    <td style='text-align:center;'><%= checkout.pax.full_name %></td>
+    <td style='text-align:center;'><%= checkout.check_out_time.strftime("%a %I:%M%p") %></td>
   </tr>
 <% end %>
 </table>

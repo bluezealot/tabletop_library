@@ -1,6 +1,6 @@
 <h1>Listing attendees</h1>
 
-<table style='border-spacing:5px;'>
+<table style='width:100%;'>
   <tr>
     <th>Barcode</th>
     <th>First name</th>
@@ -14,11 +14,11 @@
 
 <% @attendees.each do |attendee| %>
   <tr>
-    <td><%= link_to attendee.barcode, attendee %></td>
+    <td style='text-align:center;'><%= link_to attendee.barcode, attendee %></td>
     <td><%= attendee.first_name %></td>
     <td><%= attendee.last_name %></td>
-    <td><%= attendee.enforcer? %></td>
-    <td><%= attendee.handle %></td>
+    <td style='text-align:center;'><%= bool_img attendee.enforcer? %></td>
+    <td style='text-align:center;'><%= attendee.handle %></td>
   </tr>
 <% end %>
 </table>

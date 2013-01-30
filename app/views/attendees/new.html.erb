@@ -1,14 +1,14 @@
-<h1>New attendee</h1>
+<h2>New Attendee</h2>
+<h3>Enter ATTENDEE Barcode below to continue.</h3>
 
 <%= form_tag attendees_path do %>
     <div class="field">
-        <%= label_tag :attendee_barcode %><br />
         <%= text_field_tag :a_id, params[:a_id] %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "attendee - next step" %>
+        <%= submit_tag "attendee - next step" %>
     </div>
 <% end %>
+<br/>
+<h3>or</h3>
 
-<%= link_to 'all attendees', attendees_path %>
+<h3>Click <%= link_to 'here', attendees_path %> to view all attendees.</h3>
+

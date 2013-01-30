@@ -1,0 +1,12 @@
+<table style='width:100%;'>
+    <% @topFive.each do |title| %>
+        <tr>
+            <td><%= title[0] %></td>
+            <td style='text-align:center;'><%= title[1] %></td>
+        </tr>
+    <% end %>
+</table>
+
+<%= @longest_checkout.play_time_min %>
+
+
