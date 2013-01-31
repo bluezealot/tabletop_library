@@ -3,7 +3,7 @@
 
 <%= form_tag checkouts_game_path do %>
     <div class="field">
-        <%= text_field_tag :g_id, session[:g_id] %>
-        <%= submit_tag "checkout - next step" %>
+        <%= render 'tags/game/barcode' %>
+        <%= render 'tags/buttons/next_step' %>
     </div>
 <% end %>

@@ -23,10 +23,11 @@ class CheckoutsController < ApplicationController
                 redirect_to checkouts_game_path
             else
                 session[:redirect] = 'checkout'
-                redirect_to attendees_info_path, notice: 'Attendee doesn\'t exist, please enter information.'
+                flash[:alert] = 'Attendee doesn\'t exist, please enter information.'
+                redirect_to attendees_info_path
             end
         else
-            flash.now[:error] = 'Invalid barcode.'
+            flash.now[:alert] = 'Invalid barcode.'
             render 'new'
         end
 
@@ -43,7 +44,8 @@ class CheckoutsController < ApplicationController
             
             if game && !game.returned
                 if game_has_unclosed_co(g_id)#fixme
-                    redirect_to new_checkout_path, notice: 'Game is already checked out!'
+                    flash[:alert] = 'Game is already checked out!'
+                    redirect_to new_checkout_path
                 else
                     if (@current_checkouts = atte_has_unclosed_co(session[:a_id])).empty? || session[:redirect] == 'morethanone'
                         checkout_game(session[:a_id], g_id)
@@ -56,10 +58,11 @@ class CheckoutsController < ApplicationController
             else
                 session[:redirect] = 'checkout'
                 session[:g_id] = g_id
-                redirect_to games_info_path, notice: 'Game doesn\'t exist, please enter information.'
+                flash[:alert] = 'Game doesn\'t exist, please enter information.'
+                redirect_to games_info_path
             end
         else
-            flash.now[:error] = 'Invalid barcode.'
+            flash.now[:alert] = 'Invalid barcode.'
             render 'game_get'
         end
         
@@ -69,7 +72,8 @@ class CheckoutsController < ApplicationController
         if return_game(session[:a_id], params[:old_g_id])
             checkout_game(session[:a_id], params[:g_id])
         else
-            redirect_to new_checkout_path, notice: 'Error occurred while swapping!'
+            flash[:alert] = 'Error occurred while swapping!'
+            redirect_to new_checkout_path
         end
     end
 

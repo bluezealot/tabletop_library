@@ -1,14 +1,8 @@
-<h1>remove game</h1>
+<h1>Remove Game From Library</h1>
 
 <%= form_tag games_remove_path do %>
     <div class="field">
-        <%= label_tag :game_barcode %><br />
-        <%= text_field_tag :g_id, params[:g_id] %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "remove game" %>
+    	<%= render 'tags/game/barcode' %>
+		<%= render 'tags/buttons/remove_game' %>
     </div>
 <% end %>
-
-<%= link_to 'Back', games_path %>

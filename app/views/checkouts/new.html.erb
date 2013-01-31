@@ -3,8 +3,8 @@
 
 <%= form_tag checkouts_path do %>
     <div class="field">
-        <%= text_field_tag :a_id %>
-        <%= submit_tag "checkout - next step" %>
+        <%= render 'tags/attendee/barcode' %>
+        <%= render 'tags/buttons/next_step' %>
         </div>
 <% end %>
 <br/>

@@ -1,11 +1,10 @@
-<span>
 <h2>New Game</h2>
 <h3>Enter GAME Barcode below to continue.</h3>
 
 <%= form_tag games_path do %>
     <div class="field">
-        <%= text_field_tag :g_id, params[:g_id] %>    
-        <%= submit_tag "new game - next step" %>
+        <%= render 'tags/game/barcode' %>
+        <%= render 'tags/buttons/next_step' %>
     </div>
 <% end %>
 
@@ -15,4 +14,3 @@
 <% else %>
     <%= link_to 'All Games', games_path %>
 <% end %>
-</span>

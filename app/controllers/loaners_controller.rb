@@ -6,10 +6,6 @@ class LoanersController < ApplicationController
         @loaners = Loaner.all
     end
 
-    def show
-        @loaner = Loaner.find(params[:id])
-    end
-
     def new
         @loaner = Loaner.new
     end
@@ -18,7 +14,8 @@ class LoanersController < ApplicationController
         @loaner = Loaner.new(params[:loaner])
         
         if @loaner.save
-            redirect_to loaners_path, notice: 'Loaner was successfully created.'
+            flash[:notice] = 'Loaner was successfully created.'
+            redirect_to loaners_path
         else
             render action: "new"
         end
@@ -32,7 +29,8 @@ class LoanersController < ApplicationController
         @loaner = Loaner.find(params[:id])
 
         if @loaner.update_attributes(params[:loaner])
-            redirect_to @loaner, notice: 'Loaner was successfully updated.'
+            flash[:notice] = 'Loaner was successfully updated.'
+            redirect_to @loaner
         else
             render action: "edit"
         end
@@ -62,9 +60,11 @@ class LoanersController < ApplicationController
             #if @loaner.games.count <= 0
             #    @loaner.destroy
             #end
-            redirect_to loaners_path, notice:'All games returned to: ' + name
+            flash[:notice] = 'All games returned to: ' + name
+            redirect_to loaners_path
         else
-            redirect_to @loaner, notice:'Some games are still checked out. Please check all games in before returning them.'
+            flash[:alert] = 'Some games are still checked out. Please check all games in before returning them.'
+            redirect_to @loaner
         end        
     end
 

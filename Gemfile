@@ -11,6 +11,7 @@ gem 'bootstrap-sass', '2.1'
 gem 'pg'
 gem 'validates_existence'
 gem 'bcrypt-ruby', '3.0.1'
+gem 'will_paginate', '~> 3.0.0'
 
 # Gems used only for assets and not required
 # in production environments by default.

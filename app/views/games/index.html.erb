@@ -2,20 +2,16 @@
 
 <%= form_tag games_path, :method=>'get' do %>
     <div class="field">
-        <%= text_field_tag :barcode %><br/>
-        <%= label_tag :barcode %><br />
+    	<%= render 'tags/game/barcode' %>
+    	<%= render 'tags/game/title' %>
+        <%= render 'tags/game/sections' %>
+        <%= render 'tags/buttons/search' %>
     </div>
-    <div class="field">
-        <%= text_field_tag :title %><br/>
-        <%= label_tag :title %><br />
-    </div>
-    <div class="field">
-        <%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for), :prompt=>'Select a Department'%>
-    </div>
-    <%= submit_tag "search" %>
 <% end %>
 
 <% if @games.count > 0 %>
+
+	<%= will_paginate @games %>
     <table style='width:100%;'>
         <tr>
             <th>Checked In</th>
@@ -25,6 +21,7 @@
             <th>Section</th>
             <th>Loaner</th>
         </tr>
+        
         <% @games.each do |game| %>
             <tr>
                 <td style='text-align:center;'><%= bool_img game.checked_in %></td>
@@ -35,5 +32,8 @@
                 <td><%= game.loaner ? game.loaner.name : nil %></td>
             </tr>
         <% end %>
+        
     </table>
+    <%= will_paginate @games %>
+    
 <% end %>

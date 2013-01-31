@@ -21,9 +21,11 @@ class ApplicationController < ActionController::Base
         
         if @checkout.save
             reset_session
-            redirect_to new_checkout_path, notice: 'Game was successfully CHECKED OUT.'
+            flash[:notice] = 'Game was successfully CHECKED OUT.'
+            redirect_to new_checkout_path
         else
-            redirect_to new_checkout_path, notice: 'An error has occurred during checkout.<br/>Error code: 0HB4LL5'
+            flash[:alert] = 'An error has occurred during checkout.<br/>Error code: 0HB4LL5'
+            redirect_to new_checkout_path
         end
         
     end
@@ -89,7 +91,7 @@ class ApplicationController < ActionController::Base
     end
     
     def signed_in_user
-        redirect_to signin_url, notice: "Please sign in." unless signed_in?
+        redirect_to signin_url, alert: "Please sign in." unless signed_in?
     end
     
     def barcode_check(bc)

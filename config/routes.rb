@@ -1,39 +1,39 @@
 PaxTTlib::Application.routes.draw do
 
-    root :to => "checkouts#index"
+    root :to => "checkouts#new"
     
-    match 'attendees/info',     to:'attendees#info_get', via: :get
-    match 'attendees/info',     to:'attendees#info_post', via: :post
+    match 'attendees/info',     to:'attendees#info_get',    via: :get
+    match 'attendees/info',     to:'attendees#info_post',   via: :post
     
-    match 'games/info',         to:'games#info_get', via: :get
-    match 'games/info',         to:'games#info_post', via: :post
-    match 'games/remove',       to:'games#remove', via: :get
-    match 'games/remove',       to:'games#remove', via: :post
+    match 'games/info',         to:'games#info_get',        via: :get
+    match 'games/info',         to:'games#info_post',       via: :post
+    match 'games/remove',       to:'games#remove',          via: :get
+    match 'games/remove',       to:'games#remove',          via: :post
     
-    match 'checkouts/game',     to:'checkouts#game_get', via: :get
-    match 'checkouts/game',     to:'checkouts#game_post', via: :post
-    match 'checkouts/swap',     to:'checkouts#swap', via: :post
+    match 'checkouts/game',     to:'checkouts#game_get',    via: :get
+    match 'checkouts/game',     to:'checkouts#game_post',   via: :post
+    match 'checkouts/swap',     to:'checkouts#swap',        via: :post
     
-    match 'returns/new',        to:'returns#new', via: :get
-    match 'returns/attendee',   to:'returns#create', via: :post
+    match 'returns/new',        to:'returns#new',           via: :get
+    match 'returns/attendee',   to:'returns#create',        via: :post
     
-    match 'returns/confirm',    to:'returns#show', via: :get
-    match 'returns/confirm',    to:'returns#confirm', via: :post
+    match 'returns/confirm',    to:'returns#show',          via: :get
+    match 'returns/confirm',    to:'returns#confirm',       via: :post
     
-    match 'signin',             to:'sessions#new', via: :get
-    match 'signout',            to:'sessions#destroy', via: :delete
-    match 'admin',              to:'sessions#index', via: :get
-    match 'metrics',            to:'sessions#metrics', via: :get
+    match 'signin',             to:'sessions#new',          via: :get
+    match 'signout',            to:'sessions#destroy',      via: :delete
+    match 'admin',              to:'sessions#index',        via: :get
+    match 'metrics',            to:'sessions#metrics',      via: :get
 
-    match 'loaners/add_game',   to:'loaners#add_game', via: :get
+    match 'loaners/add_game',   to:'loaners#add_game',      via: :get
             
     resources :sessions,        only: [:new, :create, :destroy]
     resources :users,           only: [:new, :create, :destroy, :index]
-    resources :checkouts, :attendees, :games, :titles, :paxes, :loaners, :publishers
+    resources :checkouts, :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
     
-    resources :sections do
-      resources :games
-    end
+    #resources :sections do
+    #  resources :games
+    #end
 
     #resources :publishers do
         #resources :titles

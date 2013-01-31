@@ -6,22 +6,14 @@ class GamesController < ApplicationController
 
     def index
         @games = []
+        
         search = {:returned => false}
-        barcode =       params[:barcode]
-        title =         params[:title]
-        section =       params[:section_id]
-        if params[:commit]
-            if !barcode.empty?
-                search[:barcode] = barcode
-            end
-            if !title.empty?
-                search[:title_id] = Title.where("lower(title) like lower(?)", '%' + title + '%' )
-            end            
-            if !section.empty?
-                search[:section_id] = section
-            end
-            @games = Game.where(search).order('title_id ASC')
-        end        
+        search[:barcode]    = params[:g_id]       unless params[:g_id].blank?
+        search[:section_id] = params[:section_id] unless params[:section_id].blank?
+        search[:title_id]   = Title.where("lower(title) like lower(?)", '%' + params[:title] + '%') unless params[:title].blank?
+        
+        #@games = Game.where(search).order('title_id ASC')
+        @games = Game.where(search).order('title_id ASC').paginate(:page => params[:page], :per_page => 10)
     end
 
     def show
@@ -35,11 +27,12 @@ class GamesController < ApplicationController
         bc = params[:g_id].upcase
         
         if bc.empty? || !barcode_check(bc)
-            redirect_to new_game_path(params), notice:'Invalid barcode.'
+            flash[:alert] = 'Invalid barcode.'
+            redirect_to new_game_path(params)
         else
             game = get_game(bc)
             if game && game.returned == false
-                flash[:error] = 'Game barcode already exists in the system.'
+                flash[:alert] = 'Game barcode already exists in the system.'
                 render 'new'
             else
                 session[:g_id] = bc
@@ -54,11 +47,13 @@ class GamesController < ApplicationController
     def info_post
         t_id = get_title_id(params[:title], params[:publisher])
         g_id = session[:g_id]
+        
         if !session[:l_id].nil? && !session[:l_id].empty?
             l_id = session[:l_id]
         else
             l_id = nil
         end
+        
         @game = get_game(g_id)
         
         if @game && @game.returned == true
@@ -85,14 +80,15 @@ class GamesController < ApplicationController
                 checkout_game(session[:a_id], session[:g_id])
             elsif !session[:l_id].nil?
                 #redirect to new?
-                flash[:error] ='Game was successfully added to loaner.'
+                flash[:notice] ='Game was successfully added to loaner.'
                 render 'new'
             else
                 session[:g_id] = nil;
-                redirect_to @game, notice: 'Game was successfully added.'
+                flash[:notice] = 'Game was successfully added.'
+                redirect_to @game
             end
         else
-            flash[:error] = 'Please fill in all fields.'
+            flash[:alert] = 'Please fill in all fields.'
             redirect_to games_info_path(params)
         end
     end
@@ -102,35 +98,25 @@ class GamesController < ApplicationController
         if g_id
             if get_game(g_id)
                 if game_has_unclosed_co(g_id)
-                    redirect_to games_remove_path, notice: 'Game is still checked out. Please return the game first.'
+                    flash[:alert] = 'Game is still checked out. Please return the game first.'
+                    redirect_to games_remove_path
                 else
                     game = Game.find(g_id)
                     if game.loaner.nil?
                         remove_game(g_id)
-                        redirect_to games_remove_path, notice: 'Game removed from the library.'
+                        flash[:notice] = 'Game removed from the library.'
+                        redirect_to games_remove_path
                     else
-                        redirect_to games_remove_path, notice: 'This game is donated and can\'t be removed this way. Please remove it via the "loaners" function.'
+                        flash[:alert] = 'This game is donated and can\'t be removed this way. Please remove it via the "loaners" function.'
+                        redirect_to games_remove_path
                     end
                 end
             else
-                redirect_to games_remove_path, notice: 'Game does not exist.'
+                flash[:alert] = 'Game does not exist.'
+                redirect_to games_remove_path 
             end
         end
     end
-
-=begin
-    # DELETE /games/1
-    # DELETE /games/1.json
-    def destroy
-        if game_has_unclosed_co(params[:id])
-            redirect_to games_url, notice: 'Game is still checked out. Please return the game first.'
-        else
-            @game = Game.find(params[:id])
-            @game.destroy
-            redirect_to games_url
-        end
-    end
-=end
 
     private
         

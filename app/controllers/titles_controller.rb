@@ -1,8 +1,15 @@
 class TitlesController < ApplicationController
     before_filter :signed_in_user, only: [:index, :edit]
+    require 'will_paginate/array'
 
     def index
-        @titles = Title.all
+        #@games = Game.where(search).order('title_id ASC').paginate(:page => params[:page], :per_page => 10)
+        if params[:page]
+            _page = params[:page]
+        else
+            _page = 1
+        end
+        @titles = Title.all.paginate(:page => _page, :per_page => 10)
     end
 
     def edit

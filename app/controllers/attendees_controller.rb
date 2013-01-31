@@ -5,7 +5,7 @@ class AttendeesController < ApplicationController
         @attendees = []
         col = []
         par = []
-        barcode =       params[:barcode]
+        barcode =       params[:a_id]
         first_name =    params[:first_name]
         last_name =     params[:last_name]
         handle =        params[:handle]
@@ -41,10 +41,12 @@ class AttendeesController < ApplicationController
     def create
         bc = params[:a_id].upcase
         if bc.empty? || !barcode_check(bc)
-            redirect_to new_attendee_path(params), notice:'Invalid barcode.'
+            flash[:alert] = 'Invalid barcode.'
+            redirect_to new_attendee_path(params)
         else
             if get_attendee(bc)
-                redirect_to new_attendee_path(params), notice: 'Attendee barcode already exists in the system.'
+                flash[:alert] = 'Attendee barcode already exists in the system.'
+                redirect_to new_attendee_path(params) 
             else
                 session[:a_id] = bc
                 redirect_to attendees_info_path
@@ -76,19 +78,13 @@ class AttendeesController < ApplicationController
                 redirect_to checkouts_game_path
             else
                 session[:a_id] = nil;
-                redirect_to new_attendee_path, notice: 'Attendee was successfully created.'
+                flash[:notice] = 'Attendee was successfully created.'
+                redirect_to new_attendee_path
             end
         else
-            flash[:error] = 'Please fill in all fields.'
+            flash[:alert] = 'Please fill in all fields.'
             redirect_to attendees_info_path(params)
         end
     end
-
-=begin
-    def destroy
-        @attendee = Attendee.find(params[:id])
-        @attendee.destroy
-    end
-=end 
     
 end

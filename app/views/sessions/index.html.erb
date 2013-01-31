@@ -1,19 +1,21 @@
 <ul>
-    <h3>Metrics</h3>
     <li><%= link_to 'Current Metrics', metrics_path %></li>
-    <h3>Games</h3>
+    
     <li><%= link_to 'New Game', new_game_path %></li>
     <li><%= link_to 'Remove game', games_remove_path %></li>
-    <h3>Attendees</h3>
-    <li><%= link_to 'All Attendees', attendees_path %></li>
-    <li><%= link_to 'New Attendee', new_attendee_path %></li>
-    <h3>Loaners</h3>
+    
     <li><%= link_to 'Loaners', loaners_path %></li>
-    <h3>Misc</h3>
-    <li><%= link_to 'All Sections', sections_path %></li>
     <li><%= link_to 'All Titles', titles_path %></li>
-    <li><%= link_to 'All Paxes', paxes_path %></li>
-    <li><%= link_to 'All Users', users_path %></li>
+    
+    <% if is_super_user %>
+    	<li><%= link_to 'All Attendees', attendees_path %></li>
+    	<li><%= link_to 'New Attendee', new_attendee_path %></li>
+    
+    	<li><%= link_to 'All Sections', sections_path %></li>
+	    <li><%= link_to 'All Paxes', paxes_path %></li>
+	    <li><%= link_to 'All Users', users_path %></li>
+    <% end %>
+    
     </ul>
 
 

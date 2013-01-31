@@ -2,24 +2,12 @@
 <h3>Enter game info below to continue.</h3>
 
 <%= form_tag games_info_path do %>
-    
     <div class="field">
-        <%= label_tag :title %><br />
-        <%= text_field_tag :title, params[:title] %>
+        <%= render 'tags/game/title' %>
+        <%= render 'tags/game/publisher' %>
+        <%= render 'tags/game/sections' %>
     </div>
-    
-    <div class="field">
-        <%= label_tag :publisher %><br />
-        <%= text_field_tag :publisher, params[:publisher] %>
-    </div>
-    
-    <div class="field">
-        <%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for)%>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "new game - next step" %>
-    </div>
+    <%= render 'tags/buttons/next_step' %>
 <% end %>
 
 <% if !session[:l_id].nil? %>

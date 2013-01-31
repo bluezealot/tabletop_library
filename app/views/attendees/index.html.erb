@@ -2,22 +2,12 @@
 
 <%= form_tag attendees_path, :method=>'get' do %>
     <div class="field">
-        <%= text_field_tag :barcode %><br/>
-        <%= label_tag :barcode %><br />
+    	<%= render 'tags/attendee/barcode' %>
+    	<%= render 'tags/attendee/first_name' %>
+    	<%= render 'tags/attendee/last_name' %>
+    	<%= render 'tags/attendee/handle' %>
+    	<%= render 'tags/buttons/search' %>
     </div>
-    <div class="field">
-        <%= text_field_tag :first_name %><br/>
-        <%= label_tag :first_name %><br />
-    </div>
-    <div class="field">
-        <%= text_field_tag :last_name %><br/>
-        <%= label_tag :last_name %><br />
-    </div>
-    <div class="field">
-        <%= text_field_tag :handle %><br/>
-        <%= label_tag :handle %><br />
-    </div>
-    <%= submit_tag "search" %>
 <% end %>
 
 <% if @attendees.count > 0 %>

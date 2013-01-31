@@ -1,7 +1,7 @@
 <header class='header'>
     <%= link_to image_tag("title_default.png", alt: "TableTop DB mk2"), root_path %>
     <nav>
-        <span>
+        <span class='left-span'>
             <%= current_pax_label %>
             </span>
         <span class='right-span'>
@@ -12,7 +12,6 @@
             <li><%= link_to 'return', returns_new_path, :class => tab_class('return') %></li>
             <li><%= link_to 'games', games_path, :class => tab_class('games') %></li>
             <li><%= link_to 'admin', admin_path, :class => tab_class('admin') %></li>
-            <li><%= sign_out_link current_user %></li>
             </ul>
         </nav>
     </header>

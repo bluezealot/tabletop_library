@@ -5,16 +5,8 @@ class PaxesController < ApplicationController
         @paxes = Pax.all
     end
 
-    def show
-        @pax = Pax.find(params[:id])
-    end
-
     def new
         @pax = Pax.new
-    end
-
-    def edit
-        @pax = Pax.find(params[:id])
     end
 
     def create
@@ -25,25 +17,6 @@ class PaxesController < ApplicationController
             redirect_to paxes_path, notice: 'Pax was successfully created.'
         else
             render action: "new"
-        end
-    end
-
-    def update
-        @pax = Pax.find(params[:id])
-
-        if @pax.update_attributes(params[:pax])
-            redirect_to @pax, notice: 'Pax was successfully updated.'
-        else
-            render action: "edit"
-        end
-    end
-
-    def destroy
-        if set_to_current_pax params
-            redirect_to paxes_path
-        else
-            flash[:error] = 'Please close all checkouts before changing current PAX.'
-            redirect_to paxes_path
         end
     end
 

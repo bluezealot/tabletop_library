@@ -2,22 +2,10 @@
 
 <%= form_tag attendees_info_path do %>
     <div class="field">
-        <%= label_tag :first_name %><br />
-        <%= text_field_tag :first_name, params[:first_name] %>
-    </div>
-    
-    <div class="field">
-        <%= label_tag :last_name %><br />
-        <%= text_field_tag :last_name, params[:last_name] %>
-    </div>
-    
-    <div class="field">
-        <%= label_tag :handle %><br />
-        <%= text_field_tag :handle, params[:handle] %>
-    </div>
-    
-    <div class="actions">
-    <%= submit_tag "attendee - next step" %>
+    	<%= render 'tags/attendee/first_name' %>
+    	<%= render 'tags/attendee/last_name' %>
+    	<%= render 'tags/attendee/handle' %>
+    	<%= render 'tags/buttons/next_step' %>
     </div>
 <% end %>
 

@@ -1,12 +1,8 @@
 class SectionsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show, :new]
+    before_filter :signed_in_user, only: [:index, :new]
     
     def index
         @sections = Section.all
-    end
-
-    def show
-        @section = Section.find(params[:id])
     end
 
     def new
@@ -17,7 +13,8 @@ class SectionsController < ApplicationController
         @section = Section.new(params[:section])
 
         if @section.save
-            redirect_to @section, notice: 'Section was successfully created.'
+            flash[:notice] = 'Section was successfully created.'
+            redirect_to @section
         else
             render action: "new"
         end

@@ -1,23 +1,23 @@
-<h1>Listing titles</h1>
+<h1>Listing Titles</h1>
 
+<%= will_paginate @titles %>
 <table style='width:100%;'>
-  <tr>
-    <th>Title</th>
-    <th>Publisher</th>
-    <th># of games</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+	
+	<tr>
+		<th>Title</th>
+		<th>Publisher</th>
+		<th># of games</th>
+		<th></th>
+	</tr>
 
-<% @titles.each do |title| %>
-  <tr>
-    <td><%= title.title %></td>
-    <td><%= title.publisher.name %></td>
-    <td><%= title.games.count %></td>
-    <td><%= link_to 'Edit', edit_title_path(title) %></td>
-  </tr>
-<% end %>
+	<% @titles.each do |title| %>
+		<tr>
+			<td><%= title.title %></td>
+			<td><%= title.publisher.name %></td>
+			<td><%= title.games.count %></td>
+			<td><%= link_to 'Edit', edit_title_path(title) %></td>
+		</tr>
+	<% end %>
+	
 </table>
-
-<br />
+<%= will_paginate @titles %>

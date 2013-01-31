@@ -6,12 +6,12 @@
         <td style='text-align:center;'><%= @current_checkouts %></td>
     </tr>
     <tr>
-        <td>Longest Checkout Time:</td>
-        <td style='text-align:center;'><%= @longest_checkout ? @longest_checkout.play_time_min : 0 %></td>
+        <td>Shortest Checkout Time:</td>
+        <td style='text-align:center;'><%= @shortest_checkout ? @shortest_checkout.play_time_min : 0 %></td>
         <td>minutes</td>
     </tr>
     <tr>
-        <td>Shortest Checkout Time:</td>
+        <td>Longest Checkout Time:</td>
         <td style='text-align:center;'><%= @longest_checkout ? @longest_checkout.play_time_min : 0 %></td>
         <td>minutes</td>
     </tr>

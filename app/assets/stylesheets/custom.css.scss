@@ -27,35 +27,40 @@ nav{
     float:right;
 }
 
+.header .left-span{
+    float:left;
+}
+
 .header{
     width:100%;
     height:270px;
     a{
         display:block;
-        height:200px;
     }
-    overflow:hidden;
     ul{
+        clear:both;
         height:20px;
-    }
-    li{
-        list-style-type:none;
-        width:19%;
-        float:left;
-        display:block;
-        text-align:center;
-        a{
-            height:auto;
-            width:100%;
-            border:1px solid #FFF;
-            text-decoration:none;
-            color:#FFF;
-            &:hover{
-                background-color:#FFF;
-                color:#000;
+        padding: 10px 0px 0px 0px;
+        li{
+            list-style-type:none;
+            width:25%;
+            float:left;
+            display:block;
+            text-align:center;
+            a{
+                height:auto;
+                width:100%;
+                border:1px solid #FFF;
+                text-decoration:none;
+                color:#FFF;
+                &:hover{
+                    background-color:#FFF;
+                    color:#000;
+                }
             }
         }
     }
+    
 }
 
 .barspan{
@@ -79,8 +84,26 @@ nav{
 .field{
     position: relative;
     display: inline-table;
-    width:auto;
-    input{
+    width: auto;
+    input, select{
         width:200px;
+        margin: 0px 5px 5px 0px;
+        display:block;
     }
+}
+
+.submit-btn{
+  //background-color:#000;
+  //background-color: #1a75bb;
+  //height:30px;
+  //color:#000;
+  //border: 1px solid #000;
+  //font-size: 13px;
+  //border-radius: 5px;
+  //background: -moz-linear-gradient(top, rgba(149,149,149,1) 0%, rgba(26,117,187,1) 100%);
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(149,149,149,1)), color-stop(100%,rgba(26,117,187,1)));
+}
+
+.alert{
+  color:#FF0000;
 }

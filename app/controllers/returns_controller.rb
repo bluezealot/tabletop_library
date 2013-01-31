@@ -8,12 +8,14 @@ class ReturnsController < ApplicationController
         params[:a_id].upcase!
         if get_attendee(params[:a_id])
             if atte_has_unclosed_co(params[:a_id]).empty?
-                redirect_to returns_new_path, notice: 'Attendee has no games checked out!'
+                flash[:alert] = 'Attendee has no games checked out!'
+                redirect_to returns_new_path
             else
                 redirect_to returns_confirm_path(params)
             end
         else
-            redirect_to returns_new_path, notice: 'Attendee does not exist!'
+            flash[:alert] = 'Attendee does not exist!'
+            redirect_to returns_new_path
         end
     end
     
@@ -25,9 +27,11 @@ class ReturnsController < ApplicationController
     def confirm
         params[:g_id].upcase!
         if return_game(params[:a_id], params[:g_id])
-            redirect_to returns_new_path, notice: 'Game was successfully RETURNED.'
+            flash[:notice] = 'Game was successfully RETURNED.'
+            redirect_to returns_new_path
         else
-            redirect_to returns_new_path, notice: 'An error occurred while returning.'
+            flash[:alert] = 'An error occurred while returning.'
+            redirect_to returns_new_path
         end
     end
     

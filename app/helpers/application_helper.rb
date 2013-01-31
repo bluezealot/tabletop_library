@@ -14,7 +14,7 @@ module ApplicationHelper
         if user.nil?
             base
         else
-            "Logged in as: " + admin_name(user)
+            admin_name(user)
         end
     end
     
@@ -22,7 +22,7 @@ module ApplicationHelper
         if user.nil?
             nil
         else
-            user.name
+            sign_out_link(user)
         end
     end
     
@@ -30,7 +30,7 @@ module ApplicationHelper
         if user.nil?
             nil
         else
-            link_to 'sign out', signout_path, method: "delete"
+            link_to user.name + ' - sign out', signout_path, method: "delete"
         end
     end
     
@@ -54,7 +54,7 @@ module ApplicationHelper
     def current_pax_label
         current_pax = get_current_pax
         if current_pax
-            current_pax.full_name
+            link_to current_pax.full_name, metrics_path(current_pax)
         else
             nil
         end
@@ -80,17 +80,23 @@ module ApplicationHelper
     def progress_percent
         per = nil
         c = controller
-        if c.action_name == 'new' && c.class != SessionsController
+        if (c.action_name == 'new' || c.action_name == 'create') && c.class != SessionsController
             if notice
                 per = 100
             else
                 per = 0
             end
         elsif c.class == CheckoutsController
-            if c.action_name == 'game_post'
-                per = 90
-            elsif c.action_name == 'game_get'
-                per = 50
+            if c.action_name != 'index'
+              if session[:a_id]
+                  if session[:g_id]
+                    per = 90
+                  else
+                    per = 50
+                  end
+              else
+                  per = 0
+              end
             end
         elsif c.class == AttendeesController && c.action_name == 'info_get'
             if session[:redirect] == 'checkout'

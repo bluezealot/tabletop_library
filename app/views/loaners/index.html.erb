@@ -8,7 +8,6 @@
     <th>Games</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
 <% @loaners.each do |loaner| %>
@@ -17,9 +16,11 @@
     <td><%= loaner.contact %></td>
     <td style='text-align:center;'><%= loaner.phone_number %></td>
     <td style='text-align:center;'><%= loaner.games.count %></td>
-    <td><%= link_to 'Show', loaner %></td>
     <td><%= link_to 'Edit', edit_loaner_path(loaner) %></td>
     <td><%= link_to 'Add Game', loaners_add_game_path({:id => loaner.id}) %></td>
+    <% if loaner.games.count > 0 %>
+    	<td><%= link_to 'Return All Games', loaner, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
