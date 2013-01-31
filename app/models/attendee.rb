@@ -4,7 +4,7 @@ class Attendee < ActiveRecord::Base
   
   has_many :checkouts
   
-  validates_format_of :barcode, :with => /^[a-z]{3}\d{4}[a-z0-9]{2}$/i #also in application_controller.rb!
+  validates_format_of :barcode, :with => /^[a-z]{3}\d{3,4}[a-z0-9]{2}$/i #also in application_controller.rb!
   #validates :barcode, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true

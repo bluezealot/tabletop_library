@@ -1,6 +1,8 @@
 <h2>Checkout</h2>
 <h3>Enter ATTENDEE Barcode below to continue.</h3>
 
+<%= render 'layouts/progress_bar' %>
+
 <%= form_tag checkouts_path do %>
     <div class="field">
         <%= text_field_tag :a_id %>

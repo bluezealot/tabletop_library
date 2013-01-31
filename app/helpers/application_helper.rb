@@ -77,4 +77,37 @@ module ApplicationHelper
         end
     end
     
+    def progress_percent
+        per = 100
+        c = controller
+        if c.action_name == 'new'
+            if notice
+                per = 100
+            else
+                per = 0
+            end
+        elsif c.class == CheckoutsController
+            if c.action_name == 'game_post'
+                per = 90
+            elsif c.action_name == 'game_get'
+                per = 50
+            end
+        elsif c.class == AttendeesController && c.action_name == 'info_get'
+            if session[:redirect] == 'checkout'
+                per = 25
+            else
+                per = 50
+            end
+        elsif c.class == GamesController && c.action_name == 'info_get'
+            if session[:redirect] == 'checkout'
+                per = 75
+            else
+                per = 50
+            end
+        elsif c.class == ReturnsController && c.action_name == 'show'
+            per = 50
+        end
+        per
+    end
+    
 end

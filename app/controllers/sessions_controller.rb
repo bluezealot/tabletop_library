@@ -26,16 +26,33 @@ class SessionsController < ApplicationController
     
     def metrics
         #Top Five, not done!!!!
-        @topFive = {}
+        @top_five_per_game = {}
         pax = get_current_pax
         Title.all.each do |t|
             x = Checkout.where(:game_id => Game.where(:title_id => t), :pax_id => pax).count
-            @topFive[t.title] = x
+            @top_five_per_game[t.title] = x
         end
-        @topFive = @topFive.sort_by {|a,b| b}.reverse
+        @top_five_per_game = @top_five_per_game.sort_by {|a,b| b}.reverse[0..4]
         
-        #Longest Checkout!
-        @longest_checkout = Checkout.all.sort_by {|a| a.play_time_min}.reverse.first
+        checkouts = Checkout.where(:pax_id => pax).sort_by {|a| a.play_time_min}
+        
+        @shortest_checkout = checkouts.first
+        @longest_checkout = checkouts.reverse.first
+        @current_checkouts = Checkout.where(:closed => false).count
     end
     
+=begin
+    def fix_titles
+        Game.all.each do |game|
+            alt = Alternate.find(game.title_id)
+            if !alt.nil?
+                tit = Title.where(:title => alt.title).first
+                if !tit.nil?
+                    game.update_attributes(:title_id => tit.id)
+                end
+            end
+        end
+    end
+=end
+
 end

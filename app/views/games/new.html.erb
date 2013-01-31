@@ -1,5 +1,8 @@
+<span>
 <h2>New Game</h2>
 <h3>Enter GAME Barcode below to continue.</h3>
+
+<%= render 'layouts/progress_bar' %>
 
 <%= form_tag games_path do %>
     <div class="field">
@@ -14,3 +17,4 @@
 <% else %>
     <%= link_to 'All Games', games_path %>
 <% end %>
+</span>

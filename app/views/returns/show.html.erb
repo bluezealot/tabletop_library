@@ -1,6 +1,8 @@
 <h2>Return</h2>
 <h3>Attendee: <%= @atte.name %> has the following checked out:</h3>
 
+<%= render 'layouts/progress_bar' %>
+
 <% @checkouts.each do |co| %>
     <%= form_tag returns_confirm_path ({:a_id => co.attendee_id, :g_id => co.game_id}) do %>
         <%= submit_tag "return this game ->" %>

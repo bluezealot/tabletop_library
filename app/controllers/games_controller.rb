@@ -6,9 +6,9 @@ class GamesController < ApplicationController
 
     def index
         if @section
-            @games = @section.games.where(:returned => false).order('barcode ASC')
+            @games = @section.games.where(:returned => false).order('title_id ASC')
         else
-            @games = Game.where(:returned => false).order('barcode ASC')
+            @games = Game.where(:returned => false).sort_by {|a| [a.title.publisher.name, a.title.title]}
         end
     end
 

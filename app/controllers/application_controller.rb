@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
     end
     
     def barcode_check(bc)
-        /^[a-z]{3}\d{4}[a-z0-9]{2}$/i.match(bc)
+        /^[a-z]{3}\d{3,4}[a-z0-9]{2}$/i.match(bc)
     end
   
 end

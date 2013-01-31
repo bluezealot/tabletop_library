@@ -50,7 +50,7 @@ class AttendeesController < ApplicationController
                 redirect_to checkouts_game_path
             else
                 session[:a_id] = nil;
-                redirect_to @attendee, notice: 'Attendee was successfully created.'
+                redirect_to new_attendee_path, notice: 'Attendee was successfully created.'
             end
         else
             flash[:error] = 'Please fill in all fields.'

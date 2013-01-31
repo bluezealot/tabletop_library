@@ -1,6 +1,8 @@
 <h2>New Game</h2>
 <h3>Enter game info below to continue.</h3>
 
+<%= render 'layouts/progress_bar' %>
+
 <%= form_tag games_info_path do %>    
     <div class="field">
         <%= label_tag :title %><br />

@@ -1,12 +1,28 @@
-<table style='width:100%;'>
-    <% @topFive.each do |title| %>
+<table>
+    <tr>
+        <td>Number of Current Checkouts:</td>
+        <td style='text-align:center;'><%= @current_checkouts %></td>
+    </tr>
+    <tr>
+        <td>Longest Checkout Time:</td>
+        <td style='text-align:center;'><%= @longest_checkout.play_time_min %></td>
+        <td>minutes</td>
+    </tr>
+    <tr>
+        <td>Shortest Checkout Time:</td>
+        <td style='text-align:center;'><%= @longest_checkout.play_time_min %></td>
+        <td>minutes</td>
+    </tr>
+</table>
+<br/>
+<table>
+    <tr>
+        <th>Top 5 Checkouts Per game</th>
+    </tr>
+    <% @top_five_per_game.each do |title| %>
         <tr>
             <td><%= title[0] %></td>
             <td style='text-align:center;'><%= title[1] %></td>
         </tr>
     <% end %>
 </table>
-
-<%= @longest_checkout.play_time_min %>
-
-

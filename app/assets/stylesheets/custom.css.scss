@@ -18,8 +18,8 @@ nav{
 }
 
 .header li a.current{
-  background-color:#FFF;
-  color: #000;
+    background-color:#FFF;
+    color: #000;
 }
 
 .header .right-span{
@@ -28,35 +28,54 @@ nav{
 }
 
 .header{
-  width:100%;
-  height:270px;
-  a{
-    display:block;
-    height:200px;
-  }
-  overflow:hidden;
-  ul{
-    height:20px;
-  }
-  li{
-    list-style-type:none;
-    width:19%;
-    float:left;
-    display:block;
-    text-align:center;
+    width:100%;
+    height:270px;
     a{
-      height:auto;
-      width:100%;
-      border:1px solid #FFF;
-      text-decoration:none;
-      color:#FFF;
-      &:hover{
-        background-color:#FFF;
-        color:#000;
-      }
+        display:block;
+        height:200px;
     }
-  }
+    overflow:hidden;
+    ul{
+        height:20px;
+    }
+    li{
+        list-style-type:none;
+        width:19%;
+        float:left;
+        display:block;
+        text-align:center;
+        a{
+            height:auto;
+            width:100%;
+            border:1px solid #FFF;
+            text-decoration:none;
+            color:#FFF;
+            &:hover{
+                background-color:#FFF;
+                color:#000;
+            }
+        }
+    }
 }
+
+.barspan{
+    width:50%;
+    float:right;
+}
+
+.barwrap{
+    border: 1px solid #FFF;
+    height:15px;
+    width:100%;
+    text-align:center;
+    color:#FFF;
+}
+
+.bar{
+    height:15px;
+    width:0%;
+}
+
 
 
 
