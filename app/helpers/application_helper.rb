@@ -40,8 +40,8 @@ module ApplicationHelper
             loc = 'checkout'
         elsif controller.class == ReturnsController
             loc = 'return'
-        elsif controller.class == AttendeesController && controller.action_name != 'index' && controller.action_name != 'show' && session[:redirect] != 'checkout'
-            loc = 'newattendee'
+        elsif controller.class == GamesController && controller.action_name == 'index'
+            loc = 'games'
         else
             loc = 'admin'
         end
@@ -78,9 +78,9 @@ module ApplicationHelper
     end
     
     def progress_percent
-        per = 100
+        per = nil
         c = controller
-        if c.action_name == 'new'
+        if c.action_name == 'new' && c.class != SessionsController
             if notice
                 per = 100
             else

@@ -9,6 +9,7 @@
     <th>Current</th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
 <% @paxes.each do |pax| %>
@@ -20,6 +21,7 @@
     <td style='text-align:center;'><%= bool_img pax.current %></td>
     <td><%= link_to 'Set Current', pax, method: :delete %></td>
     <td><%= link_to 'Edit', edit_paxis_path(pax) %></td>
+    <td><%= link_to 'Show Metrics', metrics_path(:id => pax) %></td>
   </tr>
 <% end %>
 </table>

@@ -25,16 +25,21 @@ class SessionsController < ApplicationController
     end
     
     def metrics
+        if !params[:id].nil?
+            @pax = Pax.find(params[:id])
+        end
+        if @pax.nil?
+            @pax = get_current_pax
+        end
         #Top Five, not done!!!!
         @top_five_per_game = {}
-        pax = get_current_pax
         Title.all.each do |t|
-            x = Checkout.where(:game_id => Game.where(:title_id => t), :pax_id => pax).count
+            x = Checkout.where(:game_id => Game.where(:title_id => t), :pax_id => @pax).count
             @top_five_per_game[t.title] = x
         end
         @top_five_per_game = @top_five_per_game.sort_by {|a,b| b}.reverse[0..4]
         
-        checkouts = Checkout.where(:pax_id => pax).sort_by {|a| a.play_time_min}
+        checkouts = Checkout.where(:pax_id => @pax).sort_by {|a| a.play_time_min}
         
         @shortest_checkout = checkouts.first
         @longest_checkout = checkouts.reverse.first

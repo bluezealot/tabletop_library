@@ -2,7 +2,33 @@ class AttendeesController < ApplicationController
     before_filter :reset_session, :only => [:index, :new, :show]
     
     def index
-        @attendees = Attendee.all
+        @attendees = []
+        col = []
+        par = []
+        barcode =       params[:barcode]
+        first_name =    params[:first_name]
+        last_name =     params[:last_name]
+        handle =        params[:handle]
+        if params[:commit]
+            if !barcode.empty?
+                col.push 'barcode'
+                par.push '%' + barcode + '%'
+            end
+            if !first_name.empty?
+                col.push 'first_name'
+                par.push '%' + first_name + '%'
+            end            
+            if !last_name.empty?
+                col.push 'last_name'
+                par.push '%' + last_name + '%'
+            end
+            if !handle.empty?
+                col.push 'handle'
+                par.push '%' + handle + '%'
+            end
+            sql_query = col.map{|c| "lower(#{c}) like lower(?)"}.join(' or ')
+            @attendees = Attendee.where(sql_query, par)#.order('title_id ASC')
+        end  
     end
 
     def show

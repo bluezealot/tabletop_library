@@ -1,4 +1,5 @@
 class ReturnsController < ApplicationController
+    before_filter :reset_session, :only => [:new]
     
     def new
     end

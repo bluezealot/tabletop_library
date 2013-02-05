@@ -1,4 +1,12 @@
-<span class='barspan'>
+<div class='barspan'>
 <%= progress_percent %>% complete
 <div class="barwrap"><div class="bar" style='width:<%= progress_percent %>%;background-color:<%= progress_percent >= 100 ? '#01DF3A':'#6E6E6E' %>;'></div></div>
-</span>
+<% if session[:a_id] %>
+    <br/>
+    Attendee: <%= Attendee.where(:barcode => session[:a_id]).first %><br/>
+<% end %>
+<% if session[:g_id] %>
+    <br/>
+    Game: <%= Game.where(:barcode => session[:g_id]).first %><br/>
+<% end %>
+</div>

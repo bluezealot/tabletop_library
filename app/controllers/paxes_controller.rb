@@ -50,7 +50,7 @@ class PaxesController < ApplicationController
     private
   
         def set_to_current_pax(pax)
-            current = Pax.where({:current => true}).first
+            current = get_current_pax
             
             if Checkout.where(:pax_id => current.id, :closed => false).count <= 0
                 if current

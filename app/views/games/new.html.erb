@@ -2,8 +2,6 @@
 <h2>New Game</h2>
 <h3>Enter GAME Barcode below to continue.</h3>
 
-<%= render 'layouts/progress_bar' %>
-
 <%= form_tag games_path do %>
     <div class="field">
         <%= text_field_tag :g_id, params[:g_id] %>    

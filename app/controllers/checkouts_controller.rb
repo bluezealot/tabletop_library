@@ -1,4 +1,5 @@
 class CheckoutsController < ApplicationController
+    before_filter :reset_session, :only => [:index, :new, :show]
 
     def index
         pax = get_current_pax

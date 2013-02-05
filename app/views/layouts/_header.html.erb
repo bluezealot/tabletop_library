@@ -10,11 +10,13 @@
         <ul>
             <li><%= link_to 'check out', new_checkout_path, :class => tab_class('checkout') %></li>
             <li><%= link_to 'return', returns_new_path, :class => tab_class('return') %></li>
-            <li><%= link_to 'new attendee', new_attendee_path, :class => tab_class('newattendee') %></li>
+            <li><%= link_to 'games', games_path, :class => tab_class('games') %></li>
             <li><%= link_to 'admin', admin_path, :class => tab_class('admin') %></li>
             <li><%= sign_out_link current_user %></li>
             </ul>
         </nav>
     </header>
 <br/>
-    
+<% if !progress_percent.nil? %>
+<%= render 'layouts/progress_bar' %>
+<% end %>

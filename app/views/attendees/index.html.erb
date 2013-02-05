@@ -1,24 +1,46 @@
-<h1>Listing attendees</h1>
+<h2>Attendees</h2>
 
-<table style='width:100%;'>
-  <tr>
-    <th>Barcode</th>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Enforcer</th>
-    <th>Handle</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @attendees.each do |attendee| %>
-  <tr>
-    <td style='text-align:center;'><%= link_to attendee.barcode, attendee %></td>
-    <td><%= attendee.first_name %></td>
-    <td><%= attendee.last_name %></td>
-    <td style='text-align:center;'><%= bool_img attendee.enforcer? %></td>
-    <td style='text-align:center;'><%= attendee.handle %></td>
-  </tr>
+<%= form_tag attendees_path, :method=>'get' do %>
+    <div class="field">
+        <%= text_field_tag :barcode %><br/>
+        <%= label_tag :barcode %><br />
+    </div>
+    <div class="field">
+        <%= text_field_tag :first_name %><br/>
+        <%= label_tag :first_name %><br />
+    </div>
+    <div class="field">
+        <%= text_field_tag :last_name %><br/>
+        <%= label_tag :last_name %><br />
+    </div>
+    <div class="field">
+        <%= text_field_tag :handle %><br/>
+        <%= label_tag :handle %><br />
+    </div>
+    <%= submit_tag "search" %>
 <% end %>
-</table>
+
+<% if @attendees.count > 0 %>
+    <table style='width:100%;'>
+        <tr>
+        <th>Barcode</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Enforcer</th>
+        <th>Handle</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        </tr>
+
+        <% @attendees.each do |attendee| %>
+            <tr>
+                <td style='text-align:center;'><%= link_to attendee.barcode, attendee %></td>
+                <td><%= attendee.first_name %></td>
+                <td><%= attendee.last_name %></td>
+                <td style='text-align:center;'><%= bool_img attendee.enforcer? %></td>
+                <td style='text-align:center;'><%= attendee.handle %></td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>

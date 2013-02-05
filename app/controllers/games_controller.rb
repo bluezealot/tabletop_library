@@ -1,15 +1,27 @@
 class GamesController < ApplicationController
     before_filter :reset_session, :only => [:index, :new, :show]
-    before_filter :get_section, :only => [:index]
+    #before_filter :get_section, :only => [:index]
     before_filter :select_sections, :only => [:index, :new, :info_get, :info_post]
     before_filter :signed_in_user, only: [:new, :remove]
 
     def index
-        if @section
-            @games = @section.games.where(:returned => false).order('title_id ASC')
-        else
-            @games = Game.where(:returned => false).sort_by {|a| [a.title.publisher.name, a.title.title]}
-        end
+        @games = []
+        search = {:returned => false}
+        barcode =       params[:barcode]
+        title =         params[:title]
+        section =       params[:section_id]
+        if params[:commit]
+            if !barcode.empty?
+                search[:barcode] = barcode
+            end
+            if !title.empty?
+                search[:title_id] = Title.where("lower(title) like lower(?)", '%' + title + '%' )
+            end            
+            if !section.empty?
+                search[:section_id] = section
+            end
+            @games = Game.where(search).order('title_id ASC')
+        end        
     end
 
     def show
