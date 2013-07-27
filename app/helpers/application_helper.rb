@@ -71,9 +71,9 @@ module ApplicationHelper
     
     def bool_img(bool)
         if bool
-            image_tag("check.png", alt: "true")
+            image_tag("check.png", alt: "true", title: bool)
         else
-            image_tag("x.png", alt: "true")
+            image_tag("x.png", alt: "false")
         end
     end
     

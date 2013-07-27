@@ -28,6 +28,8 @@ class AttendeesController < ApplicationController
             end
             sql_query = col.map{|c| "lower(#{c}) like lower(?)"}.join(' or ')
             @attendees = Attendee.where(sql_query, par)#.order('title_id ASC')
+        else
+            @attendees = Attendee.all
         end  
     end
 

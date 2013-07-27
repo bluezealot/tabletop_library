@@ -30,7 +30,7 @@ class LoanersController < ApplicationController
 
         if @loaner.update_attributes(params[:loaner])
             flash[:notice] = 'Loaner was successfully updated.'
-            redirect_to @loaner
+            redirect_to loaners_path
         else
             render action: "edit"
         end

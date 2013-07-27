@@ -1,23 +1,26 @@
-<h1>Listing Titles</h1>
+<h1>Titles</h1>
 
-<%= will_paginate @titles %>
-<table style='width:100%;'>
-	
+<table style='width:100%;border-spacing:0;'>
 	<tr>
 		<th>Title</th>
 		<th>Publisher</th>
-		<th># of games</th>
+		<th># of copies</th>
 		<th></th>
 	</tr>
-
+	<% ctr = 1 %>
 	<% @titles.each do |title| %>
-		<tr>
-			<td><%= title.title %></td>
-			<td><%= title.publisher.name %></td>
-			<td><%= title.games.count %></td>
-			<td><%= link_to 'Edit', edit_title_path(title) %></td>
+		<% if ctr == 0 %>
+        	<tr style='background-color: #2E2E2E;'>
+        	<% ctr = 1 %>
+        <% else %>
+        	<tr>
+        	<% ctr = 0 %>
+       	<% end %>
+			<td style='width:500px;'><%= title.title %></td>
+			<td style='width:300px;'><%= title.publisher.name %></td>
+			<td style='width:30px;text-align:center;'><%= title.games.count %></td>
+			<td style='width:50px;'><%= link_to 'Edit', edit_title_path(title) %></td>
 		</tr>
 	<% end %>
-	
 </table>
 <%= will_paginate @titles %>
