@@ -5,6 +5,8 @@
     <li><%= link_to 'Loaners', loaners_path %></li>
     <li><%= link_to 'All Titles', titles_path %></li>
     
+    <li><%= link_to 'Suggested Culls', culls_path(@current_pax)%></li>
+    
     <% if is_super_user %>
     	<li><%= link_to 'All Attendees', attendees_path %></li>
     	<li><%= link_to 'New Attendee', new_attendee_path %></li>

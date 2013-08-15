@@ -1,0 +1,67 @@
+<h2>Suggested culls for: <%= @pax.full_name %></h2>
+<br/><br/>
+<h3>Titles with 0 checkouts overall:</h3>
+<table style='border-spacing:0;width:720px;margin:auto auto auto 0;'>
+    <tr>
+        <th>Title</th>
+        <th>>1 Copies</th>
+    </tr>
+    <% ctr = 1 %>
+    <% @culls_none.each do |key, val| %>
+    	<% if ctr == 0 %>
+        	<tr style='background-color: #2E2E2E;'>
+        	<% ctr = 1 %>
+        <% else %>
+        	<tr>
+        	<% ctr = 0 %>
+       	<% end %>
+            <td><%= val[:title] %></td>
+            <td style='text-align:center;'><%= bool_img(val[:copies] > 1) %></td>
+            <td style='text-align:center;'><%= val[:copies] %></td>
+        </tr>
+    <% end %>
+</table>
+<h3>Titles with fewer than 3 checkouts overall:</h3>
+<table style='border-spacing:0;width:720px;margin:auto auto auto 0;'>
+    <tr>
+        <th>Title</th>
+        <th>Checkouts</th>
+        <th>>1 Copies</th>
+    </tr>
+    <% ctr = 1 %>
+    <% @culls_perTitle.each do |key, val| %>
+       	<% if ctr == 0 %>
+        	<tr style='background-color: #2E2E2E;'>
+        	<% ctr = 1 %>
+        <% else %>
+        	<tr>
+        	<% ctr = 0 %>
+       	<% end %>
+            <td><%= val[:title] %></td>
+            <td style='text-align:center;'><%= val[:checkouts] %></td>
+            <td style='text-align:center;'><%= bool_img(val[:copies] > 1) %></td>
+        </tr>
+    <% end %>
+</table>
+<h3>Titles with fewer than 3 checkouts per copy:</h3>
+<table style='border-spacing:0;width:720px;margin:auto auto auto 0;'>
+    <tr>
+        <th>Title</th>
+        <th>Checkouts</th>
+        <th>Copies</th>
+    </tr>
+    <% ctr = 1 %>
+    <% @culls_perCopy.each do |key, val| %>
+        <% if ctr == 0 %>
+        	<tr style='background-color: #2E2E2E;'>
+        	<% ctr = 1 %>
+        <% else %>
+        	<tr>
+        	<% ctr = 0 %>
+       	<% end %>
+            <td><%= val[:title] %></td>
+            <td style='text-align:center;'><%= val[:checkouts] %></td>
+            <td style='text-align:center;'><%= val[:copies] %></td>
+        </tr>
+    <% end %>
+</table>

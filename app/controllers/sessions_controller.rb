@@ -49,4 +49,35 @@ class SessionsController < ApplicationController
         @current_checkouts = Checkout.where(:closed => false).count
     end
     
+    def culls
+      if params[:id]
+        @pax = Pax.find(params[:id])
+      else
+        @pax = get_current_pax
+      end
+      
+      #0 checkouts overall - with checks
+      #less than 3 overall - with checks
+      #less than 3 per copy
+      
+      @culls_none = {}
+      @culls_perTitle = {}
+      @culls_perCopy = {}
+      Title.all.each do |t|
+        gameCount = t.games.where(:section_id => 1).count
+        if gameCount > 0
+          x = Checkout.where(:game_id => Game.where(:title_id => t, :section_id => 1), :pax_id => @pax).count
+          o = {checkouts:x, title:t.title, copies:gameCount }
+          if x == 0
+            @culls_none[t.title] = o
+          elsif x < 3
+            @culls_perTitle[t.title] = o
+          elsif x/gameCount < 3
+            @culls_perCopy[t.title] = o
+          end
+        end
+      end
+      
+    end
+    
 end
