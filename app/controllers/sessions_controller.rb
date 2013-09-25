@@ -40,7 +40,7 @@ class SessionsController < ApplicationController
                 @top_five_per_game[t.title] = x
             end
         end
-        @top_five_per_game = @top_five_per_game.sort_by {|a,b| b}.reverse[0..4]
+        @top_five_per_game = @top_five_per_game.sort_by {|a,b| b}.reverse[0..9]
         
         checkouts = Checkout.where(:pax_id => @pax).sort_by!{|a| a.play_time_min}
         
