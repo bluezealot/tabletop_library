@@ -117,6 +117,26 @@ class GamesController < ApplicationController
             end
         end
     end
+    
+    #checks to see if the game exists and whether or not it has open checkouts
+    #valid: only vlid if game exists and has 0 open checkouts
+    def valid_game
+      g_id = params[:g_id].upcase
+      game = get_game(g_id)
+      
+      if game
+        if open = game_has_unclosed_co(g_id)
+          message = 'Game is already checked out.'
+        else
+          message = game.name
+        end
+      end
+      
+      render :json => {
+        message: game ? message : 'Game does not exist.',
+        valid: (game && !open) ? true : false
+        }
+    end
 
     private
         

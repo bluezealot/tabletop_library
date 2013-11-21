@@ -60,7 +60,6 @@ nav{
             }
         }
     }
-    
 }
 
 .barspan{
@@ -81,29 +80,12 @@ nav{
     width:0%;
 }
 
-.field{
-    position: relative;
-    display: inline-table;
-    width: auto;
-    input, select{
-        width:200px;
-        margin: 0px 5px 5px 0px;
-        display:block;
-    }
-}
-
-.submit-btn{
-  //background-color:#000;
-  //background-color: #1a75bb;
-  //height:30px;
-  //color:#000;
-  //border: 1px solid #000;
-  //font-size: 13px;
-  //border-radius: 5px;
-  //background: -moz-linear-gradient(top, rgba(149,149,149,1) 0%, rgba(26,117,187,1) 100%);
-  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(149,149,149,1)), color-stop(100%,rgba(26,117,187,1)));
-}
-
 .alert{
   color:#FF0000;
+}
+
+input{
+  &[type='text']{
+    //display:block;
+  }
 }

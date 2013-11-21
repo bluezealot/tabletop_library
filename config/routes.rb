@@ -10,9 +10,7 @@ PaxTTlib::Application.routes.draw do
     match 'games/remove',       to:'games#remove',          via: :get
     match 'games/remove',       to:'games#remove',          via: :post
     
-    match 'checkouts/game',     to:'checkouts#game_get',    via: :get
-    match 'checkouts/game',     to:'checkouts#game_post',   via: :post
-    match 'checkouts/swap',     to:'checkouts#swap',        via: :post
+    match 'checkouts/create',   to:'checkouts#create',      via: :post
     
     match 'returns/new',        to:'returns#new',           via: :get
     match 'returns/attendee',   to:'returns#create',        via: :post
@@ -24,13 +22,17 @@ PaxTTlib::Application.routes.draw do
     match 'signout',            to:'sessions#destroy',      via: :delete
     match 'admin',              to:'sessions#index',        via: :get
     match 'metrics',            to:'sessions#metrics',      via: :get
-    match 'culls',            to:'sessions#culls',      via: :get
+    match 'culls',              to:'sessions#culls',      via: :get
 
     match 'loaners/add_game',   to:'loaners#add_game',      via: :get
-            
+    
+    resources :checkouts
     resources :sessions,        only: [:new, :create, :destroy]
     resources :users,           only: [:new, :create, :destroy, :index]
-    resources :checkouts, :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
+    resources :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
+    
+    match 'is_valid_game', to:'games#valid_game'
+    match 'is_valid_attendee', to:'attendees#valid_attendee'
     
     #resources :sections do
     #  resources :games

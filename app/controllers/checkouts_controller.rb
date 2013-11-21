@@ -1,80 +1,28 @@
 class CheckoutsController < ApplicationController
-    before_filter :reset_session, :only => [:index, :new, :show]
 
     def index
-        pax = get_current_pax
-        @checkouts = Checkout.where(:closed => false, :pax_id => pax.id)
-    end
-
-    def show
-        @checkout = Checkout.find(params[:id])
-    end
-
-    def new
-        reset_session
+        @checkouts = Checkout.where(:closed => false, :pax_id => get_current_pax.id)
     end
 
     def create
-        a_id = params[:a_id].upcase
-        session[:a_id] = a_id
-        
-        if barcode_check(a_id)
-            if get_attendee(a_id)
-                redirect_to checkouts_game_path
-            else
-                session[:redirect] = 'checkout'
-                flash[:alert] = 'Attendee doesn\'t exist, please enter information.'
-                redirect_to attendees_info_path
-            end
-        else
-            flash.now[:alert] = 'Invalid barcode.'
-            render 'new'
-        end
+      a_id = params['a_id'].upcase
+      g_id = params['g_id'].upcase
+      
+      unless game_has_unclosed_co(g_id)
+        checkout_game(a_id, g_id)
+        render json: { success: true }
+      else
+        #should never get to this point
+      end
+    end
 
-    end
-  
-    def game_get
-    end
-    
-    def game_post
-        g_id = params[:g_id].upcase
-        
-        if barcode_check(g_id)
-            game = get_game(g_id)
-            
-            if game && !game.returned
-                if game_has_unclosed_co(g_id)#fixme
-                    flash[:alert] = 'Game is already checked out!'
-                    redirect_to new_checkout_path
-                else
-                    if (@current_checkouts = atte_has_unclosed_co(session[:a_id])).empty? || session[:redirect] == 'morethanone'
-                        checkout_game(session[:a_id], g_id)
-                    else
-                        #redirect_to new_checkout_path, notice: 'Attendee already has a game checked out!'
-                        session[:redirect] = 'morethanone'
-                        render 'already'
-                    end
-                end
-            else
-                session[:redirect] = 'checkout'
-                session[:g_id] = g_id
-                flash[:alert] = 'Game doesn\'t exist, please enter information.'
-                redirect_to games_info_path
-            end
-        else
-            flash.now[:alert] = 'Invalid barcode.'
-            render 'game_get'
-        end
-        
-    end
-    
     def swap
-        if return_game(session[:a_id], params[:old_g_id])
-            checkout_game(session[:a_id], params[:g_id])
-        else
-            flash[:alert] = 'Error occurred while swapping!'
-            redirect_to new_checkout_path
-        end
+      a_id = params[:a_id].upcase
+      g_id = params[:g_id].upcase
+      oldg = params[:oldg].upcase
+
+      return_game(a_id, oldg)
+      checkout_game(a_id, g_id)
     end
 
 end

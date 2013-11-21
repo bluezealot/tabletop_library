@@ -4,30 +4,20 @@ class ApplicationController < ActionController::Base
     include ApplicationHelper
     
     def checkout_game(a_id, g_id)
-        a_id.upcase!
-        g_id.upcase!
-        
-        Game.find(g_id).update_attributes({
-            :checked_in => false
-            })
-        pax = get_current_pax
-            
-        @checkout = Checkout.new({
-                    :check_out_time => Time.new,
-                    :pax_id => pax.id,
-                    :game_id => g_id,
-                    :attendee_id => a_id
-                    })
-        
-        if @checkout.save
-            reset_session
-            flash[:notice] = 'Game was successfully CHECKED OUT.'
-            redirect_to new_checkout_path
-        else
-            flash[:alert] = 'An error has occurred during checkout.<br/>Error code: 0HB4LL5'
-            redirect_to new_checkout_path
-        end
-        
+      a_id.upcase!
+      g_id.upcase!
+      
+      Game.find(g_id).update_attributes({
+          :checked_in => false
+          })
+          
+      @checkout = Checkout.new({
+                  :check_out_time => Time.new,
+                  :pax_id => get_current_pax.id,
+                  :game_id => g_id,
+                  :attendee_id => a_id
+                  })
+      @checkout.save
     end
     
     def return_game(a_id, g_id)
@@ -74,22 +64,26 @@ class ApplicationController < ActionController::Base
     def game_has_unclosed_co(g_id)
         g_id = g_id.upcase
         pax = get_current_pax
-        Checkout.where(:game_id => g_id, :closed => false, :pax_id => pax.id).first 
+        Checkout.where(:game_id => g_id, :closed => false, :pax_id => pax.id).size > 0
     end
     
     def atte_has_unclosed_co(a_id)
         a_id = a_id.upcase
         pax = get_current_pax
-        Checkout.where(:attendee_id => a_id, :closed => false, :pax_id => pax.id)
+        Checkout.where(:attendee_id => a_id, :closed => false, :pax_id => pax.id).size > 0
     end
     
+    def get_open_count_for_atte(a_id)
+        Checkout.where(:attendee_id => a_id.upcase, :closed => false, :pax_id => get_current_pax.id).size
+    end
+=begin
     def reset_session
         session[:g_id] = nil
         session[:a_id] = nil
         session[:redirect] = nil
         session[:l_id] = nil
     end
-    
+=end
     def signed_in_user
         redirect_to signin_url, alert: "Please sign in." unless signed_in?
     end

@@ -15,5 +15,9 @@ class Game < ActiveRecord::Base
     validates_existence_of :section, :both => false
 
     validates_uniqueness_of :barcode
-  
+    
+    def name
+      self.title.title + ' [' + self.title.publisher.name + ']'
+    end
+    
 end

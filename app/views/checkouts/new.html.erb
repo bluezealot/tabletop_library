@@ -1,13 +1,20 @@
 <h2>Checkout</h2>
-<h3>Enter ATTENDEE Barcode below to continue.</h3>
-
-<%= form_tag checkouts_path do %>
-    <div class="field">
-        <%= render 'tags/attendee/barcode' %>
-        <%= render 'tags/buttons/next_step' %>
-        </div>
-<% end %>
-<br/>
-<h3>or</h3>
+<%= hidden_field_tag 'v_g' %>
+<%= hidden_field_tag 'v_a' %>
+<table id='checkout_form'>
+	<tr>
+		<td>
+			<%= render 'tags/attendee/barcode' %>
+			<span id='attendee_label'></span>
+			</td>
+		</tr>
+	<tr>
+		<td>
+			<%= render 'tags/game/barcode' %>
+			<span id='game_label'></span>
+			</td>
+		</tr>
+	</table>
+<%= submit_tag 'Checkout Game', { id: 'checkout_btn', disabled: true } %>
 
 <h3>Click <%= link_to 'here', checkouts_path %> to view all current checkouts.</h3>
