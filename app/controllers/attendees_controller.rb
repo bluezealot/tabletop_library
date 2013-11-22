@@ -98,7 +98,7 @@ class AttendeesController < ApplicationController
     att = get_attendee(a_id)
     
     if att
-      if open = atte_has_unclosed_co(a_id)
+      if atte_has_unclosed_co(a_id)
         count = get_open_count_for_atte(a_id)
         message = "#{att.name} has #{pluralize(count, 'game')} checked out."
       else
@@ -109,8 +109,8 @@ class AttendeesController < ApplicationController
     render :json => {
       message: att ? message : 'Attendee does not exist.',
       valid: att ? true : false,
-      has_checkouts: open
+      coCount: count
       }
   end
-    
+  
 end

@@ -1,6 +1,4 @@
 <h2>Checkout</h2>
-<%= hidden_field_tag 'v_g' %>
-<%= hidden_field_tag 'v_a' %>
 <table id='checkout_form'>
 	<tr>
 		<td>
@@ -16,5 +14,6 @@
 		</tr>
 	</table>
 <%= submit_tag 'Checkout Game', { id: 'checkout_btn', disabled: true } %>
+<%= submit_tag 'Swap Game', { id: 'swap_btn', class:'invis' } %>
 
 <h3>Click <%= link_to 'here', checkouts_path %> to view all current checkouts.</h3>

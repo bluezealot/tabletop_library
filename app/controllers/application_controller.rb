@@ -6,18 +6,20 @@ class ApplicationController < ActionController::Base
     def checkout_game(a_id, g_id)
       a_id.upcase!
       g_id.upcase!
-      
-      Game.find(g_id).update_attributes({
-          :checked_in => false
-          })
-          
-      @checkout = Checkout.new({
-                  :check_out_time => Time.new,
-                  :pax_id => get_current_pax.id,
-                  :game_id => g_id,
-                  :attendee_id => a_id
-                  })
-      @checkout.save
+
+      unless game_has_unclosed_co(g_id)      
+        Game.find(g_id).update_attributes({
+            :checked_in => false
+            })
+            
+        @checkout = Checkout.new({
+                    :check_out_time => Time.new,
+                    :pax_id => get_current_pax.id,
+                    :game_id => g_id,
+                    :attendee_id => a_id
+                    })
+        @checkout.save
+      end
     end
     
     def return_game(a_id, g_id)

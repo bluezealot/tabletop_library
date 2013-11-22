@@ -15,33 +15,37 @@
 //= require_tree .
 
 var enableCheckoutButton = function() {
-  $("#checkout_btn").prop("disabled", !$("#v_a").val() || !$("#v_g").val());
+  $("#checkout_btn").prop("disabled", !v_g || !v_a);
+  $("#swap_btn")	.prop("disabled", !v_g || !v_a);
 };
 
 var resetCheckout = function(){
-	$("#game_label").text('');
-    $("#attendee_label").text('');
-    $("#v_g").val('').trigger("change");
-    $("#v_a").val('').trigger("change");
+  $("#attendee_label").text('');
+  $("#game_label").text('');
+  $("#a_id").val('');
+  $("#g_id").val('');
+  v_a = false;
+  v_g = false;
 };
 
 var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;
+var v_a = false;
+var v_g = false;
 
 $(document).ready(function() {
-  $("#v_g").change(enableCheckoutButton);
-  $("#v_a").change(enableCheckoutButton);
   
   $("#g_id").change(function(e) {
     if (bc_regex.test(this.value)) {
       $.ajax({
-        url: "/is_valid_game",
-        data: {
+        url: "/is_valid_game"
+        ,data: {
           g_id: this.value
-        },
-        dataType: "json",
-        success: function(data) {
+        }
+        ,dataType: "json"
+        ,complete: enableCheckoutButton
+        ,success: function(data) {
           $("#game_label").text(data.message);
-          $("#v_g").val(data.valid).trigger("change");
+          v_g = data.valid;
         }
       });
     }
@@ -50,30 +54,51 @@ $(document).ready(function() {
   $("#a_id").change(function(e) {
     if (bc_regex.test(this.value)) {
       $.ajax({
-        url: "/is_valid_attendee",
-        data: {
+        url: "/is_valid_attendee"
+        ,data: {
           a_id: this.value
-        },
-        dataType: "json",
-        success: function(data) {
+        }
+        ,dataType: "json"
+		,complete: enableCheckoutButton
+        ,success: function(data) {
           $("#attendee_label").text(data.message);
-          $("#v_a").val(data.valid).trigger("change");
-          //TODO: add swap button to view, enable based on has_checkouts
+          v_a = data.valid;
+          $('#swap_btn').toggleClass('invis', !data.coCount == 1);
         }
       });
     }
   });
   
   $('#checkout_btn').click(function(){
-  	data = $('input[type="text"]');
+  	data = $('input[type="text"]').serializeArray();
   	$.ajax({
   		url:'/checkouts/create'
-  		,data: data.serializeArray()
+  		,data: data
   		,dataType:'json'
   		,type: 'POST'
+  		,complete: enableCheckoutButton
   		,success:function(data){
-  			if(data.sucess){
+  			if(data.success){
   				resetCheckout();
+  				//TODO: display success message
+  			}
+  		}
+  	});
+  });
+  
+  $('#swap_btn').click(function(){
+  	data = $('input[type="text"]').serializeArray();
+  	data.swap = true;
+  	$.ajax({
+  		url:'/checkouts/swap'
+  		,data: data
+  		,dataType:'json'
+  		,type: 'POST'
+  		,complete: enableCheckoutButton
+  		,success:function(data){
+  			if(data.success){
+  				resetCheckout();
+  				//TODO: display success message
   			}
   		}
   	});

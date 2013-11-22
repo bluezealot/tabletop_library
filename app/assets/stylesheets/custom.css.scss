@@ -84,8 +84,6 @@ nav{
   color:#FF0000;
 }
 
-input{
-  &[type='text']{
-    //display:block;
-  }
+.invis{
+  visibility: hidden;
 }

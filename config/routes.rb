@@ -11,6 +11,7 @@ PaxTTlib::Application.routes.draw do
     match 'games/remove',       to:'games#remove',          via: :post
     
     match 'checkouts/create',   to:'checkouts#create',      via: :post
+    match 'checkouts/swap',     to:'checkouts#swap',        via: :post
     
     match 'returns/new',        to:'returns#new',           via: :get
     match 'returns/attendee',   to:'returns#create',        via: :post
