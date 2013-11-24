@@ -34,13 +34,6 @@ class AttendeesController < ApplicationController
       end  
   end
 
-  #def show
-  #    @attendee = Attendee.find(params[:id])
-  #end
-
-  #def new
-  #end
-
   def create
     a_id = params[:a_id].upcase
     enforcer = !params[:handle].empty?
@@ -55,56 +48,7 @@ class AttendeesController < ApplicationController
     
     render json: { success: @attendee.save }
   end
-=begin
-      bc = params[:a_id].upcase
-      if bc.empty? || !barcode_check(bc)
-          flash[:alert] = 'Invalid barcode.'
-          redirect_to new_attendee_path(params)
-      else
-          if get_attendee(bc)
-              flash[:alert] = 'Attendee barcode already exists in the system.'
-              redirect_to new_attendee_path(params) 
-          else
-              session[:a_id] = bc
-              redirect_to attendees_info_path
-          end
-      end
-=end
 
-=begin
-  def info_get
-  end
-  
-  def info_post
-      if params[:handle].empty?
-          enforcer = false
-      else
-          enforcer = true
-      end
-      
-      @attendee = Attendee.new({
-          first_name: params[:first_name],
-          last_name: params[:last_name],
-          handle: params[:handle],
-          enforcer: enforcer,
-          barcode: session[:a_id]
-          })
-      
-      if @attendee.save
-          if session[:redirect] == 'checkout'
-              session[:redirect] = nil
-              redirect_to checkouts_game_path
-          else
-              session[:a_id] = nil;
-              flash[:notice] = 'Attendee was successfully created.'
-              redirect_to new_attendee_path
-          end
-      else
-          flash[:alert] = 'Please fill in all fields.'
-          redirect_to attendees_info_path(params)
-      end
-  end
-=end
   #checks to see if attendee exists and whether or not it has open checkouts
   #valid: always true if attendee exists
   #has_checkouts: true if more than 0 open checkouts exist
