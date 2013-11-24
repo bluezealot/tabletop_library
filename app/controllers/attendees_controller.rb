@@ -34,14 +34,28 @@ class AttendeesController < ApplicationController
       end  
   end
 
-  def show
-      @attendee = Attendee.find(params[:id])
-  end
+  #def show
+  #    @attendee = Attendee.find(params[:id])
+  #end
 
-  def new
-  end
+  #def new
+  #end
 
   def create
+    a_id = params[:a_id].upcase
+    enforcer = !params[:handle].empty?
+    
+    @attendee = Attendee.new({
+        first_name: params[:first_name],
+        last_name: params[:last_name],
+        handle: params[:handle],
+        enforcer: enforcer,
+        barcode: a_id
+        })
+    
+    render json: { success: @attendee.save }
+  end
+=begin
       bc = params[:a_id].upcase
       if bc.empty? || !barcode_check(bc)
           flash[:alert] = 'Invalid barcode.'
@@ -55,8 +69,9 @@ class AttendeesController < ApplicationController
               redirect_to attendees_info_path
           end
       end
-  end
-  
+=end
+
+=begin
   def info_get
   end
   
@@ -89,7 +104,7 @@ class AttendeesController < ApplicationController
           redirect_to attendees_info_path(params)
       end
   end
-  
+=end
   #checks to see if attendee exists and whether or not it has open checkouts
   #valid: always true if attendee exists
   #has_checkouts: true if more than 0 open checkouts exist

@@ -3,17 +3,25 @@
 	<tr>
 		<td>
 			<%= render 'tags/attendee/barcode' %>
-			<span id='attendee_label'></span>
+			<%= submit_tag 'x', { id: 'x_atte', class: 'invis' } %>
+			<span id='a_label'></span>
 			</td>
 		</tr>
 	<tr>
 		<td>
 			<%= render 'tags/game/barcode' %>
-			<span id='game_label'></span>
+			<%= submit_tag 'x', { id: 'x_game', class: 'invis' } %>
+			<span id='g_label'></span>
 			</td>
 		</tr>
 	</table>
 <%= submit_tag 'Checkout Game', { id: 'checkout_btn', disabled: true } %>
-<%= submit_tag 'Swap Game', { id: 'swap_btn', class:'invis' } %>
+<%= submit_tag 'Swap Game', { id: 'swap_btn', disabled: true } %>
 
 <h3>Click <%= link_to 'here', checkouts_path %> to view all current checkouts.</h3>
+
+<div id='new_attendee' class='invis'>
+	<%= render 'tags/attendee/first_name' %><br/>
+	<%= render 'tags/attendee/last_name' %><br/>
+	<%= render 'tags/attendee/handle' %>
+	</div>

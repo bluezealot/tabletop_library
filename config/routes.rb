@@ -10,9 +10,6 @@ PaxTTlib::Application.routes.draw do
     match 'games/remove',       to:'games#remove',          via: :get
     match 'games/remove',       to:'games#remove',          via: :post
     
-    match 'checkouts/create',   to:'checkouts#create',      via: :post
-    match 'checkouts/swap',     to:'checkouts#swap',        via: :post
-    
     match 'returns/new',        to:'returns#new',           via: :get
     match 'returns/attendee',   to:'returns#create',        via: :post
     
@@ -31,9 +28,16 @@ PaxTTlib::Application.routes.draw do
     resources :sessions,        only: [:new, :create, :destroy]
     resources :users,           only: [:new, :create, :destroy, :index]
     resources :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
-    
+
+    #mk3    
     match 'is_valid_game', to:'games#valid_game'
     match 'is_valid_attendee', to:'attendees#valid_attendee'
+    
+    match 'checkouts/create',   to:'checkouts#create',      via: :post
+    match 'checkouts/swap',     to:'checkouts#swap',        via: :post
+    
+    match 'attendees/create',   to:'attendees#create',      via: :post
+
     
     #resources :sections do
     #  resources :games

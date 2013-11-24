@@ -85,5 +85,30 @@ nav{
 }
 
 .invis{
+  display: none;
+}
+
+#new_attendee{
+  background-color:#FFF;
+}
+
+input{
+  font-size: 20px;
+}
+
+//jQuery dialog mods
+.ui-dialog-titlebar-close {
   visibility: hidden;
+}
+
+.ui-dialog-buttonset{
+  background-color:#FFF;
+}
+
+.ui-widget-overlay {
+   background: #CCC;
+   opacity: .80;
+   position: absolute;
+   left: 0;
+   top: 0;
 }
