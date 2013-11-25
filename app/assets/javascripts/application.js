@@ -14,4 +14,4 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require_tree .
-
+var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;

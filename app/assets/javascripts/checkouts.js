@@ -16,7 +16,6 @@ var resetCheckout = function() {
 	c_o = 0;
 };
 
-var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;
 var v_a = false;
 var v_g = false;
 var c_o = 0;
@@ -117,6 +116,7 @@ $(document).ready(function() {
 		$('#new_attendee').toggleClass('invis', true);
 		$('#new_attendee > input').val('');
 		v_a = false;
+		$("#co_a_id").focus();
 	});
 	$('#x_atte').click(enableCheckoutButton);
 
@@ -126,6 +126,7 @@ $(document).ready(function() {
 		$("#co_g_id").val('');
 		$("#g_label").text('');
 		v_g = false;
+		$("#co_g_id").focus();
 	});
 	$('#x_game').click(enableCheckoutButton);
 

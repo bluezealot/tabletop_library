@@ -1,9 +1,13 @@
 <h2>Return</h2>
-<h3>Enter ATTENDEE Barcode below to continue.</h3>
 
-<%= form_tag returns_attendee_path do %>
-    <div class="field">
-        <%= render 'tags/attendee/barcode' %>
-        <%= render 'tags/buttons/next_step' %>
-    </div>
-<% end %>
+<table id='return_form'>
+	<tr>
+		<td>
+			<%= text_field_tag :r_a_id, nil, { autocomplete: "off", placeholder: 'Attendee Barcode', autoFocus: true } %>
+			<%= submit_tag 'x', { id: 'r_x_atte', class: 'invis' } %>
+			<span id='a_label'></span>
+			</td>
+		</tr>
+	</table>
+<table id='results'>
+	</table>

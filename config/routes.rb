@@ -11,10 +11,6 @@ PaxTTlib::Application.routes.draw do
     match 'games/remove',       to:'games#remove',          via: :post
     
     match 'returns/new',        to:'returns#new',           via: :get
-    match 'returns/attendee',   to:'returns#create',        via: :post
-    
-    match 'returns/confirm',    to:'returns#show',          via: :get
-    match 'returns/confirm',    to:'returns#confirm',       via: :post
     
     match 'signin',             to:'sessions#new',          via: :get
     match 'signout',            to:'sessions#destroy',      via: :delete
@@ -35,6 +31,9 @@ PaxTTlib::Application.routes.draw do
     
     match 'checkouts/create',   to:'checkouts#create',      via: :post
     match 'checkouts/swap',     to:'checkouts#swap',        via: :post
+    
+    match 'returns/get_games',   to:'returns#get_games'
+    match 'returns/create',   to:'returns#create', via: :post
     
     match 'attendees/create',   to:'attendees#create',      via: :post
 
