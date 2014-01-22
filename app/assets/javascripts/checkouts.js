@@ -37,6 +37,7 @@ $(document).ready(function() {
 						$("#co_g_id").toggleClass('invis', false);
 						$("#co_g_id").focus();
 					} else {
+						$('#new_attendee > input[type="text"]').val('');
 						$('#new_attendee').dialog('open');
 					}
 					$("#co_a_id").attr('readonly', data.valid);
@@ -144,19 +145,29 @@ $(document).ready(function() {
 					dataType : 'json',
 					type : 'POST',
 					success : function(data) {
+						$('#new_attendee > input').removeClass('error');
 						if (data.success) {
 							$("#new_attendee").dialog("close");
 							$('#co_a_id').change();
+						}else{
+							data.missing.forEach(function(e){
+								$('#' + e).addClass('error');
+							});
 						}
 					}
 				});
 			},
 			Cancel : function() {
 				$("#new_attendee").dialog("close");
+				$('#new_attendee > input[type="text"]').val('');
 			}
 		},
 		close : function() {
 			$('#new_attendee > input[type="text"]').val('');
+			$('#new_attendee > input[type="text"]').removeClass('error');
+			
+			$('#co_a_id').val('');
+			$("#a_label").text('');
 		}
 	});
 });

@@ -11,7 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
 //= require jquery-ui
+//= require jquery_ujs
 //= require_tree .
 var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;
+
+//$(document).tooltip();

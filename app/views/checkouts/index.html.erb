@@ -1,4 +1,4 @@
-<h1>Listing checkouts</h1>
+<h1>Checkouts</h1>
 
 <table style='width:100%;'>
   <tr>
@@ -9,13 +9,17 @@
     <th>Check out time</th>
   </tr>
 
-<% @checkouts.each do |checkout| %>
+<% @checkouts.each do |co| %>
   <tr>
-    <td style='text-align:center;'><%= link_to checkout.game.barcode, checkout %></td>
-    <td><%= checkout.game.title.title %></td>
-    <td><%= link_to checkout.attendee.name, checkout.attendee %></td>
-    <td style='text-align:center;'><%= checkout.pax.full_name %></td>
-    <td style='text-align:center;'><%= checkout.check_out_time.strftime("%a %I:%M%p") %></td>
+    <td style='text-align:center;'><%= co.game.barcode %></td>
+    <td><%= co.game.name %></td>
+    <td title='<%= co.attendee.barcode %>'>
+    	<%= co.attendee.name %></td>
+    <td style='text-align:center;'><%= co.pax.full_name %></td>
+    <td style='text-align:center;'><%= co.check_out_time.strftime("%a %I:%M%p") %></td>
+    <td>
+    	<%= link_to "Return #{co.game.name}", nil, :confirm => "Return #{co.game.name} to #{co.attendee.name}?" %>
+    	</td>
   </tr>
 <% end %>
 </table>

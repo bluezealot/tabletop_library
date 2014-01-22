@@ -9,6 +9,10 @@ body{
     clear:both;
 }
 
+a{
+  //color:#ccc;
+}
+
 .footer{
     border-top:thin solid #000;
     font-size:9px;
@@ -96,6 +100,10 @@ input{
   font-size: 20px;
 }
 
+.error{
+  border: 2px solid #FF0000;
+}
+
 //jQuery dialog mods
 .ui-dialog-titlebar-close {
   visibility: hidden;
@@ -111,4 +119,10 @@ input{
    position: absolute;
    left: 0;
    top: 0;
+}
+
+.ui-tooltip {
+  padding: 10px 20px;
+  color: #000;
+  background-color: #FFF;
 }

@@ -35,23 +35,32 @@ class AttendeesController < ApplicationController
   end
 
   def create
-    a_id = params[:a_id].upcase
+    missing_fields = Array.new
+    params.each do |k, v|
+      if v.nil? || v.empty?
+        missing_fields << k unless k == 'handle'
+      end
+    end
+
     enforcer = !params[:handle].empty?
     
     @attendee = Attendee.new({
-        first_name: params[:first_name],
-        last_name: params[:last_name],
-        handle: params[:handle],
+        first_name: capitalize_all(params[:first_name]),
+        last_name: capitalize_all(params[:last_name]),
+        handle: capitalize_all(params[:handle]),
         enforcer: enforcer,
-        barcode: a_id
+        barcode: params[:co_a_id].upcase
         })
     
-    render json: { success: @attendee.save }
+    render json: {
+      success: @attendee.save,
+      missing: missing_fields
+      }
   end
-
-  #checks to see if attendee exists and whether or not it has open checkouts
-  #valid: always true if attendee exists
-  #has_checkouts: true if more than 0 open checkouts exist
+  
+  # checks to see if attendee exists and whether or not it has open checkouts
+  # valid: always true if attendee exists
+  # has_checkouts: true if more than 0 open checkouts exist
   def valid_attendee
     a_id = params[:a_id].upcase
     att = get_attendee(a_id)
