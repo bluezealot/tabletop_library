@@ -9,18 +9,25 @@ class ReturnsController < ApplicationController
 
     attendee = get_attendee a_id
 
-    Checkout.where(:attendee_id => a_id, :closed => false, :pax_id => get_current_pax.id).each do |co|
-      games << {
-        barcode: co.game_id,
-        title: co.game.name
-      }
-    end
-
-    render json: {
-        games: games,
-        has_games: games.size > 0,
-        message: games.size > 0 ? "#{attendee.name} has #{games.size} games checked out." : "#{attendee.name} has no games checked out!"
+    if attendee
+      Checkout.where(:attendee_id => a_id, :closed => false, :pax_id => get_current_pax.id).each do |co|
+        games << {
+          barcode: co.game_id,
+          title: co.game.name
         }
+      end
+  
+      render json: {
+          games: games,
+          has_games: games.size > 0,
+          message: games.size > 0 ? "#{attendee.name} has #{games.size} games checked out." : "#{attendee.name} has no games checked out!"
+        }
+    else
+      render json: {
+          message: "Attendee doesn't exist!",
+          has_games: false
+        }
+    end
   end
 
   def create
