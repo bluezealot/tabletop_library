@@ -38,8 +38,8 @@ module ApplicationHelper
         current = 'current'
         if controller.class == CheckoutsController || session[:redirect] == 'checkout'
             loc = 'checkout'
-        elsif controller.class == ReturnsController
-            loc = 'return'
+        #elsif controller.class == ReturnsController
+        #    loc = 'return'
         elsif controller.class == GamesController && controller.action_name == 'index'
             loc = 'games'
         else

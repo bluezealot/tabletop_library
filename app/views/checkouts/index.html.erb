@@ -18,7 +18,15 @@
     <td style='text-align:center;'><%= co.pax.full_name %></td>
     <td style='text-align:center;'><%= co.check_out_time.strftime("%a %I:%M%p") %></td>
     <td>
-    	<%= link_to "Return #{co.game.name}", nil, :confirm => "Return #{co.game.name} to #{co.attendee.name}?" %>
+    	<%= #FIXME: Do this via javascript to remove row dynamically.
+    		link_to "Return #{co.game.name}",
+    		return_path({ a_id: co.attendee.id, g_id:co.game.id }),
+    		{
+				confirm: "Return #{co.game.name} to #{co.attendee.name}?",
+				remote: true,
+				method: :POST
+				}
+			%>
     	</td>
   </tr>
 <% end %>

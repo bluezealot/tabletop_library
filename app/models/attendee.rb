@@ -1,5 +1,6 @@
 class Attendee < ActiveRecord::Base
-  set_primary_key :barcode
+  #set_primary_key :barcode
+  self.primary_key = :barcode
   attr_accessible :barcode, :enforcer, :first_name, :handle, :last_name
   
   has_many :checkouts

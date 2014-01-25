@@ -1,5 +1,6 @@
 class Game < ActiveRecord::Base
-    set_primary_key :barcode
+    #set_primary_key :barcode
+    self.primary_key = :barcode
     attr_accessible :barcode, :checked_in, :loaner_id, :section_id, :title_id, :returned
     belongs_to :title
     belongs_to :section
@@ -18,6 +19,14 @@ class Game < ActiveRecord::Base
     
     def name
       self.title.title + ' [' + self.title.publisher.name + ']'
+    end
+    
+    def title_name
+      self.title.title
+    end
+    
+    def publisher_name
+      self.title.publisher.name
     end
     
 end

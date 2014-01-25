@@ -1,9 +1,0 @@
-<h2>Return</h2>
-<h3>Attendee: <%= @atte.name %> has the following checked out:</h3>
-
-<% @checkouts.each do |co| %>
-    <%= form_tag returns_confirm_path ({:a_id => co.attendee_id, :g_id => co.game_id}) do %>
-        <%= submit_tag "return this game ->" %>
-        <%= co.game.barcode %> - <%= co.game.title.title %>
-    <% end %>
-<% end %>

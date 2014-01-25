@@ -27,13 +27,12 @@ PaxTTlib::Application.routes.draw do
 
     #mk3    
     match 'is_valid_game', to:'games#valid_game'
-    match 'is_valid_attendee', to:'attendees#valid_attendee'
+    match 'attendee_by_id', to: 'attendees#get_attendee_by_id'
     
     match 'checkouts/create',   to:'checkouts#create',      via: :post
     match 'checkouts/swap',     to:'checkouts#swap',        via: :post
     
-    match 'returns/get_games',   to:'returns#get_games'
-    match 'returns/create',   to:'returns#create', via: :post
+    match 'return', to:'checkouts#return', via: :post
     
     match 'attendees/create',   to:'attendees#create',      via: :post
 

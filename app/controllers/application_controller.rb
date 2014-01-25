@@ -3,43 +3,27 @@ class ApplicationController < ActionController::Base
     include SessionsHelper
     include ApplicationHelper
     
-    def checkout_game(a_id, g_id)
+    def return_game(a_id, g_id)
       a_id.upcase!
       g_id.upcase!
-
-      unless game_has_unclosed_co(g_id)      
-        Game.find(g_id).update_attributes({
-            :checked_in => false
+    
+      pax = get_current_pax
+      co = Checkout.where({:attendee_id => a_id, :game_id => g_id, :closed => false, :pax_id => pax.id}).first
+      game = get_game(g_id)
+      
+      if co && game
+        co.update_attributes({
+            :return_time => Time.new,
+            :closed => true
             })
             
-        @checkout = Checkout.new({
-                    :check_out_time => Time.new,
-                    :pax_id => get_current_pax.id,
-                    :game_id => g_id,
-                    :attendee_id => a_id
-                    })
-        @checkout.save
+        game.update_attributes({
+            :checked_in => true
+            })
+        true
+      else
+        false
       end
-    end
-    
-    def return_game(a_id, g_id)
-        pax = get_current_pax
-        @co = Checkout.where({:attendee_id => a_id, :game_id => g_id, :closed => false, :pax_id => pax.id}).first
-        @game = get_game(g_id)
-        
-        if @co && @game
-            @co.update_attributes({
-                :return_time => Time.new,
-                :closed => true
-                })
-                
-            @game.update_attributes({
-                :checked_in => true
-                })
-            true
-        else
-            false
-        end
     end
     
     def remove_game(g_id)
@@ -59,20 +43,10 @@ class ApplicationController < ActionController::Base
         Game.where(:barcode => id).first
     end
     
-    def get_attendee(id)
-        Attendee.where(:barcode => id).first
-    end
-    
     def game_has_unclosed_co(g_id)
         g_id = g_id.upcase
         pax = get_current_pax
         Checkout.where(:game_id => g_id, :closed => false, :pax_id => pax.id).size > 0
-    end
-    
-    def atte_has_unclosed_co(a_id)
-        a_id = a_id.upcase
-        pax = get_current_pax
-        Checkout.where(:attendee_id => a_id, :closed => false, :pax_id => pax.id).size > 0
     end
     
     def get_open_count_for_atte(a_id)

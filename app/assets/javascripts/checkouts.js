@@ -1,19 +1,42 @@
 var enableCheckoutButton = function() {
-	$("#checkout_btn").prop("disabled", !v_g || !v_a);
-	$("#swap_btn").prop("disabled", (!v_g || !v_a) || (c_o != 1));
+	//$("#checkout_btn").prop("disabled", !v_g || !v_a);
+	//$("#swap_btn").prop("disabled", (!v_g || !v_a) || (c_o != 1));
+	$('#swap_chkbox').toggleClass('invis', c_o != 1);
 	$('#x_atte').toggleClass('invis', !v_a);
-	$('#x_game').toggleClass('invis', !v_g);
+	//$('#x_game').toggleClass('invis', !v_g);
 };
 
 var resetCheckout = function() {
 	$("#co_a_id").attr('readonly', false);
+	$("#co_a_id").focus();
 	$("#a_label").text('');
 	$("#g_label").text('');
 	$("#co_a_id").val('');
 	$("#co_g_id").val('');
+	$('#swap_chkbox').toggleClass('invis', true);
+	$('#swap_chkbox').prop('checked', true);
 	v_a = false;
 	v_g = false;
 	c_o = 0;
+	enableCheckoutButton();
+};
+
+var clearReturns = function(){
+	$('#returns tr').remove();
+	$('#swap_chkbox').toggleClass('invis', true);
+};
+
+var listCheckedOutGames = function(games) {
+	for (i in games) {
+		var row = $('<tr id="barcode' + games[i].barcode + '">');
+		var cols = '';
+
+		cols += '<td><input type="button" value="x" name="return' + i + '" id="' + games[i].barcode + '"/></td>';
+		cols += '<td>' + games[i].barcode + ' - ' + games[i].name + '</td>';
+
+		row.append(cols);
+		$('#returns').append(row);
+	}
 };
 
 var v_a = false;
@@ -26,23 +49,29 @@ $(document).ready(function() {
 	$("#co_a_id").change(function(e) {
 		if (bc_regex.test(this.value)) {
 			$.ajax({
-				url : "/is_valid_attendee",
+				url : "/attendee_by_id",
 				data : {
 					a_id : this.value
 				},
 				dataType : "json",
 				complete : enableCheckoutButton,
-				success : function(data) {
-					if ( v_a = data.valid) {
-						$("#co_g_id").toggleClass('invis', false);
+				success : function(att) {
+					$("#g_label").text('');
+					if (v_a = att.valid) {
+						if(att.hasGames){
+							//add checkouts to return table
+							listCheckedOutGames(att.games);
+							//TODO: display text for swap
+						}
+						//TODO: display text for checkout
 						$("#co_g_id").focus();
 					} else {
 						$('#new_attendee > input[type="text"]').val('');
 						$('#new_attendee').dialog('open');
 					}
-					$("#co_a_id").attr('readonly', data.valid);
-					$("#a_label").text(data.message);
-					c_o = data.coCount;
+					$("#co_a_id").attr('readonly', att.valid);
+					$("#a_label").text(att.info.name + att.status);
+					c_o = att.games.length;
 				}
 			});
 		}
@@ -51,59 +80,55 @@ $(document).ready(function() {
 	//entry for game barcode
 	$("#co_g_id").change(function(e) {
 		if (bc_regex.test(this.value)) {
+			data = {
+				g_id : $('#co_g_id').val(),
+				a_id : $('#co_a_id').val(),
+				swap : $('#swap_chkbox').is(':visible') ? $('#swap_chkbox').prop('checked') : false
+			};
 			$.ajax({
-				url : "/is_valid_game",
-				data : {
-					g_id : this.value
-				},
+				url : '/checkouts/create',
+				data : data,
 				dataType : "json",
+				type : 'POST',
 				complete : enableCheckoutButton,
 				success : function(data) {
-					$("#g_label").text(data.message);
-					v_g = data.valid;
+					if (data.success) {
+						resetCheckout();
+						clearReturns();
+						//TODO: display success message
+						$("#g_label").text(data.message);
+					}else{
+						$("#co_g_id").val('');
+						$("#g_label").text(data.message);
+					}
+					//v_g = data.valid;
 				}
 			});
 		}
 	});
 
-	//checkout button for new checkouts
-	$('#checkout_btn').click(function() {
+	//return game on click of X button
+	$('#returns').on('click', 'input[name^="return"]', function() {
+		var field = this;
 		data = {
-			g_id : $('#co_g_id').val(),
+			g_id : field.id,
 			a_id : $('#co_a_id').val()
 		};
 		$.ajax({
-			url : '/checkouts/create',
+			url : '/return',
 			data : data,
 			dataType : 'json',
 			type : 'POST',
 			complete : enableCheckoutButton,
 			success : function(data) {
+				$("#g_label").text('');
 				if (data.success) {
-					resetCheckout();
+					$('#returns tr[id="barcode' + field.id + '"]').remove();
+					c_o--;
 					//TODO: display success message
 				}
-			}
-		});
-	});
-
-	//swap button for new checkouts
-	$('#swap_btn').click(function() {
-		data = {
-			g_id : $('#co_g_id').val(),
-			a_id : $('#co_a_id').val()
-		};
-		data.swap = true;
-		$.ajax({
-			url : '/checkouts/swap',
-			data : data,
-			dataType : 'json',
-			type : 'POST',
-			complete : enableCheckoutButton,
-			success : function(data) {
-				if (data.success) {
+				if ($('#returns tr').length < 1) {
 					resetCheckout();
-					//TODO: display success message
 				}
 			}
 		});
@@ -117,10 +142,14 @@ $(document).ready(function() {
 		$('#new_attendee').toggleClass('invis', true);
 		$('#new_attendee > input').val('');
 		v_a = false;
+		c_o = 0;
 		$("#co_a_id").focus();
+		//clear returns
+		clearReturns();
 	});
 	$('#x_atte').click(enableCheckoutButton);
 
+	/*
 	//X button for game barcode
 	$('#x_game').click(function() {
 		//$("#co_g_id").attr('readonly', false); not needed currently
@@ -130,6 +159,7 @@ $(document).ready(function() {
 		$("#co_g_id").focus();
 	});
 	$('#x_game').click(enableCheckoutButton);
+	*/
 
 	//modal dialog for new attendee
 	$("#new_attendee").dialog({
