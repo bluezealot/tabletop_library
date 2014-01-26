@@ -1,6 +1,6 @@
-<h1>Listing paxes</h1>
+<h1>PAXes</h1>
 
-<table style='width:100%;'>
+<table id='paxes' style='width:100%;'>
   <tr>
     <th>Name</th>
     <th>Location</th>
@@ -12,20 +12,18 @@
     <th></th>
   </tr>
 
-<% @paxes.each do |pax| %>
-  <tr>
-    <td><%= pax.name %></td>
-    <td><%= pax.location %></td>
-    <td style='text-align:center;'><%= pax.start %></td>
-    <td style='text-align:center;'><%= pax.end %></td>
-    <td style='text-align:center;'><%= bool_img pax.current %></td>
-    <td><%= link_to 'Set Current', pax, method: :delete %></td>
-    <td><%= link_to 'Edit', edit_paxis_path(pax) %></td>
-    <td><%= link_to 'Show Metrics', metrics_path(:id => pax) %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Pax', new_paxis_path %>
+	<% @paxes.each do |pax| %>
+		<tr id="pax-<%= pax.id %>">
+	    	<td data-id='<%= pax.id %>' data-name='<%= pax.name %>' ><%= pax.name %></td>
+		    <td data-id='<%= pax.id %>' data-location='<%= pax.location %>' ><%= pax.location %></td>
+		    <td data-id='<%= pax.id %>' data-start='<%= pax.start %>'><%= pax.start %></td>
+		    <td data-id='<%= pax.id %>' data-end='<%= pax.end %>'><%= pax.end %></td>
+		    <td><%= bool_img pax.current %></td>
+		    <td><%= submit_tag 'Set Current', { 'data-id'=> "#{pax.id}", class:'setCurrentBtn' } %></td>
+		    <td><%= submit_tag 'Edit', { 'data-id'=> "#{pax.id}", class:'editBtn' } %></td>
+		    <td><%= link_to 'Show Metrics', metrics_path(:id => pax) %></td>
+	  		</tr>
+		<% end %>
+	</table>
+	<span id="p_label"></span>
+<%= submit_tag 'Add New Pax', { id:'newPaxBtn' } %>

@@ -31,6 +31,10 @@ PaxTTlib::Application.routes.draw do
 
     match 'games/create', to: 'games#create', via: :post
     
+    match 'pax/current', to: 'paxes#set_current', via: :post
+    match 'pax/create', to: 'paxes#create', via: :post
+    match 'pax/update', to: 'paxes#update', via: :post
+    
     #resources :sections do
     #  resources :games
     #end
