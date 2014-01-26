@@ -2,15 +2,8 @@ PaxTTlib::Application.routes.draw do
 
     root :to => "checkouts#new"
     
-    match 'attendees/info',     to:'attendees#info_get',    via: :get
-    match 'attendees/info',     to:'attendees#info_post',   via: :post
-    
-    match 'games/info',         to:'games#info_get',        via: :get
-    match 'games/info',         to:'games#info_post',       via: :post
     match 'games/remove',       to:'games#remove',          via: :get
     match 'games/remove',       to:'games#remove',          via: :post
-    
-    match 'returns/new',        to:'returns#new',           via: :get
     
     match 'signin',             to:'sessions#new',          via: :get
     match 'signout',            to:'sessions#destroy',      via: :delete
@@ -26,16 +19,17 @@ PaxTTlib::Application.routes.draw do
     resources :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
 
     #mk3    
-    match 'is_valid_game', to:'games#valid_game'
+    match 'is_valid_game', to: 'games#valid_game'
     match 'attendee_by_id', to: 'attendees#get_attendee_by_id'
     
-    match 'checkouts/create',   to:'checkouts#create',      via: :post
-    match 'checkouts/swap',     to:'checkouts#swap',        via: :post
+    match 'checkouts/create',   to: 'checkouts#create',      via: :post
+    match 'checkouts/swap',     to: 'checkouts#swap',        via: :post
     
-    match 'return', to:'checkouts#return', via: :post
+    match 'return', to: 'checkouts#return', via: :post
     
-    match 'attendees/create',   to:'attendees#create',      via: :post
+    match 'attendees/create',   to: 'attendees#create',      via: :post
 
+    match 'games/create', to: 'games#create', via: :post
     
     #resources :sections do
     #  resources :games

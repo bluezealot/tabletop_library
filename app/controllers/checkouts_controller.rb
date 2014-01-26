@@ -48,13 +48,13 @@ class CheckoutsController < ApplicationController
         :checked_in => false
         })
         
-    @checkout = Checkout.new({
+    checkout = Checkout.new({
                 :check_out_time => Time.new,
                 :pax_id => get_current_pax.id,
                 :game_id => g_id,
                 :attendee_id => a_id
                 })
-    success = @checkout.save
+    success = checkout.save
     
     return {
       success: success,

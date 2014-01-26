@@ -1,174 +1,125 @@
 class GamesController < ApplicationController
-    before_filter :reset_session, :only => [:index, :new, :show]
-    #before_filter :get_section, :only => [:index]
     before_filter :select_sections, :only => [:index, :new, :info_get, :info_post]
     before_filter :signed_in_user, only: [:new, :remove]
 
     def index
-        @games = []
-        
-        search = {:returned => false}
-        search[:barcode]    = params[:g_id]       unless params[:g_id].blank?
-        search[:section_id] = params[:section_id] unless params[:section_id].blank?
-        search[:title_id]   = Title.where("lower(title) like lower(?)", '%' + params[:title] + '%') unless params[:title].blank?
-        
-        #@games = Game.where(search).order('title_id ASC')
-        @games = Game.where(search).order('title_id ASC').paginate(:page => params[:page], :per_page => 10)
-    end
-
-    def show
-        @game = Game.find(params[:id])
+      @games = []
+      
+      search = {:returned => false}
+      search[:barcode]    = params[:g_id]       unless params[:g_id].blank?
+      search[:section_id] = params[:section_id] unless params[:section_id].blank?
+      search[:title_id]   = Title.where("lower(title) like lower(?)", '%' + params[:title] + '%') unless params[:title].blank?
+      
+      #@games = Game.where(search).order('title_id ASC')
+      @games = Game.where(search).order('title_id ASC').paginate(:page => params[:page], :per_page => 10)
     end
 
     def new
     end
 
     def create
-        bc = params[:g_id].upcase
-        
-        if bc.empty? || !barcode_check(bc)
-            flash[:alert] = 'Invalid barcode.'
-            redirect_to new_game_path(params)
-        else
-            game = get_game(bc)
-            if game && game.returned == false
-                flash[:alert] = 'Game barcode already exists in the system.'
-                render 'new'
-            else
-                session[:g_id] = bc
-                redirect_to games_info_path
-            end
-        end
-    end
-    
-    def info_get
-    end
-    
-    def info_post
-        t_id = get_title_id(params[:title], params[:publisher])
-        g_id = session[:g_id]
-        
-        if !session[:l_id].nil? && !session[:l_id].empty?
-            l_id = session[:l_id]
-        else
-            l_id = nil
-        end
-        
-        @game = get_game(g_id)
-        
-        if @game && @game.returned == true
-            @game.update_attributes({
-                :title_id => t_id, 
-                #:barcode => g_id, 
-                :section_id => params[:section_id],
-                :returned => false,
-                :checked_in => true, #just in case!
-                :loaner_id => l_id
-                })
-        else
-            @game = Game.new({
-                :title_id => t_id, 
-                :barcode => g_id, 
-                :section_id => params[:section_id],
-                :loaner_id => l_id
-                })
-        end
-        
-        if @game.save
-            if session[:redirect] == 'checkout'
-                session[:redirect] = nil
-                checkout_game(session[:a_id], session[:g_id])
-            elsif !session[:l_id].nil?
-                #redirect to new?
-                flash[:notice] ='Game was successfully added to loaner.'
-                render 'new'
-            else
-                session[:g_id] = nil;
-                flash[:notice] = 'Game was successfully added.'
-                redirect_to @game
-            end
-        else
-            flash[:alert] = 'Please fill in all fields.'
-            redirect_to games_info_path(params)
-        end
-    end
-    
-    def remove
-        g_id = params[:g_id]
-        if g_id
-            if get_game(g_id)
-                if game_has_unclosed_co(g_id)
-                    flash[:alert] = 'Game is still checked out. Please return the game first.'
-                    redirect_to games_remove_path
-                else
-                    game = Game.find(g_id)
-                    if game.loaner.nil?
-                        remove_game(g_id)
-                        flash[:notice] = 'Game removed from the library.'
-                        redirect_to games_remove_path
-                    else
-                        flash[:alert] = 'This game is donated and can\'t be removed this way. Please remove it via the "loaners" function.'
-                        redirect_to games_remove_path
-                    end
-                end
-            else
-                flash[:alert] = 'Game does not exist.'
-                redirect_to games_remove_path 
-            end
-        end
-    end
-    
-    #checks to see if the game exists and whether or not it has open checkouts
-    #valid: only vlid if game exists and has 0 open checkouts
-    def valid_game
       g_id = params[:g_id].upcase
+      t_id = get_title_id(params[:title], params[:publisher])
+
       game = get_game(g_id)
+      success = false
+      message = ''
+      missing_fields = []
+      already_exists = false
       
-      if game
-        if open = game_has_unclosed_co(g_id)
-          message = 'Game is already checked out.'
-        else
-          message = game.name
+      params.each do |k, v|
+        if v.nil? || v.empty?
+          missing_fields << k
         end
       end
+
+      if game
+        if game.returned == false
+          message = 'Game barcode already exists in the system.'
+          already_exists = true
+        elsif game.returned == true
+          game.update_attributes({
+            :title_id => t_id, 
+            :section_id => params[:section_id],
+            :returned => false,
+            :checked_in => true#,
+            #:loaner_id => l_id
+            })
+            success = true
+        end
+      else
+        game = Game.new({
+          :title_id => t_id, 
+          :barcode => g_id, 
+          :section_id => params[:section_id]#,
+          #:loaner_id => l_id
+          })
+        success = game.save
+      end
       
-      render :json => {
-        message: game ? message : 'Game does not exist.',
-        valid: (game && !open) ? true : false
-        }
+      render json: {
+        success: success,
+        message: success ? 'Game successfully added.' : message,
+        missing: missing_fields,
+        exists: already_exists
+      }
+    end
+
+    def remove
+      g_id = params[:g_id]
+      if g_id
+        if get_game(g_id)
+          if game_has_unclosed_co(g_id)
+            flash[:alert] = 'Game is still checked out. Please return the game first.'
+            redirect_to games_remove_path
+          else
+            game = Game.find(g_id)
+            if game.loaner.nil?
+              remove_game(g_id)
+              flash[:notice] = 'Game removed from the library.'
+              redirect_to games_remove_path
+            else
+              flash[:alert] = 'This game is donated and can\'t be removed this way. Please remove it via the "loaners" function.'
+              redirect_to games_remove_path
+            end
+          end
+        else
+          flash[:alert] = 'Game does not exist.'
+          redirect_to games_remove_path
+        end
+      end
     end
 
     private
-        
-        def get_title_id(title, publisher)
-            if Title.where(:title => title).empty?
-                #create new title
-                @pub_id = get_publisher_id(publisher)
-                Title.create({:title => title, :publisher_id => @pub_id}).id
-            else
-                #get title id
-                Title.where(:title => title).first.id
-            end
+    def get_title_id(title, publisher)
+      if Title.where(:title => title).empty?
+        #create new title
+        @pub_id = get_publisher_id(publisher)
+        Title.create({:title => title, :publisher_id => @pub_id}).id
+      else
+        #get title id
+        Title.where(:title => title).first.id
+      end
+    end
+    
+    def get_publisher_id(publisher)
+      if Publisher.where(:name => publisher).empty?
+          #create publisher
+          Publisher.create({:name => publisher}).id
+      else
+          #get publisher
+          Publisher.where(:name => publisher).first.id
+      end
+    end
+    
+    def get_section
+        if params[:section_id] && !params[:section_id].empty?
+            @section = Section.find(params[:section_id])
         end
-        
-        def get_publisher_id(publisher)
-            if Publisher.where(:name => publisher).empty?
-                #create publisher
-                Publisher.create({:name => publisher}).id
-            else
-                #get publisher
-                Publisher.where(:name => publisher).first.id
-            end        
-        end
-        
-        def get_section
-            if params[:section_id] && !params[:section_id].empty?
-                @section = Section.find(params[:section_id])
-            end
-        end
+    end
 
-        def select_sections
-            @sections = Section.all.collect {|s| [s.name, s.id]}
-        end
+    def select_sections
+        @sections = Section.all.collect {|s| [s.name, s.id]}
+    end
         
 end

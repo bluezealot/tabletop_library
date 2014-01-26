@@ -64,10 +64,6 @@ class ApplicationController < ActionController::Base
         redirect_to signin_url, alert: "Please sign in." unless signed_in?
     end
     
-    def barcode_check(bc)
-        /^[a-z]{3}\d{3,4}[a-z0-9]{2}$/i.match(bc)
-    end
-    
     def capitalize_all(str)
       str.split.map(&:capitalize).join(' ')
     end
