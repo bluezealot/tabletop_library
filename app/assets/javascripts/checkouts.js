@@ -1,6 +1,10 @@
 var enableCheckoutButton = function() {
 	//$("#checkout_btn").prop("disabled", !v_g || !v_a);
 	//$("#swap_btn").prop("disabled", (!v_g || !v_a) || (c_o != 1));
+	$('#co_g_id').toggleClass('invis', !v_a);
+	if(v_a){
+		$("#co_g_id").focus();
+	}
 	$('#swap_chkbox').toggleClass('invis', c_o != 1);
 	$('#x_atte').toggleClass('invis', !v_a);
 	//$('#x_game').toggleClass('invis', !v_g);
@@ -64,7 +68,7 @@ $(document).ready(function() {
 							//TODO: display text for swap
 						}
 						//TODO: display text for checkout
-						$("#co_g_id").focus();
+						//$("#co_g_id").focus();
 					} else {
 						$('#new_attendee > input[type="text"]').val('');
 						$('#new_attendee').dialog('open');

@@ -30,6 +30,7 @@ PaxTTlib::Application.routes.draw do
     match 'attendees/create',   to: 'attendees#create',      via: :post
 
     match 'games/create', to: 'games#create', via: :post
+    match 'games/update_section', to: 'games#update_section', via: :post
     
     match 'pax/current', to: 'paxes#set_current', via: :post
     match 'pax/create', to: 'paxes#create', via: :post

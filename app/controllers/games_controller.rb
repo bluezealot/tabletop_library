@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-    before_filter :select_sections, :only => [:index, :new, :info_get, :info_post]
+    before_filter :select_sections, only: [:index, :new]
     before_filter :signed_in_user, only: [:new, :remove]
 
     def index
@@ -15,6 +15,23 @@ class GamesController < ApplicationController
     end
 
     def new
+    end
+    
+    def update_section
+      game = Game.find(params[:id])
+      
+      success = false
+      
+      if game && params[:section_id]
+        game.update_attributes({
+          section_id: params[:section_id]
+        })
+        success = true
+      end
+      
+      render json: {
+        success: success
+      }
     end
 
     def create
