@@ -8,8 +8,6 @@
     <li><%= link_to 'Suggested Culls', culls_path(@current_pax)%></li>
     
     <% if is_super_user %>
-    	<li><%= link_to 'All Attendees', attendees_path %></li>
-    
     	<li><%= link_to 'All Sections', sections_path %></li>
 	    <li><%= link_to 'All Paxes', paxes_path %></li>
     <% end %>
