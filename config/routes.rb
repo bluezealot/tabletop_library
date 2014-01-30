@@ -16,7 +16,8 @@ PaxTTlib::Application.routes.draw do
     resources :checkouts
     resources :sessions,        only: [:new, :create, :destroy]
     #resources :users,           only: [:new, :create, :destroy, :index]
-    resources :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
+    #resources :attendees
+    resources :games, :titles, :paxes, :loaners, :publishers, :sections
 
     #mk3    
     match 'is_valid_game', to: 'games#valid_game'
@@ -27,7 +28,7 @@ PaxTTlib::Application.routes.draw do
     
     match 'return', to: 'checkouts#return', via: :post
     
-    match 'attendees/create',   to: 'attendees#create',      via: :post
+    match 'attendees/create',   to: 'attendees#create', via: :post
 
     match 'games/create', to: 'games#create', via: :post
     match 'games/update_section', to: 'games#update_section', via: :post
