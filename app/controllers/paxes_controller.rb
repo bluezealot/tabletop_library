@@ -2,7 +2,7 @@ class PaxesController < ApplicationController
   before_filter :signed_in_user, only: [:index, :show, :new, :edit]
 
   def index
-    @paxes = Pax.all.sort_by &:id
+    @paxes = Pax.all.sort_by(&:id)
   end
 
   def create

@@ -49,13 +49,15 @@ $(document).ready(function() {
 			type : 'POST',
 			success : function(data) {
 				//set field back to editable
-				tag.attr('disabled', false);
+				$('td[data-id="' + data.id + '"][data-section] select').attr('disabled', false);
 				if(data.success){
 					//set check mark to show and delay-disappear
-					
+					$('#' + data.id + '-tinycheck').removeClass('invis');
+					setTimeout(function(){ $('#' + data.id + '-tinycheck').addClass('invis'); }, 1000);
 				}else{
 					//set x to show and delay-disappear
-					
+					$('#' + data.id + '-tinyx').removeClass('invis');
+					setTimeout(function(){ $('#' + data.id + '-tinyx').addClass('invis'); }, 1000);
 				}
 			} 
 		});

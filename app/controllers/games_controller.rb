@@ -30,7 +30,8 @@ class GamesController < ApplicationController
       end
       
       render json: {
-        success: success
+        success: success,
+        id: game.id
       }
     end
 

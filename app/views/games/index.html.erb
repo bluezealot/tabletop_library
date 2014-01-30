@@ -14,6 +14,9 @@
                 <td data-id="<%= game.id %>" data-title="<%= game.title.title %>"><%= game.title.title %></td>
                 <td data-id="<%= game.id %>" data-publisher="<%= game.title.publisher.name %>"><%= game.title.publisher.name %></td>
                 <td data-id="<%= game.id %>" data-section="<%= game.section.id %>"><%= select_tag nil, options_for_select(@sections, :selected => [game.section.name, game.section.id]) %></td>
+                <td style="width:10px;">
+                	<%= image_tag("tiny_check.png", alt: "success", class: 'invis', id:"#{game.id}-tinycheck") %>
+                	<%= image_tag("tiny_x.png", alt: "failed", class: 'invis', id:"#{game.id}-tinyx") %></td>
             </tr>
         <% end %>
     </table>
