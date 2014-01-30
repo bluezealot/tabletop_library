@@ -15,7 +15,7 @@ PaxTTlib::Application.routes.draw do
     
     resources :checkouts
     resources :sessions,        only: [:new, :create, :destroy]
-    resources :users,           only: [:new, :create, :destroy, :index]
+    #resources :users,           only: [:new, :create, :destroy, :index]
     resources :attendees, :games, :titles, :paxes, :loaners, :publishers, :sections
 
     #mk3    
