@@ -1,5 +1,3 @@
-<h1>PAXes</h1>
-
 <table id='paxes' style='width:100%;'>
   <tr>
     <th>Name</th>
@@ -12,8 +10,8 @@
     <th></th>
   </tr>
 
-	<% @paxes.each do |pax| %>
-		<tr id="pax-<%= pax.id %>">
+	<% @paxes.each_with_index do |pax, index| %>
+		<tr id="pax-<%= pax.id %>" <%= index.even? ? 'class=oddRow' : nil %>>
 	    	<td data-id='<%= pax.id %>' data-name='<%= pax.name %>' ><%= pax.name %></td>
 		    <td data-id='<%= pax.id %>' data-location='<%= pax.location %>' ><%= pax.location %></td>
 		    <td data-id='<%= pax.id %>' data-start='<%= pax.start %>'><%= pax.start %></td>

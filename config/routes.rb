@@ -11,13 +11,11 @@ PaxTTlib::Application.routes.draw do
     match 'metrics',            to:'sessions#metrics',      via: :get
     match 'culls',              to:'sessions#culls',      via: :get
 
-    match 'loaners/add_game',   to:'loaners#add_game',      via: :get
-    
     resources :checkouts
     resources :sessions,        only: [:new, :create, :destroy]
     #resources :users,           only: [:new, :create, :destroy, :index]
     #resources :attendees
-    resources :games, :titles, :paxes, :loaners, :publishers, :sections
+    resources :games, :titles, :paxes, :publishers, :sections
 
     #mk3    
     match 'is_valid_game', to: 'games#valid_game'

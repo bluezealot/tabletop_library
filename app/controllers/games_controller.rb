@@ -60,8 +60,7 @@ class GamesController < ApplicationController
             :title_id => t_id, 
             :section_id => params[:section_id],
             :returned => false,
-            :checked_in => true#,
-            #:loaner_id => l_id
+            :checked_in => true
             })
             success = true
         end
@@ -69,8 +68,7 @@ class GamesController < ApplicationController
         game = Game.new({
           :title_id => t_id, 
           :barcode => g_id, 
-          :section_id => params[:section_id]#,
-          #:loaner_id => l_id
+          :section_id => params[:section_id]
           })
         success = game.save
       end

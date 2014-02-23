@@ -8,7 +8,7 @@
 <% if @games.count > 0 %>
     <table id='games' style='border-spacing:0;width:100%;'>
         <% @games.each_with_index do |game, index| %>
-        	<tr <%= index.even? ? 'style=background-color:#2E2E2E;' : nil %> <%= "id=game-#{game.barcode}" %>>
+        	<tr <%= index.even? ? 'class=oddRow' : nil %> <%= "id=game-#{game.barcode}" %>>
                 <td><%= bool_img(game.checked_in) %></td>
                 <td data-id="<%= game.id %>" data-barcode="<%= game.barcode %>"><%= game.barcode %></td>
                 <td data-id="<%= game.id %>" data-title="<%= game.title.title %>"><%= game.title.title %></td>
