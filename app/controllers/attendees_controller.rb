@@ -62,7 +62,7 @@ class AttendeesController < ApplicationController
       end
       
       if games.size > 0
-        message = " has #{pluralize(games.size, 'game')} checked out."
+        message = " has #{games.size} #{'game'.pluralize(games.size)} checked out."
       end
       
       att_info = {

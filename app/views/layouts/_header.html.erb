@@ -1,12 +1,12 @@
 <header class='header'>
     <%= link_to image_tag("title_default.png", alt: "TableTop DB mk2"), root_path %>
+    <span class='left'>
+        <%= current_pax_label %>
+        </span>
+    <span class='right'>
+        <%= admin_label current_user %>
+        </span>
     <nav>
-        <span class='left-span'>
-            <%= current_pax_label %>
-            </span>
-        <span class='right-span'>
-            <%= admin_label current_user %>
-            </span>
         <ul>
             <li><%= link_to 'Check Out/Return', new_checkout_path, :class => tab_class('checkout') %></li>
             <li><%= link_to 'Games', games_path, :class => tab_class('games') %></li>
@@ -14,4 +14,3 @@
             </ul>
         </nav>
     </header>
-<br/>

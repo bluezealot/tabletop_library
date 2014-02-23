@@ -5,9 +5,15 @@ var enableCheckoutButton = function() {
 	if(v_a){
 		$("#co_g_id").focus();
 	}
-	$('#swap_chkbox').toggleClass('invis', c_o != 1);
+	//$('#swap_chkbox').toggleClass('invis', c_o != 1);
+	checkBoxInvis(c_o != 1);
 	$('#x_atte').toggleClass('invis', !v_a);
 	//$('#x_game').toggleClass('invis', !v_g);
+};
+
+var checkBoxInvis = function(val){
+	$('#swap_chkbox').parent().parent().toggleClass('invis', val);
+	//$('#swap_label').toggleClass('invis', val);
 };
 
 var resetCheckout = function() {
@@ -17,8 +23,10 @@ var resetCheckout = function() {
 	$("#g_label").text('');
 	$("#co_a_id").val('');
 	$("#co_g_id").val('');
-	$('#swap_chkbox').toggleClass('invis', true);
-	$('#swap_chkbox').prop('checked', true);
+	//$('#swap_chkbox').toggleClass('invis', true);
+	checkBoxInvis(true);
+	//$('#swap_chkbox').prop('checked', true);
+	$('#swap_chkbox').bootstrapSwitch('setState', true);
 	v_a = false;
 	v_g = false;
 	c_o = 0;
@@ -27,7 +35,8 @@ var resetCheckout = function() {
 
 var clearReturns = function(){
 	$('#returns tr').remove();
-	$('#swap_chkbox').toggleClass('invis', true);
+	//$('#swap_chkbox').toggleClass('invis', true);
+	checkBoxInvis(true);
 };
 
 var listCheckedOutGames = function(games) {
@@ -35,7 +44,7 @@ var listCheckedOutGames = function(games) {
 		var row = $('<tr id="barcode' + games[i].barcode + '">');
 		var cols = '';
 
-		cols += '<td><input type="button" value="x" name="return' + i + '" id="' + games[i].barcode + '"/></td>';
+		cols += '<td><button type="button" class="btn btn-danger" name="return' + i + '" id="' + games[i].barcode + '">x</button></td>';
 		cols += '<td>' + games[i].barcode + ' - ' + games[i].name + '</td>';
 
 		row.append(cols);
@@ -48,7 +57,9 @@ var v_g = false;
 var c_o = 0;
 
 $(document).ready(function() {
-
+	$("#swap_chkbox").bootstrapSwitch();
+	checkBoxInvis(true);
+	
 	//entry for attendee barcode
 	$("#co_a_id").change(function(e) {
 		if (bc_regex.test(this.value)) {
@@ -69,12 +80,14 @@ $(document).ready(function() {
 						}
 						//TODO: display text for checkout
 						//$("#co_g_id").focus();
+						$("#a_label").text(att.info.name + att.status);
 					} else {
+						$("#a_label").text('');
 						$('#new_attendee > input[type="text"]').val('');
 						$('#new_attendee').dialog('open');
 					}
 					$("#co_a_id").attr('readonly', att.valid);
-					$("#a_label").text(att.info.name + att.status);
+					
 					c_o = att.games.length;
 				}
 			});
@@ -87,7 +100,7 @@ $(document).ready(function() {
 			data = {
 				g_id : $('#co_g_id').val(),
 				a_id : $('#co_a_id').val(),
-				swap : $('#swap_chkbox').is(':visible') ? $('#swap_chkbox').prop('checked') : false
+				swap : $('#swap_chkbox').parent().parent().is(':visible') ? $('#swap_chkbox').bootstrapSwitch('state') : false
 			};
 			$.ajax({
 				url : '/checkouts/create',
@@ -112,7 +125,7 @@ $(document).ready(function() {
 	});
 
 	//return game on click of X button
-	$('#returns').on('click', 'input[name^="return"]', function() {
+	$('#returns').on('click', 'button[name^="return"]', function() {
 		var field = this;
 		data = {
 			g_id : field.id,
@@ -143,7 +156,6 @@ $(document).ready(function() {
 		$("#co_a_id").attr('readonly', false);
 		$("#co_a_id").val('');
 		$("#a_label").text('');
-		$('#new_attendee').toggleClass('invis', true);
 		$('#new_attendee > input').val('');
 		v_a = false;
 		c_o = 0;
@@ -181,7 +193,9 @@ $(document).ready(function() {
 					success : function(data) {
 						$('#new_attendee > input').removeClass('error');
 						if (data.success) {
+							a_id = $('#co_a_id').val();
 							$("#new_attendee").dialog("close");
+							$('#co_a_id').val(a_id);
 							$('#co_a_id').change();
 						}else{
 							data.missing.forEach(function(e){
@@ -194,11 +208,14 @@ $(document).ready(function() {
 			Cancel : function() {
 				$("#new_attendee").dialog("close");
 				$('#new_attendee > input[type="text"]').val('');
+				$('#co_a_id').val('');
+				$("#co_a_id").focus();
 			}
 		},
 		close : function() {
 			$('#new_attendee > input[type="text"]').val('');
 			$('#new_attendee > input[type="text"]').removeClass('error');
+			$("#co_a_id").focus();
 			
 			$('#co_a_id').val('');
 			$("#a_label").text('');

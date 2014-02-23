@@ -19,11 +19,11 @@
 		    <td data-id='<%= pax.id %>' data-start='<%= pax.start %>'><%= pax.start %></td>
 		    <td data-id='<%= pax.id %>' data-end='<%= pax.end %>'><%= pax.end %></td>
 		    <td><%= bool_img pax.current %></td>
-		    <td><%= submit_tag 'Set Current', { 'data-id'=> "#{pax.id}", class:'setCurrentBtn' } %></td>
-		    <td><%= submit_tag 'Edit', { 'data-id'=> "#{pax.id}", class:'editBtn' } %></td>
+		    <td><%= button_tag 'Set Current', { 'data-id'=> "#{pax.id}", class:'setCurrentBtn btn btn-default' } %></td>
+		    <td><%= button_tag 'Edit', { 'data-id'=> "#{pax.id}", class:'editBtn btn btn-default' } %></td>
 		    <td><%= link_to 'Show Metrics', metrics_path(:id => pax) %></td>
 	  		</tr>
 		<% end %>
 	</table>
 	<span id="p_label"></span>
-<%= submit_tag 'Add New Pax', { id:'newPaxBtn' } %>
+<%= button_tag 'Add New Pax', { id:'newPaxBtn', class: 'btn btn-default' } %>

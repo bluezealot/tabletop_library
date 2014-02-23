@@ -1,31 +1,22 @@
-<table id='checkout_form'>
-	<tr>
-		<td>
-			<%= text_field_tag :co_a_id, nil, { autocomplete: "off", placeholder: 'Attendee Barcode', autoFocus: true } %>
-			<%= submit_tag 'x', { id: 'x_atte', class: 'invis' } %>
-			<span id='a_label'></span>
-			</td>
-		</tr>
-	<tr>
-		<td>
-			<input type='checkbox' id='swap_chkbox' checked='true' class='invis'>swap_test</input>
-		</td>
-		</tr>
-	<tr>
-		<td>
-			<%= text_field_tag :co_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', class: 'invis'} %>
-			<span id='g_label'></span>
-			</td>
-		</tr>
-	</table>
+<div id='checkout_form'>
+	<%= text_field_tag :co_a_id, nil, { autocomplete: "off", placeholder: 'Attendee Barcode', autoFocus: true } %>
+	<%= button_tag 'x', { id: 'x_atte', class: 'invis btn btn-default' } %>
+	<div id='a_label'></div>
+	
+	<input checked id="swap_chkbox" name="swap_chkbox" type="checkbox" class="switch-small" data-on-label="Swap Games" data-off-label="Checkout Normal">
 
-<h3>Click <%= link_to 'here', checkouts_path %> to view all current checkouts.</h3>
+	<%= text_field_tag :co_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', class: 'invis'} %>
+	<div id='g_label'></div>
+	</div>
 
-<div id='new_attendee' class='invis' title='New Attendee'>
-	<%= render 'tags/attendee/first_name' %><br/>
-	<%= render 'tags/attendee/last_name' %><br/>
-	<%= render 'tags/attendee/handle' %>
+<div id='new_attendee' title='New Attendee'>
+	<%= text_field_tag :first_name, nil, { autocomplete: "off", placeholder: 'First Name', autofocus: true } %>
+	<%= text_field_tag :last_name, nil, { autocomplete: "off", placeholder: 'Last Name'} %>
+	<%= text_field_tag :handle, nil, { autocomplete: "off", placeholder: 'Handle'} %>
 	</div>
 	
 <table id='returns'>
 	</table>
+
+<hr/>
+<%= link_to '[All Current Checkouts]', checkouts_path %>
