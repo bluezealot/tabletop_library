@@ -1,19 +1,14 @@
 var enableCheckoutButton = function() {
-	//$("#checkout_btn").prop("disabled", !v_g || !v_a);
-	//$("#swap_btn").prop("disabled", (!v_g || !v_a) || (c_o != 1));
+	checkBoxInvis(c_o != 1);
+	$('#x_atte').toggleClass('invis', !v_a);
 	$('#co_g_id').toggleClass('invis', !v_a);
 	if(v_a){
 		$("#co_g_id").focus();
 	}
-	//$('#swap_chkbox').toggleClass('invis', c_o != 1);
-	checkBoxInvis(c_o != 1);
-	$('#x_atte').toggleClass('invis', !v_a);
-	//$('#x_game').toggleClass('invis', !v_g);
 };
 
 var checkBoxInvis = function(val){
 	$('#swap_chkbox').parent().parent().toggleClass('invis', val);
-	//$('#swap_label').toggleClass('invis', val);
 };
 
 var resetCheckout = function() {
@@ -23,9 +18,9 @@ var resetCheckout = function() {
 	$("#g_label").text('');
 	$("#co_a_id").val('');
 	$("#co_g_id").val('');
-	//$('#swap_chkbox').toggleClass('invis', true);
+	
 	checkBoxInvis(true);
-	//$('#swap_chkbox').prop('checked', true);
+	
 	$('#swap_chkbox').bootstrapSwitch('setState', true);
 	v_a = false;
 	v_g = false;
@@ -35,7 +30,6 @@ var resetCheckout = function() {
 
 var clearReturns = function(){
 	$('#returns tr').remove();
-	//$('#swap_chkbox').toggleClass('invis', true);
 	checkBoxInvis(true);
 };
 
@@ -76,10 +70,7 @@ $(document).ready(function() {
 						if(att.hasGames){
 							//add checkouts to return table
 							listCheckedOutGames(att.games);
-							//TODO: display text for swap
 						}
-						//TODO: display text for checkout
-						//$("#co_g_id").focus();
 						$("#a_label").text(att.info.name + att.status);
 					} else {
 						$("#a_label").text('');
@@ -112,13 +103,11 @@ $(document).ready(function() {
 					if (data.success) {
 						resetCheckout();
 						clearReturns();
-						//TODO: display success message
 						$("#g_label").text(data.message);
 					}else{
 						$("#co_g_id").val('');
 						$("#g_label").text(data.message);
 					}
-					//v_g = data.valid;
 				}
 			});
 		}
@@ -142,7 +131,6 @@ $(document).ready(function() {
 				if (data.success) {
 					$('#returns tr[id="barcode' + field.id + '"]').remove();
 					c_o--;
-					//TODO: display success message
 				}
 				if ($('#returns tr').length < 1) {
 					resetCheckout();
@@ -164,18 +152,6 @@ $(document).ready(function() {
 		clearReturns();
 	});
 	$('#x_atte').click(enableCheckoutButton);
-
-	/*
-	//X button for game barcode
-	$('#x_game').click(function() {
-		//$("#co_g_id").attr('readonly', false); not needed currently
-		$("#co_g_id").val('');
-		$("#g_label").text('');
-		v_g = false;
-		$("#co_g_id").focus();
-	});
-	$('#x_game').click(enableCheckoutButton);
-	*/
 
 	//modal dialog for new attendee
 	$("#new_attendee").dialog({
@@ -221,4 +197,33 @@ $(document).ready(function() {
 			$("#a_label").text('');
 		}
 	});
+	
+	$('#checkout_form > input').focus(pTipIn);
+	$('#checkout_form > input').blur(pTipOut);
+	
 });
+
+var pTipIn = function(e){
+	var text = $(e.currentTarget).prop('title');
+	if(text && !$(e.currentTarget).prop('readOnly')){
+		var pos = $(e.currentTarget).position();
+		pos.left += $(e.currentTarget)[0].offsetWidth + 10;
+		
+		var id = randId();
+		$(e.currentTarget).data('id', id);
+		
+		var tip = '<div class="ptip" style="top:' + pos.top +'px;left:' + pos.left + 'px;display:none;" id="' + id + '">' + text + '</div>';
+		$('body').append(tip);
+		$('.ptip').fadeIn(300);
+	}
+};
+
+var pTipOut = function(e){
+	var id = $(e.currentTarget).data('id');
+	$('#' + id).fadeOut('150');
+	$('#' + id).remove();
+};
+
+var randId = function(){
+	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+};

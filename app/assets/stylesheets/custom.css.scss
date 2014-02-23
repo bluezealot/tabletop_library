@@ -95,13 +95,15 @@ input{
   border: 2px solid #FF0000 !important;
 }
 
-#checkout_form{
+.center-form{
   width: 25vw;
   margin: 0px auto;
   vertical-align: top;
 }
 
-#checkout_form > input[type="text"] {
+.center-form input[type="text"],
+.center-form input[type="password"],
+.center-form input[type="email"] {
   width: 80%;
 }
 
@@ -130,6 +132,15 @@ input{
 
 .oddRow{
   background-color: #ccc;
+}
+
+.ptip {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 3px;
+  border: 1px #ccc solid;
+  vertical-align: middle;
+  padding: 4px;
 }
 
 //jQuery dialog mods
