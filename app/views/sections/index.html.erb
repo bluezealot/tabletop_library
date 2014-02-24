@@ -1,10 +1,13 @@
-<table style='width:100%;'>
-	<% @sections.each_with_index do |section, index| %>
-		<tr <%= index.even? ? 'class=oddRow' : nil %>>
-			<td><%= section.name %></td>
-			<td>Games: <%= section_game_count(section) %></td>
-		</tr>
-	<% end %>
-</table>
-
-<%= link_to 'New Section', new_section_path %>
+<div class='center-form-wide'>
+	<table id='sections'>
+		<% @sections.each_with_index do |section, index| %>
+			<tr <%= index.even? ? 'class=oddRow' : nil %> id="section-<%= section.id %>">
+				<td style="width:250px;"><%= section.name %></td>
+				<td>Games: <%= section_game_count(section) %></td>
+				<td><%= button_tag 'Edit', { data: { id: section.id }, class: 'btn btn-default edit-btn' } %></td>
+				</tr>
+		<% end %>
+		</table>
+	
+	<%= button_tag 'New Section', { id: 'newBtn', class: 'btn btn-primary' } %>
+	</div>

@@ -74,6 +74,7 @@ class PaxesController < ApplicationController
           start: params[:start],
           end: params[:end]
         })
+        success = true
       else
         message = 'PAX id does not exist.'
       end

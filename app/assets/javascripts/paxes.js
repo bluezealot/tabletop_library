@@ -3,8 +3,6 @@ var false_src = '/assets/x.png';
 
 var cancelAction = function(){
 	clearLabel();
-	$('#cancelBtn').unbind('click', cancelAction);
-	$('#addBtn').unbind('click', addAction);
 	
 	$('#paxes tr[id="pax-new"]').remove();
 	$('#newPaxBtn').prop('disabled', false);
@@ -12,8 +10,6 @@ var cancelAction = function(){
 
 var cancelUpdateAction = function(){
 	clearLabel();
-	$('#cancelUpdateBtn').unbind('click', cancelUpdateAction);
-	$('#updateBtn').unbind('click', updateAction);
 	
 	id = $('#pax-update').data('id');
 	$('#pax-' + id).removeClass('invis');
@@ -30,6 +26,7 @@ var updateCurrentImg = function(new_id){
 };
 
 var addAction = function(){
+	cancelUpdateAction();
 	clearLabel();
 	//add pax on click
 	data = {
@@ -59,16 +56,9 @@ var addAction = function(){
 				cols += '<td><img alt="' + data.info.current + '" src="' + (data.info.current ? '/assets/check.png' : '/assets/x.png') + '" /></td>';
 				cols += '<td><button data-id="' + data.info.id + '" type="button" class="setCurrentBtn btn btn-default">Set Current</button></td>';
 				cols += '<td><button data-id="' + data.info.id + '" type="button" class="editBtn btn btn-default">Edit</button></td>';
-				cols += '<td><a href="/metrics?id=' + data.info.id + '">Show Metrics</a></td>';
 				
 				row.append(cols);
 				$('#paxes').append(row);
-				
-				$('.editBtn').unbind('click', editAction);
-				$('.editBtn').click(editAction);
-				
-				$('.setCurrentBtn').unbind('click', setCurrentAction);
-				$('.setCurrentBtn').click(setCurrentAction);
 				
 				updateCurrentImg('pax-' + data.info.id);
 			}else{
@@ -126,8 +116,9 @@ var clearLabel = function(){
 };
 
 var setCurrentAction = function(e){
+	clearLabel();
+	
 	id = e.currentTarget.dataset['id'];
-	//set scrolling gif active
 	
 	$.ajax({
 		url : '/pax/current',
@@ -149,6 +140,7 @@ var setCurrentAction = function(e){
 
 var editAction = function(e){
 	cancelAction();
+	clearLabel();
 	//add in call for cancelUpdate method
 	cancelUpdateAction();
 	id = e.currentTarget.dataset['id'];
@@ -169,18 +161,19 @@ var editAction = function(e){
 
 	row.append(cols);
 	$('#pax-' + id).after(row);
-	//add click listener for update/cancel button
-	$('#updateBtn').click(updateAction);
-	$('#cancelUpdateBtn').click(cancelUpdateAction);
 };
 
 $(document).ready(function() {
 
-	$('.editBtn').click(editAction);
-	$('#editBtn').click(clearLabel);
+	$('#paxes').on('click', '.editBtn', editAction);
 
-	$('.setCurrentBtn').click(setCurrentAction);
-	$('.setCurrentBtn').click(clearLabel);
+	$('#paxes').on('click', '.setCurrentBtn', setCurrentAction);
+
+	$('#paxes').on('click', '#addBtn', addAction);
+	$('#paxes').on('click', '#cancelBtn', cancelAction);
+	
+	$('#paxes').on('click', '#updateBtn', updateAction);
+	$('#paxes').on('click', '#cancelUpdateBtn', cancelUpdateAction);
 	
 	$('#newPaxBtn').click(function(){
 		cancelUpdateAction();
@@ -197,9 +190,6 @@ $(document).ready(function() {
 
 		row.append(cols);
 		$('#paxes').append(row);
-		//add cancel event listener
-		$('#cancelBtn').click(cancelAction);
-		$('#addBtn').click(addAction);
 		//disable #newPaxBtn
 		$('#newPaxBtn').prop('disabled', true);
 	});

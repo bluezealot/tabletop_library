@@ -15,7 +15,7 @@ PaxTTlib::Application.routes.draw do
     resources :sessions,        only: [:new, :create, :destroy]
     #resources :users,           only: [:new, :create, :destroy, :index]
     #resources :attendees
-    resources :games, :titles, :paxes, :publishers, :sections
+    resources :games, :titles, :paxes, :publishers#, :sections
 
     #mk3    
     match 'is_valid_game', to: 'games#valid_game'
@@ -34,6 +34,10 @@ PaxTTlib::Application.routes.draw do
     match 'pax/current', to: 'paxes#set_current', via: :post
     match 'pax/create', to: 'paxes#create', via: :post
     match 'pax/update', to: 'paxes#update', via: :post
+    
+    match 'sections', to: 'sections#index', via: :get
+    match 'sections/create', to: 'sections#create', via: :post
+    match 'sections/update', to: 'sections#update', via: :put
     
     #resources :sections do
     #  resources :games

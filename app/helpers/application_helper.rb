@@ -10,9 +10,8 @@ module ApplicationHelper
   end
   
   def admin_label(user)
-    base = ""
     if user.nil?
-      base
+      link_to 'Sign In', signin_url
     else
       admin_name(user)
     end

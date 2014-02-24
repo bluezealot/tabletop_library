@@ -9,14 +9,22 @@ body{
     clear: both;
 }
 
-td button, .form-button {
-  margin-bottom: 10px;
+td button {
+  margin-bottom: 0px !important;
+}
+.form-button {
+  margin-bottom: 10px !important;
 }
 
 td select{
   width: 100%;
   height: auto;
   margin: auto;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 a{
@@ -95,10 +103,14 @@ input{
   border: 2px solid #FF0000 !important;
 }
 
-.center-form{
+.center-form, .center-form-wide {
   width: 25vw;
   margin: 0px auto;
   vertical-align: top;
+}
+
+.center-form-wide{
+  width: 40vw;
 }
 
 .center-form input[type="text"],

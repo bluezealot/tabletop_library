@@ -14,7 +14,6 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require bootstrap-switch
-//= require_tree .
 
 var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;
 
