@@ -67,5 +67,9 @@ class ApplicationController < ActionController::Base
     def capitalize_all(str)
       str.split.map(&:capitalize).join(' ')
     end
+    
+    def select_sections
+        @sections = Section.all.collect {|s| [s.name, s.id]}
+    end
   
 end

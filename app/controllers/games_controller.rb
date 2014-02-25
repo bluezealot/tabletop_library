@@ -105,8 +105,43 @@ class GamesController < ApplicationController
         end
       end
     end
+    
+    def get_game_by_id
+      game = Game.where(barcode: params[:id].upcase, returned: false).first
+      
+      render json: get_game_data(game)
+    end
 
     private
+    
+    def get_game_data(game)
+      game_info = nil
+      message = ''
+    
+      if game
+        check_outs = Checkout.where(:game_id => game.barcode, :closed => false, :pax_id => get_current_pax.id)
+        
+        if check_outs.size > 0
+          message = " is currently checked out."
+        end
+        
+        game_info = {
+          barcode: game.barcode,
+          title: game.title_name,
+          publisher: game.publisher_name,
+          checked_out: check_outs.size > 0,
+          returned: game.returned,
+          section: game.section.name
+        }
+      end
+      
+      return {
+        valid: game,
+        info: game_info,
+        status: game ? message : 'Game does not exist.'
+      }
+    end
+    
     def get_title_id(title, publisher)
       if Title.where(:title => title).empty?
         #create new title
@@ -134,8 +169,4 @@ class GamesController < ApplicationController
         end
     end
 
-    def select_sections
-        @sections = Section.all.collect {|s| [s.name, s.id]}
-    end
-        
 end

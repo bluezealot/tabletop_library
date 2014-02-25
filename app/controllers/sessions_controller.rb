@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
     before_filter :signed_in_user, only: [:index]
+    before_filter :select_sections, only: [:index]
     
     def index
         

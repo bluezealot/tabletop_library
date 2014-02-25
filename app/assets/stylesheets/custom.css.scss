@@ -16,6 +16,18 @@ td button {
   margin-bottom: 10px !important;
 }
 
+.wide {
+  width: 100%;
+}
+
+.wide-link {
+  display: block;
+  border-radius: 3px;
+  border: 1px solid #999;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 td select{
   width: 100%;
   height: auto;

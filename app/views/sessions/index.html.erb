@@ -1,13 +1,23 @@
-<ul>
-    <li><%= link_to 'New Game', new_game_path %></li>
-    <li><%= link_to 'Remove game', games_remove_path %></li>
-    
-    <li><%= link_to 'Suggested Culls', culls_path(@current_pax)%></li>
-    
+<div id="adminForm" class="center-form">
+    <%= button_tag 'New Game', { id:'newGameBtn', class: 'btn btn-primary form-button wide' }  %>
+	<%= button_tag 'Remove Game', { id:'rmvGameBtn', class: 'btn btn-danger form-button wide' }  %>
+    <%= link_to 'Suggested Culls', culls_path(@current_pax), { class: 'wide-link' } %>
     <% if is_super_user %>
-    	<li><%= link_to 'All Titles', titles_path %></li>
-    	<li><%= link_to 'All Sections', sections_path %></li>
-	    <li><%= link_to 'All Paxes', paxes_path %></li>
+    	<%= link_to 'All Titles', titles_path, { class: 'wide-link' } %>
+    	<%= link_to 'All Sections', sections_path, { class: 'wide-link' } %>
+	    <%= link_to 'All Paxes', paxes_path, { class: 'wide-link' } %>
     <% end %>
+    </div>
+
+<div id="newGameField" class="center-form" style="display: none;">
+	<div class="wide-link" style="border: none;">New Game</div>
+	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
+	<%= button_tag 'Cancel', { id: 'cancelNewBtn', class: 'btn btn-danger form-button wide' } %>
+	<div id='g_label'></div>
+	</div>
     
-    </ul>
+<div id="new_game" title="New Game">
+	<%= text_field_tag :title, nil, { autocomplete: "off", placeholder: 'Title' } %>
+	<%= text_field_tag :publisher, nil, { autocomplete: "off", placeholder: 'Publisher' } %>
+	<%= select_tag :section_id, options_for_select(@sections, selected: select_option_for), { prompt: 'Select a Department' } %>
+	</div>

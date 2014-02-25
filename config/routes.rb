@@ -39,6 +39,8 @@ PaxTTlib::Application.routes.draw do
     match 'sections/create', to: 'sections#create', via: :post
     match 'sections/update', to: 'sections#update', via: :put
     
+    match 'game_by_id', to: 'games#get_game_by_id', via: :get
+    
     #resources :sections do
     #  resources :games
     #end
