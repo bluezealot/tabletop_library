@@ -3,9 +3,9 @@
 	<%= button_tag 'Remove Game', { id:'rmvGameBtn', class: 'btn btn-danger form-button wide' }  %>
     <%= link_to 'Suggested Culls', culls_path(@current_pax), { class: 'wide-link' } %>
     <% if is_super_user %>
-    	<%= link_to 'All Titles', titles_path, { class: 'wide-link' } %>
-    	<%= link_to 'All Sections', sections_path, { class: 'wide-link' } %>
-	    <%= link_to 'All Paxes', paxes_path, { class: 'wide-link' } %>
+    	<%= link_to 'Titles', titles_path, { class: 'wide-link' } %>
+    	<%= link_to 'Sections', sections_path, { class: 'wide-link' } %>
+	    <%= link_to 'Paxes', paxes_path, { class: 'wide-link' } %>
     <% end %>
     </div>
 
@@ -13,6 +13,15 @@
 	<div class="wide-link" style="border: none;">New Game</div>
 	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
 	<%= button_tag 'Cancel', { id: 'cancelNewBtn', class: 'btn btn-danger form-button wide' } %>
+	</div>
+	
+<div id="rmvGameField" class="center-form" style="display: none;">
+	<div class="wide-link" style="border: none;">Remove Game</div>
+	<%= text_field_tag :r_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
+	<%= button_tag 'Cancel', { id: 'cancelRmvBtn', class: 'btn btn-danger form-button wide' } %>
+	</div>
+	
+<div class="center-form">
 	<div id='g_label'></div>
 	</div>
     

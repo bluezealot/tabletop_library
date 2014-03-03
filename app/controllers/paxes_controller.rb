@@ -9,8 +9,8 @@ class PaxesController < ApplicationController
     pax = Pax.new({
       name: params[:name],
       location: params[:location],
-      start: params[:start],
-      end: params[:end]
+      start_date: params[:start_date],
+      end_date: params[:end_date]
     })
     
     set_to_current = false
@@ -32,8 +32,8 @@ class PaxesController < ApplicationController
           id: pax.id,
           name: pax.name,
           location: pax.location,
-          start: pax.start,
-          end: pax.end,
+          start_date: pax.start_date,
+          end_date: pax.end_date,
           current: pax.current
         }
         
@@ -71,8 +71,8 @@ class PaxesController < ApplicationController
         pax.update_attributes({
           name: params[:name],
           location: params[:location],
-          start: params[:start],
-          end: params[:end]
+          start_date: params[:start_date],
+          end_date: params[:end_date]
         })
         success = true
       else

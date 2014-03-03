@@ -15,7 +15,8 @@ class AttendeesController < ApplicationController
         last_name: capitalize_all(params[:last_name]),
         handle: capitalize_all(params[:handle]),
         enforcer: enforcer,
-        barcode: params[:co_a_id].upcase
+        barcode: params[:co_a_id].upcase,
+        pax_id: get_current_pax.id
         })
     
     render json: {
@@ -33,7 +34,7 @@ class AttendeesController < ApplicationController
   # hasGames: true if more than 0 open checkouts exist
   def get_attendee_by_id
     a_id = params[:a_id].upcase
-    att = Attendee.where(:barcode => a_id).first
+    att = Attendee.where(:barcode => a_id, :pax_id => get_current_pax.id).first
     
     render json: get_attendee_data(att)
   end
@@ -52,9 +53,9 @@ class AttendeesController < ApplicationController
     games = []
     
     if att
-      Checkout.where(:attendee_id => att.barcode, :closed => false, :pax_id => get_current_pax.id).each do |co|
+      Checkout.where(:attendee_id => att.id, :closed => false, :pax_id => get_current_pax.id).each do |co|
         games << {
-          barcode: co.game_id,
+          barcode: co.game.barcode,
           name: co.game.name,
           title: co.game.title_name,
           publisher: co.game.publisher_name

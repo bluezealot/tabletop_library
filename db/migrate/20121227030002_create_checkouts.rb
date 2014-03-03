@@ -1,8 +1,8 @@
 class CreateCheckouts < ActiveRecord::Migration
   def change
     create_table :checkouts do |t|
-      t.string :game_id
-      t.string :attendee_id
+      t.integer :game_id
+      t.integer :attendee_id
       t.integer :pax_id
       t.timestamp :check_out_time
       t.timestamp :return_time

@@ -28,26 +28,25 @@ class SessionsController < ApplicationController
     
     def metrics
         if params[:id]
-            @pax = Pax.find(params[:id])
+          @pax = Pax.find(params[:id])
         else
           @pax = get_current_pax
         end
+        
+        @top_games = Title.joins(games: :checkouts)
+            .select('title, count(*) as total')
+            .where('checkouts.pax_id' => @pax.id)
+            .group('title')
+            .order('count(*) desc')
+            .limit(20)
 
-        #Top Five, not done!!!!
-        @top_five_per_game = {}
-        Title.all.each do |t|
-            x = Checkout.where(:game_id => Game.where(:title_id => t), :pax_id => @pax).count
-            if x > 0
-                @top_five_per_game[t.title] = x
-            end
-        end
-        @top_five_per_game = @top_five_per_game.sort_by {|a,b| b}.reverse[0..9]
+        all_co = Checkout.where(:pax_id => @pax)
+        closed_co = all_co.where(:closed => true)
         
-        checkouts = Checkout.where(:pax_id => @pax).sort_by!{|a| a.play_time_min}
-        
-        @shortest_checkout = checkouts.first
-        @longest_checkout = checkouts.last#reverse.first
-        @current_checkouts = Checkout.where(:closed => false).count
+        @shortest_checkout = closed_co.sort_by! { |a| a.play_time_min }.first
+        @longest_checkout = closed_co.last
+        @current_checkouts = closed_co.size
+        @total_checkouts = all_co.size
     end
     
     def culls

@@ -9,7 +9,7 @@ class TitlesController < ApplicationController
         else
             _page = 1
         end
-        @titles = Title.all.paginate(:page => _page, :per_page => 10)
+        @titles = Title.all.sort_by(&:title).paginate(:page => _page, :per_page => 10)
     end
 
     def edit

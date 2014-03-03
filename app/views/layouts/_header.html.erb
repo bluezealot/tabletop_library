@@ -4,7 +4,9 @@
         <%= current_pax_label %>
         </span>
     <span class='mid'>
-        <%= link_to '[All Current Checkouts]', checkouts_path %>
+        <%= link_to "All Current Checkouts", checkouts_path %>
+        <span id="openCheckoutCount"><%= open_checkout_count %></span>
+        <span> open</span>
         </span>
     <span class='right'>
         <%= admin_label current_user %>

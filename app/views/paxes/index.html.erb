@@ -10,11 +10,11 @@
   </tr>
 
 	<% @paxes.each_with_index do |pax, index| %>
-		<tr id="pax-<%= pax.id %>" <%= index.even? ? 'class=oddRow' : nil %>>
+		<tr id="pax-<%= pax.id %>" <%= index.even? ? 'class=oddRow' : nil %> data-full-name='<%= pax.full_name %>'>
 	    	<td data-id='<%= pax.id %>' data-name='<%= pax.name %>' ><%= pax.name %></td>
 		    <td data-id='<%= pax.id %>' data-location='<%= pax.location %>' ><%= pax.location %></td>
-		    <td data-id='<%= pax.id %>' data-start='<%= pax.start %>'><%= pax.start %></td>
-		    <td data-id='<%= pax.id %>' data-end='<%= pax.end %>'><%= pax.end %></td>
+		    <td data-id='<%= pax.id %>' data-start_date='<%= pax.start_date %>'><%= pax.start_date %></td>
+		    <td data-id='<%= pax.id %>' data-end_date='<%= pax.end_date %>'><%= pax.end_date %></td>
 		    <td><%= bool_img pax.current %></td>
 		    <td><%= button_tag 'Set Current', { 'data-id'=> "#{pax.id}", class:'setCurrentBtn btn btn-default' } %></td>
 		    <td><%= button_tag 'Edit', { 'data-id'=> "#{pax.id}", class:'editBtn btn btn-default' } %></td>

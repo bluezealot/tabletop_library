@@ -2,8 +2,8 @@ PaxTTlib::Application.routes.draw do
 
     root :to => "checkouts#new"
     
-    match 'games/remove',       to:'games#remove',          via: :get
-    match 'games/remove',       to:'games#remove',          via: :post
+    #match 'games/remove',       to:'games#remove',          via: :get
+    #match 'games/remove',       to:'games#remove',          via: :post
     
     match 'signin',             to:'sessions#new',          via: :get
     match 'signout',            to:'sessions#destroy',      via: :delete
@@ -40,6 +40,7 @@ PaxTTlib::Application.routes.draw do
     match 'sections/update', to: 'sections#update', via: :put
     
     match 'game_by_id', to: 'games#get_game_by_id', via: :get
+    match 'games/cull', to: 'games#cull', via: :post
     
     #resources :sections do
     #  resources :games

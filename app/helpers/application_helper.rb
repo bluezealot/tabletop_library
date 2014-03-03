@@ -9,6 +9,10 @@ module ApplicationHelper
     end
   end
   
+  def open_checkout_count
+    Checkout.where(closed: false).size
+  end
+  
   def admin_label(user)
     if user.nil?
       link_to 'Sign In', signin_url
@@ -51,7 +55,7 @@ module ApplicationHelper
   def current_pax_label
     current_pax = get_current_pax
     if current_pax
-      link_to current_pax.full_name, metrics_path(current_pax)
+      link_to current_pax.full_name, metrics_path(id: current_pax), { id: 'paxLink' }
     else
       nil
     end
@@ -60,7 +64,7 @@ module ApplicationHelper
   def get_current_pax
     pax = Pax.where({:current => true}).first
     if !pax
-      Pax.find(:all, :order => 'start DESC').first
+      Pax.find(:all, :order => 'start_date DESC').first
     else
       pax
     end
@@ -74,43 +78,4 @@ module ApplicationHelper
     end
   end
   
-  def progress_percent
-    per = nil
-    c = controller
-    if (c.action_name == 'new' || c.action_name == 'create') && c.class != SessionsController
-      if notice
-        per = 100
-      else
-        per = 0
-      end
-    elsif c.class == CheckoutsController
-      if c.action_name != 'index'
-        if session[:a_id]
-          if session[:g_id]
-            per = 90
-          else
-            per = 50
-          end
-        else
-          per = 0
-        end
-      end
-    elsif c.class == AttendeesController && c.action_name == 'info_get'
-      if session[:redirect] == 'checkout'
-        per = 25
-      else
-        per = 50
-      end
-    elsif c.class == GamesController && c.action_name == 'info_get'
-      if session[:redirect] == 'checkout'
-        per = 75
-      else
-        per = 50
-      end
-    elsif c.class == ReturnsController && c.action_name == 'show'
-      per = 50
-    end
-    per
-  end
-    
 end

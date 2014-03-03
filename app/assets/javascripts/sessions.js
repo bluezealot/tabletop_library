@@ -6,8 +6,23 @@ $(document).ready(function() {
 		});
 	});
 	
+	$('#rmvGameBtn').click(function(){
+		// fade out admin form
+		$('#adminForm').fadeOut(250, function(){
+			$('#rmvGameField').fadeIn(250);
+		});
+	});
+	
 	$('#cancelNewBtn').click(function(){
+		$('#g_label').text('');
 		$('#newGameField').fadeOut(250, function(){
+			$('#adminForm').fadeIn(250);
+		});
+	});
+	
+	$('#cancelRmvBtn').click(function(){
+		$('#g_label').text('');
+		$('#rmvGameField').fadeOut(250, function(){
 			$('#adminForm').fadeIn(250);
 		});
 	});
@@ -26,7 +41,16 @@ $(document).ready(function() {
 					if(data.valid){
 						//set warning message
 						$('#g_id').val('');
-						$('#g_label').text('Game already exists!');
+						var msg = '';
+						msg += '<strong>Game already exists!</strong>';
+						msg += '</br>';
+						msg += '<br/>Barcode: ' + data.info.barcode;
+						msg += '<br/>Title: ' + data.info.title;
+						msg += '<br/>Publisher: ' + data.info.publisher;
+						msg += '<br/>Section: ' + data.info.section;
+						msg += '<br/>Active: ' + data.info.active;
+						
+						$('#g_label').html(msg);
 						//$('x_game').toggleClass('invis', true);
 					}else{
 						//set other fields to visible
@@ -78,6 +102,29 @@ $(document).ready(function() {
 			
 			$('#g_id').val('');
 			$("#g_label").text('');
+		}
+	});
+	
+	$('#r_g_id').change(function(){
+		$('#g_label').text('');
+		if (bc_regex.test(this.value)) {
+			$.ajax({
+				url : '/games/cull',
+				data : {
+					id: this.value
+				},
+				dataType : 'json',
+				type : 'POST',
+				success : function(data) {
+					if(data.success){
+						$('#r_g_id').val('');
+						$('#g_label').text('Game culled!');
+					}else{
+						$('#r_g_id').val('');
+						$('#g_label').text(data.message);
+					}
+				}
+			});
 		}
 	});
 	

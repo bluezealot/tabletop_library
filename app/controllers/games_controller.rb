@@ -5,18 +5,20 @@ class GamesController < ApplicationController
     def index
       @games = []
       
-      search = {:returned => false}
+      search = { :culled => false }
       search[:barcode]    = params[:g_id]       unless params[:g_id].blank?
       search[:section_id] = params[:section_id] unless params[:section_id].blank?
-      search[:title_id]   = Title.where("lower(title) like lower(?)", '%' + params[:title] + '%') unless params[:title].blank?
+      unless params[:title].blank?
+        if params[:title].size == 1
+          search[:title_id]   = Title.where("lower(title) like lower(? || '%')", params[:title])
+        else
+          search[:title_id]   = Title.where("lower(title) like lower('%' || ? || '%')", params[:title])
+        end
+      end
       
-      #@games = Game.where(search).order('title_id ASC')
-      @games = Game.where(search).order('title_id ASC').paginate(:page => params[:page], :per_page => 10)
+      @games = Game.where(search).order('title_id, section_id ASC').paginate(:page => params[:page], :per_page => 10)
     end
 
-    def new
-    end
-    
     def update_section
       game = Game.find(params[:id])
       
@@ -43,71 +45,69 @@ class GamesController < ApplicationController
       success = false
       message = ''
       missing_fields = []
-      already_exists = false
       
       params.each do |k, v|
         if v.nil? || v.empty?
           missing_fields << k
         end
       end
-
-      if game
-        if game.returned == false
-          message = 'Game barcode already exists in the system.'
-          already_exists = true
-        elsif game.returned == true
-          game.update_attributes({
+      
+      if missing_fields.empty?
+        if game
+          if game.active?
+            message = 'Game already exists and is ACTIVE in the system.'
+          else
+            message = 'Game already exists, but is not ACTIVE in the system.'
+          end
+        else
+          new_game = Game.new({
+            :barcode => g_id,
             :title_id => t_id, 
             :section_id => params[:section_id],
-            :returned => false,
-            :checked_in => true
-            })
-            success = true
+            :checked_in => true,
+            :culled => false,
+            :active => true
+          })
+          success = new_game.save
+        end
+      end
+
+      render json: {
+        success: success,
+        message: success ? 'Game successfully added and set to ACTIVE.' : message,
+        missing: missing_fields
+      }
+    end
+
+    def cull
+      g_id = params[:id].upcase
+      game = get_game(g_id)
+      
+      message = ''
+      success = false
+      
+      if game
+        unless game_has_unclosed_co(g_id)
+          game.update_attributes({
+            culled: true,
+            active: false
+          })
+          success = true
+        else
+          message = 'Game can not be culled until it is checked in.'
         end
       else
-        game = Game.new({
-          :title_id => t_id, 
-          :barcode => g_id, 
-          :section_id => params[:section_id]
-          })
-        success = game.save
+        message = 'Game is not in the system currently.'
       end
       
       render json: {
         success: success,
-        message: success ? 'Game successfully added.' : message,
-        missing: missing_fields,
-        exists: already_exists
+        message: message
       }
-    end
-
-    def remove
-      g_id = params[:g_id]
-      if g_id
-        if get_game(g_id)
-          if game_has_unclosed_co(g_id)
-            flash[:alert] = 'Game is still checked out. Please return the game first.'
-            redirect_to games_remove_path
-          else
-            game = Game.find(g_id)
-            if game.loaner.nil?
-              remove_game(g_id)
-              flash[:notice] = 'Game removed from the library.'
-              redirect_to games_remove_path
-            else
-              flash[:alert] = 'This game is donated and can\'t be removed this way. Please remove it via the "loaners" function.'
-              redirect_to games_remove_path
-            end
-          end
-        else
-          flash[:alert] = 'Game does not exist.'
-          redirect_to games_remove_path
-        end
-      end
     end
     
     def get_game_by_id
-      game = Game.where(barcode: params[:id].upcase, returned: false).first
+      game = get_game(params[:id].upcase)
       
       render json: get_game_data(game)
     end
@@ -130,7 +130,8 @@ class GamesController < ApplicationController
           title: game.title_name,
           publisher: game.publisher_name,
           checked_out: check_outs.size > 0,
-          returned: game.returned,
+          culled: game.culled,
+          active: game.active,
           section: game.section.name
         }
       end

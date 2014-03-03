@@ -3,8 +3,8 @@ class CreatePaxes < ActiveRecord::Migration
     create_table :paxes do |t|
       t.string :name
       t.string :location
-      t.date :start
-      t.date :end
+      t.date :start_date
+      t.date :end_date
       t.boolean :current, :default => false
 
       t.timestamps

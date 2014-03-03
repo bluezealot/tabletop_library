@@ -13,19 +13,20 @@
 
 ActiveRecord::Schema.define(:version => 20130815041647) do
 
-  create_table "attendees", :id => false, :force => true do |t|
-    t.string   "barcode",                       :null => false
+  create_table "attendees", :force => true do |t|
+    t.string   "barcode",    :limit => 20
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "enforcer",   :default => false
+    t.boolean  "enforcer",                 :default => false
     t.string   "handle"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.integer  "pax_id"
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   create_table "checkouts", :force => true do |t|
-    t.string   "game_id"
-    t.string   "attendee_id"
+    t.integer  "game_id"
+    t.integer  "attendee_id"
     t.integer  "pax_id"
     t.datetime "check_out_time"
     t.datetime "return_time"
@@ -34,23 +35,15 @@ ActiveRecord::Schema.define(:version => 20130815041647) do
     t.datetime "updated_at",                        :null => false
   end
 
-  create_table "games", :id => false, :force => true do |t|
-    t.string   "barcode",                       :null => false
+  create_table "games", :force => true do |t|
+    t.string   "barcode",    :limit => 20
     t.integer  "title_id"
-    t.integer  "loaner_id"
-    t.integer  "section_id", :default => 1
-    t.boolean  "checked_in", :default => true
-    t.boolean  "returned",   :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-  end
-
-  create_table "loaners", :force => true do |t|
-    t.string   "name"
-    t.string   "contact"
-    t.string   "phone_number"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "section_id",               :default => 1
+    t.boolean  "checked_in",               :default => true
+    t.boolean  "culled",                   :default => false
+    t.boolean  "active",                   :default => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   create_table "notes", :force => true do |t|
@@ -63,8 +56,8 @@ ActiveRecord::Schema.define(:version => 20130815041647) do
   create_table "paxes", :force => true do |t|
     t.string   "name"
     t.string   "location"
-    t.date     "start"
-    t.date     "end"
+    t.date     "start_date"
+    t.date     "end_date"
     t.boolean  "current",    :default => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false

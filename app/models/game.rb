@@ -1,10 +1,7 @@
 class Game < ActiveRecord::Base
-    #set_primary_key :barcode
-    self.primary_key = :barcode
-    attr_accessible :barcode, :checked_in, :loaner_id, :section_id, :title_id, :returned
+    attr_accessible :barcode, :checked_in, :loaner_id, :section_id, :title_id, :active, :culled
     belongs_to :title
     belongs_to :section
-    belongs_to :loaner
 
     has_many :checkouts
     has_many :notes
@@ -15,7 +12,7 @@ class Game < ActiveRecord::Base
     validates_existence_of :title, :both => false #uncomment after resolving title ids
     validates_existence_of :section, :both => false
 
-    validates_uniqueness_of :barcode
+    #validates_uniqueness_of :barcode
     
     def name
       self.title.title + ' [' + self.title.publisher.name + ']'

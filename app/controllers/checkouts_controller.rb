@@ -8,11 +8,12 @@ class CheckoutsController < ApplicationController
     a_id = params[:a_id].upcase
     g_id = params[:g_id].upcase
     
+    game = get_active_game(g_id)
     begin
-      unless get_game(g_id)
-        raise 'Game does not exist!'
+      unless game
+        raise 'Game does not exist or is not ACTIVE!'
       end
-      if game_has_unclosed_co(g_id)
+      if game_has_unclosed_co(game.id)
         raise "Game is already checked out!"
       end
       
@@ -44,17 +45,23 @@ class CheckoutsController < ApplicationController
     a_id.upcase!
     g_id.upcase!
 
-    Game.find(g_id).update_attributes({
-        :checked_in => false
-        })
-        
+    pax = get_current_pax
+    game = get_game(g_id)
+    atte = Attendee.where(barcode: a_id, pax_id: pax.id).first
+
     checkout = Checkout.new({
-                :check_out_time => Time.new,
-                :pax_id => get_current_pax.id,
-                :game_id => g_id,
-                :attendee_id => a_id
-                })
+        :check_out_time => Time.new,
+        :pax_id => pax.id,
+        :game_id => game.id,
+        :attendee_id => atte.id
+      })
     success = checkout.save
+    
+    if success
+      game.update_attributes({
+        :checked_in => false
+      })
+    end
     
     return {
       success: success,

@@ -209,19 +209,16 @@ var pTipIn = function(e){
 		var pos = $(e.currentTarget).position();
 		pos.left += $(e.currentTarget)[0].offsetWidth + 10;
 		
-		var id = randId();
-		$(e.currentTarget).data('id', id);
-		
-		var tip = '<div class="ptip" style="top:' + pos.top +'px;left:' + pos.left + 'px;display:none;" id="' + id + '">' + text + '</div>';
+		var tip = '<div class="ptip" style="top:' + pos.top +'px;left:' + pos.left + 'px;display:none;" data-target="' + $(e.currentTarget).attr('id') + '">' + text + '</div>';
 		$('body').append(tip);
 		$('.ptip').fadeIn(300);
 	}
 };
 
 var pTipOut = function(e){
-	var id = $(e.currentTarget).data('id');
-	$('#' + id).fadeOut('150');
-	$('#' + id).remove();
+	var id = $(e.currentTarget).attr('id');
+	$('div[data-target="' + id + '"]').fadeOut('150');
+	$('div[data-target="' + id + '"]').remove();
 };
 
 var randId = function(){
