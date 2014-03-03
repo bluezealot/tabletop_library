@@ -13,14 +13,12 @@
 		
 	<div>
 	    <span style='width:200px; display:inline-block;'>Shortest Checkout Duration:</span>
-	    <span style='width:75px; display:inline-block; text-align:right;' ><%= @shortest_checkout ? @shortest_checkout.play_time_min : 0 %></span>
-	    <span> minutes</span>
+	    <span style='width:75px; display:inline-block; text-align:right;' ><%= @shortest_checkout ? @shortest_checkout.play_time_formatted : 0 %></span>
 		</div>
 		
 	<div>
 	    <span style='width:200px; display:inline-block;'>Longest Checkout Duration:</span>
-	    <span style='width:75px; display:inline-block; text-align:right;' ><%= @longest_checkout ? @longest_checkout.play_time_min : 0 %></span>
-	    <span> minutes</span>
+	    <span style='width:75px; display:inline-block; text-align:right;' ><%= @longest_checkout ? @longest_checkout.play_time_formatted : 0 %></span>
 		</div>
 	    
 	<br/>

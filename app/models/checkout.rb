@@ -13,27 +13,19 @@ class Checkout < ActiveRecord::Base
   validates_existence_of :game, :both => false
   validates_existence_of :pax, :both => false
 
-  def play_time_min
-    if !check_out_time.nil? && !return_time.nil?
-      format_num((return_time - check_out_time) / 60)
+  def play_time_formatted
+    unless return_time.nil?
+      Time.at(return_time - check_out_time).utc.strftime('%H:%M:%S:%L')
     else
-      format_num((Time.new - check_out_time) / 60)
+      Time.at(Time.new - check_out_time).utc.strftime('%H:%M:%S:%L')
     end
   end
-  
-  def play_time_sec
-    if !check_out_time.nil? && !return_time.nil?
+
+  def play_time
+    unless return_time.nil?
       return_time - check_out_time
     else
-      Time.new - check_out_time
-    end
-  end
-  
-  def play_time_hr
-    if !check_out_time.nil? && !return_time.nil?
-      format_num((return_time - check_out_time) / 60 / 60)
-    else
-      format_num((Time.new - check_out_time) / 60 / 60)
+      0
     end
   end
   

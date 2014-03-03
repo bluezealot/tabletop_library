@@ -41,11 +41,20 @@ class SessionsController < ApplicationController
             .limit(20)
 
         all_co = Checkout.where(:pax_id => @pax)
+        open_co = all_co.where(:closed => false)
         closed_co = all_co.where(:closed => true)
+
+        closed_co.select! do |co|
+          co.play_time > 0
+        end
+
+        closed_co.sort_by! do |co|
+          co.play_time
+        end
         
-        @shortest_checkout = closed_co.sort_by! { |a| a.play_time_min }.first
+        @shortest_checkout = closed_co.first
         @longest_checkout = closed_co.last
-        @current_checkouts = closed_co.size
+        @current_checkouts = open_co.size
         @total_checkouts = all_co.size
     end
     
