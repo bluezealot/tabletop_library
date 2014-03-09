@@ -21,8 +21,8 @@ PaxTTlib::Application.routes.draw do
     match 'is_valid_game', to: 'games#valid_game'
     match 'attendee_by_id', to: 'attendees#get_attendee_by_id'
     
-    match 'checkouts/create',   to: 'checkouts#create',      via: :post
-    match 'checkouts/swap',     to: 'checkouts#swap',        via: :post
+    match 'checkouts/create', to: 'checkouts#create', via: :post
+    match 'checkouts/swap', to: 'checkouts#swap', via: :post
     
     match 'return', to: 'checkouts#return', via: :post
     
@@ -42,6 +42,7 @@ PaxTTlib::Application.routes.draw do
     match 'game_by_id', to: 'games#get_game_by_id', via: :get
     match 'games/cull', to: 'games#cull', via: :post
     match 'games/activate', to: 'games#activate', via: :post
+    match 'games/deactivate', to: 'games#deactivate', via: :post
     
     #resources :sections do
     #  resources :games

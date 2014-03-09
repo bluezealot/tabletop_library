@@ -1,5 +1,6 @@
 <div id="adminForm" class="center-form">
-	<%= button_tag 'Setup', { id:'actGameBtn', class: 'btn btn-primary form-button wide', data: { title: 'Click here to make games available for show use.' } }  %>
+	<%= button_tag 'Setup', { id:'actGameBtn', class: 'btn btn-primary form-button wide', data: { title: 'Click here to unpack games for show use.' } }  %>
+	<%= button_tag 'Teardown', { id:'trdGameBtn', class: 'btn btn-primary form-button wide', data: { title: 'Click here to remove games for packing.' } }  %>
     <%= button_tag 'New Game', { id:'newGameBtn', class: 'btn btn-info form-button wide', data: { title: 'Add a new game to the library catalog.' } }  %>
 	<%= button_tag 'Cull Game', { id:'rmvGameBtn', class: 'btn btn-danger form-button wide', data: { title: 'Cull a game from the library permanently.' } }  %>
     <%= link_to 'Suggested Culls', culls_path(@current_pax), { class: 'wide-link' } %>
@@ -11,9 +12,15 @@
     </div>
 
 <div id="actGameField" class="center-form" style="display: none;">
-	<div class="wide-link" style="border: none;">Activate Game</div>
+	<div class="wide-link" style="border: none;">UnPack Game</div>
 	<%= text_field_tag :a_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to put it into ACTIVE show inventory.' } } %>
 	<%= button_tag 'Cancel', { id: 'cancelActBtn', class: 'btn btn-danger form-button wide' } %>
+	</div>
+
+<div id="trdGameField" class="center-form" style="display: none;">
+	<div class="wide-link" style="border: none;">Pack Game</div>
+	<%= text_field_tag :t_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to deactivate it for packing.' } } %>
+	<%= button_tag 'Cancel', { id: 'cancelTrdBtn', class: 'btn btn-danger form-button wide' } %>
 	</div>
 
 <div id="newGameField" class="center-form" style="display: none;">

@@ -140,6 +140,35 @@ class GamesController < ApplicationController
         info: get_game_data(game)[:info]
       }
     end
+    
+    def deactivate
+      game = get_game(params[:id].upcase)
+
+      success = false
+      alr_dea = false
+      message = ''
+      info = 
+      
+      if game
+        if !game.active?
+          alr_dea = true
+        else
+          game.update_attributes(
+            active: false
+          )
+        end
+        success = true
+      else
+        message = 'Game does not exist.'
+      end
+      
+      render json: {
+        success: success,
+        already_inactive: alr_dea,
+        message: message,
+        info: get_game_data(game)[:info]
+      }
+    end
 
     private
     

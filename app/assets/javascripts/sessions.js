@@ -7,6 +7,14 @@ $(document).ready(function() {
 		});
 	});
 	
+	$('#trdGameBtn').click(function(){
+		// fade out admin form
+		$('#adminForm').fadeOut(250, function(){
+			$('#trdGameField').fadeIn(250);
+			$('#t_g_id').focus();
+		});
+	});
+	
 	$('#newGameBtn').click(function(){
 		// fade out admin form
 		$('#adminForm').fadeOut(250, function(){
@@ -26,6 +34,13 @@ $(document).ready(function() {
 	$('#cancelActBtn').click(function(){
 		$('#g_label').text('');
 		$('#actGameField').fadeOut(250, function(){
+			$('#adminForm').fadeIn(250);
+		});
+	});
+	
+	$('#cancelTrdBtn').click(function(){
+		$('#g_label').text('');
+		$('#trdGameField').fadeOut(250, function(){
 			$('#adminForm').fadeIn(250);
 		});
 	});
@@ -181,10 +196,50 @@ $(document).ready(function() {
 		}
 	});
 	
+	$('#t_g_id').change(function(){
+		$('#g_label').text('');
+		if (bc_regex.test(this.value)) {
+			$.ajax({
+				url : '/games/deactivate',
+				data : {
+					id: this.value
+				},
+				dataType : 'json',
+				type : 'POST',
+				success : function(data) {
+					$('#t_g_id').val('');
+					if(data.success){
+						var msg = '';
+						
+						if(data.already_inactive){
+							msg += '<strong>Game is already deactivated!</strong>';
+						}else{
+							msg += '<strong>Game was deactivated successfully!</strong>';
+						}
+						
+						msg += '</br>';
+						msg += '<br/>Barcode: ' + data.info.barcode;
+						msg += '<br/>Title: ' + data.info.title;
+						msg += '<br/>Publisher: ' + data.info.publisher;
+						msg += '<br/>Section: ' + data.info.section;
+						
+						$('#g_label').html(msg);
+					}else{
+						$('#g_label').text(data.message);
+					}
+				}
+			});
+		}
+	});
+	
 	$('#a_g_id').focus(pTipIn);
 	$('#a_g_id').blur(pTipOut);
 	
+	$('#t_g_id').focus(pTipIn);
+	$('#t_g_id').blur(pTipOut);
+	
 	$('#actGameBtn').hover(pTipIn, pTipOut);
+	$('#trdGameBtn').hover(pTipIn, pTipOut);
 	$('#rmvGameBtn').hover(pTipIn, pTipOut);
 	$('#newGameBtn').hover(pTipIn, pTipOut);
 	
