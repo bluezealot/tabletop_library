@@ -9,9 +9,16 @@ body{
     clear: both;
 }
 
+hr {
+  //margin: auto;
+  border-top: 1px solid #000;
+  border-bottom: 0px;
+}
+
 td button {
   margin-bottom: 0px !important;
 }
+
 .form-button {
   margin-bottom: 10px !important;
 }

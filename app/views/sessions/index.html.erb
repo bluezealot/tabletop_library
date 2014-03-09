@@ -1,6 +1,7 @@
 <div id="adminForm" class="center-form">
-    <%= button_tag 'New Game', { id:'newGameBtn', class: 'btn btn-primary form-button wide' }  %>
-	<%= button_tag 'Remove Game', { id:'rmvGameBtn', class: 'btn btn-danger form-button wide' }  %>
+	<%= button_tag 'Setup', { id:'actGameBtn', class: 'btn btn-primary form-button wide', data: { title: 'Click here to make games available for show use.' } }  %>
+    <%= button_tag 'New Game', { id:'newGameBtn', class: 'btn btn-info form-button wide', data: { title: 'Add a new game to the library catalog.' } }  %>
+	<%= button_tag 'Cull Game', { id:'rmvGameBtn', class: 'btn btn-danger form-button wide', data: { title: 'Cull a game from the library permanently.' } }  %>
     <%= link_to 'Suggested Culls', culls_path(@current_pax), { class: 'wide-link' } %>
     <% if is_super_user %>
     	<%= link_to 'Titles', titles_path, { class: 'wide-link' } %>
@@ -9,6 +10,12 @@
     <% end %>
     </div>
 
+<div id="actGameField" class="center-form" style="display: none;">
+	<div class="wide-link" style="border: none;">Activate Game</div>
+	<%= text_field_tag :a_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to put it into ACTIVE show inventory.' } } %>
+	<%= button_tag 'Cancel', { id: 'cancelActBtn', class: 'btn btn-danger form-button wide' } %>
+	</div>
+
 <div id="newGameField" class="center-form" style="display: none;">
 	<div class="wide-link" style="border: none;">New Game</div>
 	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
@@ -16,7 +23,7 @@
 	</div>
 	
 <div id="rmvGameField" class="center-form" style="display: none;">
-	<div class="wide-link" style="border: none;">Remove Game</div>
+	<div class="wide-link" style="border: none;">Cull Game</div>
 	<%= text_field_tag :r_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
 	<%= button_tag 'Cancel', { id: 'cancelRmvBtn', class: 'btn btn-danger form-button wide' } %>
 	</div>

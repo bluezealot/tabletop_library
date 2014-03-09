@@ -41,6 +41,7 @@ PaxTTlib::Application.routes.draw do
     
     match 'game_by_id', to: 'games#get_game_by_id', via: :get
     match 'games/cull', to: 'games#cull', via: :post
+    match 'games/activate', to: 'games#activate', via: :post
     
     #resources :sections do
     #  resources :games

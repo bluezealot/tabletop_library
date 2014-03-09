@@ -1,8 +1,17 @@
 $(document).ready(function() {
+	$('#actGameBtn').click(function(){
+		// fade out admin form
+		$('#adminForm').fadeOut(250, function(){
+			$('#actGameField').fadeIn(250);
+			$('#a_g_id').focus();
+		});
+	});
+	
 	$('#newGameBtn').click(function(){
 		// fade out admin form
 		$('#adminForm').fadeOut(250, function(){
 			$('#newGameField').fadeIn(250);
+			$('#g_id').focus();
 		});
 	});
 	
@@ -10,6 +19,14 @@ $(document).ready(function() {
 		// fade out admin form
 		$('#adminForm').fadeOut(250, function(){
 			$('#rmvGameField').fadeIn(250);
+			$('#r_g_id').focus();
+		});
+	});
+	
+	$('#cancelActBtn').click(function(){
+		$('#g_label').text('');
+		$('#actGameField').fadeOut(250, function(){
+			$('#adminForm').fadeIn(250);
 		});
 	});
 	
@@ -127,5 +144,48 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
+	$('#a_g_id').change(function(){
+		$('#g_label').text('');
+		if (bc_regex.test(this.value)) {
+			$.ajax({
+				url : '/games/activate',
+				data : {
+					id: this.value
+				},
+				dataType : 'json',
+				type : 'POST',
+				success : function(data) {
+					$('#a_g_id').val('');
+					if(data.success){
+						var msg = '';
+						
+						if(data.already_active){
+							msg += '<strong>Game is already ACTIVE!</strong>';
+						}else{
+							msg += '<strong>Game was activated successfully!</strong>';
+						}
+						
+						msg += '</br>';
+						msg += '<br/>Barcode: ' + data.info.barcode;
+						msg += '<br/>Title: ' + data.info.title;
+						msg += '<br/>Publisher: ' + data.info.publisher;
+						msg += '<br/>Section: ' + data.info.section;
+						
+						$('#g_label').html(msg);
+					}else{
+						$('#g_label').text(data.message);
+					}
+				}
+			});
+		}
+	});
+	
+	$('#a_g_id').focus(pTipIn);
+	$('#a_g_id').blur(pTipOut);
+	
+	$('#actGameBtn').hover(pTipIn, pTipOut);
+	$('#rmvGameBtn').hover(pTipIn, pTipOut);
+	$('#newGameBtn').hover(pTipIn, pTipOut);
 	
 });

@@ -1,11 +1,11 @@
 <div id='checkout_form' class='center-form'>
-	<%= text_field_tag :co_a_id, nil, { autocomplete: "off", placeholder: 'Attendee Barcode', autoFocus: true, title: 'Enter an ATTENDEE barcode to look up status.' } %>
+	<%= text_field_tag :co_a_id, nil, { autocomplete: "off", placeholder: 'Attendee Barcode', autoFocus: true, data: { title: 'Enter an ATTENDEE barcode to look up status.' } } %>
 	<%= button_tag 'x', { id: 'x_atte', class: 'invis btn btn-default' } %>
 	<div id='a_label'></div>
 	
 	<input checked id="swap_chkbox" name="swap_chkbox" type="checkbox" class="switch-small" data-on-label="Swap Games" data-off-label="Checkout Additional">
 
-	<%= text_field_tag :co_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', class: 'invis', title: 'Enter a GAME barcode to check out the game to the above attendee.' } %>
+	<%= text_field_tag :co_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', class: 'invis', data: { title: 'Enter a GAME barcode to check out the game to the above attendee.' } } %>
 	<div id='g_label'></div>
 	</div>
 

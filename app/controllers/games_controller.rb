@@ -112,6 +112,35 @@ class GamesController < ApplicationController
       render json: get_game_data(game)
     end
 
+    def activate
+      game = get_game(params[:id].upcase)
+
+      success = false
+      alr_act = false
+      message = ''
+      info = 
+      
+      if game
+        if game.active?
+          alr_act = true
+        else
+          game.update_attributes(
+            active: true
+          )
+        end
+        success = true
+      else
+        message = 'Game does not exist. Please add it to the library.'
+      end
+      
+      render json: {
+        success: success,
+        already_active: alr_act,
+        message: message,
+        info: get_game_data(game)[:info]
+      }
+    end
+
     private
     
     def get_game_data(game)
