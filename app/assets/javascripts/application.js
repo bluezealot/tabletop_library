@@ -17,8 +17,6 @@
 
 var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;
 
-//$(document).tooltip();
-
 var pTipIn = function(e){
 	var text = $(e.currentTarget).data('title');
 	if(text && !$(e.currentTarget).prop('readOnly')){
@@ -36,3 +34,6 @@ var pTipOut = function(e){
 	$('div[data-target="' + id + '"]').fadeOut('150');
 	$('div[data-target="' + id + '"]').remove();
 };
+$(document).ready(function() {
+	$('#openCheckoutLabel').hover(pTipIn, pTipOut);
+});

@@ -1,8 +1,8 @@
 <%= form_tag games_path, :method => 'get' do %>
-	<%= render 'tags/game/barcode' %>
-	<%= render 'tags/game/title' %>
-    <%= render 'tags/game/sections' %>
-    <%= render 'tags/buttons/search' %>
+	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode'} %>
+	<%= text_field_tag :title, nil, { autocomplete: "off", placeholder: 'Title', autofocus: true} %>
+	<%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for), :prompt=>'Select a Department'%>
+	<%= button_tag 'search', class: 'submit-btn btn btn-primary form-button' %>
 <% end %>
 
 <% if @games.count > 0 %>
