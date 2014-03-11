@@ -28,10 +28,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: paxTTlib_production
-  #database: dc72a10tg96mts
   pool: 5
   #timeout: 5000
   username: postgres
-  #username: wuirxgiuludmyx
   password:
-  #password: N5LKqjNB5SuiYhowkLlUTB52NK
