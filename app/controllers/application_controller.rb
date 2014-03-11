@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
         Checkout.where(:game_id => id, :closed => false, :pax_id => pax.id).size > 0
     end
     
-    def get_open_count_for_atte(a_id)
-        Checkout.where(:attendee_id => a_id.upcase, :closed => false, :pax_id => get_current_pax.id).size
+    def get_open_count_for_atte(id)
+      Checkout.where(:attendee_id => id, :closed => false, :pax_id => get_current_pax.id).size
     end
 
     def signed_in_user

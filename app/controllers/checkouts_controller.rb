@@ -70,10 +70,19 @@ class CheckoutsController < ApplicationController
   end
   
   def swap(a_id, g_id)
-    unless get_open_count_for_atte(a_id) != 1
-      old_g = get_checked_out_game_for(a_id)
+    pax = get_current_pax
+    atte = Attendee.where(barcode: a_id, pax_id: pax.id).first
+    
+    unless get_open_count_for_atte(atte.id) != 1
+      old_g = Checkout.where(
+          attendee_id: atte.id,
+          closed: false,
+          pax_id: pax.id
+        ).first.game_id
+        
+      game = Game.find_by_id(old_g)
       
-      return_game(a_id, old_g)
+      return_game(atte.barcode, game.barcode)
       json = checkout_game(a_id, g_id)
       
       json[:message] = 'Games swapped successfully.'
@@ -82,13 +91,4 @@ class CheckoutsController < ApplicationController
     end
   end
     
-  def get_checked_out_game_for(a_id)
-    c = Checkout.where(
-      attendee_id: a_id.upcase,
-      closed: false,
-      pax_id: get_current_pax.id
-      ).first
-    c.game_id
-  end
-  
 end
