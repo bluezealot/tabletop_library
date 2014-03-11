@@ -65,15 +65,20 @@ $(document).ready(function() {
 	});
 	
 	$('#games').on('switch-change', '.active-chkbox', function(e){
+		if($(this).hasClass('failed')){
+			$(this).removeClass('failed');
+			return;
+		}
 		var id = $(this).data('id');
 		
 		var barcode = $('td[data-id=' + id + '][data-barcode]').data('barcode');
 		
 		var url = '';
-		if($('#swap_chkbox').bootstrapSwitch('state')){
-			url = '/games/deactivate';
-		}else{
+		var state = $(this).bootstrapSwitch('state');
+		if(state){
 			url = '/games/activate';
+		}else{
+			url = '/games/deactivate';
 		}
 		
 		$.ajax({
@@ -91,6 +96,8 @@ $(document).ready(function() {
 					setTimeout(function(){ $('#' + data.info.id + '-tinycheck').addClass('invis'); }, 1000);
 				}else{
 					//set x to show and delay-disappear
+					$('.active-chkbox[data-id="' + data.info.id + '"]').addClass('failed');
+					$('.active-chkbox[data-id="' + data.info.id + '"]').bootstrapSwitch('setState', !state);
 					$('#' + data.info.id + '-tinyx').removeClass('invis');
 					setTimeout(function(){ $('#' + data.info.id + '-tinyx').addClass('invis'); }, 1000);
 				}

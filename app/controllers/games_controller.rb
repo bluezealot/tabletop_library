@@ -90,7 +90,7 @@ class GamesController < ApplicationController
       success = false
       
       if game
-        unless game_has_unclosed_co(g_id)
+        unless game_has_unclosed_co(game.id)
           game.update_attributes({
             culled: true,
             active: false
@@ -145,7 +145,8 @@ class GamesController < ApplicationController
     end
     
     def deactivate
-      game = get_game(params[:id].upcase)
+      g_id = params[:id].upcase
+      game = get_game(g_id)
 
       success = false
       alr_dea = false
@@ -153,17 +154,22 @@ class GamesController < ApplicationController
       info = 
       
       if game
-        if !game.active?
-          alr_dea = true
+        unless game_has_unclosed_co(game.id)
+          if !game.active?
+            alr_dea = true
+          else
+            game.update_attributes(
+              active: false
+            )
+          end
+          success = true
         else
-          game.update_attributes(
-            active: false
-          )
+          message = 'Game is still checked out.'
         end
-        success = true
       else
         message = 'Game does not exist.'
       end
+      
       
       render json: {
         success: success,
