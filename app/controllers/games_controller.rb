@@ -5,7 +5,10 @@ class GamesController < ApplicationController
     def index
       @games = []
       
-      search = { :culled => false }
+      search = { culled: false }
+      unless signed_in?
+        search[:active] = true
+      end
       search[:barcode]    = params[:g_id]       unless params[:g_id].blank?
       search[:section_id] = params[:section_id] unless params[:section_id].blank?
       unless params[:title].blank?
@@ -16,7 +19,7 @@ class GamesController < ApplicationController
         end
       end
       
-      @games = Game.where(search).order('title_id, section_id ASC').paginate(:page => params[:page], :per_page => 10)
+      @games = Game.where(search).order('title_id, section_id, id ASC').paginate(:page => params[:page], :per_page => 10)
     end
 
     def update_section
@@ -118,7 +121,7 @@ class GamesController < ApplicationController
       success = false
       alr_act = false
       message = ''
-      info = 
+      info = {}
       
       if game
         if game.active?
@@ -184,6 +187,7 @@ class GamesController < ApplicationController
         end
         
         game_info = {
+          id: game.id,
           barcode: game.barcode,
           title: game.title_name,
           publisher: game.publisher_name,
