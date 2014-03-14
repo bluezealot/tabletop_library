@@ -1,33 +1,36 @@
-<table style='width:100%;'>
-  <tr>
-    <th>Barcode</th>
-    <th>Game</th>
-    <th>Attendee</th>
-    <th>Pax</th>
-    <th>Check out time</th>
-  </tr>
+<table id='allCheckouts' style='width:100%;'>
+	<tr>
+		<th>Game</th>
+		<th>Attendee</th>
+		<th>Check out time</th>
+		</tr>
 
-<% @checkouts.each do |co| %>
-  <tr>
-    <td style='text-align:center;'><%= co.game.barcode %></td>
-    <td><%= co.game.name %></td>
-    <td title='<%= co.attendee.barcode %>'>
-    	<%= co.attendee.name %></td>
-    <td style='text-align:center;'><%= co.pax.full_name %></td>
-    <td style='text-align:center;'><%= co.check_out_time.strftime("%a %I:%M%p") %></td>
-    <!--
-    <td>
-    	<%= #FIXME: Do this via javascript to remove row dynamically.
-    		link_to "Return #{co.game.name}",
-    		return_path({ a_id: co.attendee.id, g_id:co.game.id }),
-    		{
-				confirm: "Return #{co.game.name} to #{co.attendee.name}?",
-				remote: true,
-				method: :POST
-				}
-			%>
-    	</td>
-    -->
-  </tr>
-<% end %>
-</table>
+	<% @checkouts.each do |co| %>
+		<tr
+		  data-a_id='<%= co.attendee.barcode %>'
+		  data-g_id='<%= co.game.barcode %>'
+		  data-attendee_name='<%= co.attendee.name %>'
+		  data-game_name='<%= co.game.title_name %>'>
+			<td style='text-align:center;'><%= co.game.barcode %> - <%= co.game.title_name %></td>
+			<td style='text-align:center;'><%= co.attendee.barcode %> - <%= co.attendee.name %></td>
+			<td style='text-align:center;'><%= co.check_out_time.strftime("%a %I:%M%p") %></td>
+			<td><button type="button" class="btn btn-mini btn-danger index-return">return game</button></td>
+			</tr>
+		<% end %>
+	</table>
+	
+<div id="return-confirm" title="Return Game">
+	<p>
+		Game:
+		<br/>
+		<strong>
+			<span id='game_name'></span>
+			</strong>
+		<br/><br/>
+		Attendee:
+		<br/> 
+	 	<strong>
+			<span id='attendee_name'></span>
+			</strong>
+		</p>
+	</div>

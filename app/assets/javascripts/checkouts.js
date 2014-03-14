@@ -201,6 +201,50 @@ $(document).ready(function() {
 	$('#checkout_form > input').focus(pTipIn);
 	$('#checkout_form > input').blur(pTipOut);
 	
+	$("#return-confirm").dialog({
+		autoOpen : false,
+		modal : true,
+		buttons : {
+			"Return" : function() {
+				$.ajax({
+					url : '/return',
+					data : {
+						g_id: $('.return-this').data('g_id'),
+						a_id: $('.return-this').data('a_id')
+					},
+					dataType : 'json',
+					type : 'POST',
+					success : function(data) {
+						//remove checkout row
+						if (data.success) {
+							$('.return-this').remove();
+						}else{
+							$('.return-this').removeClass('return-this');
+						}
+						$("#return-confirm").dialog('close');
+					}
+				});
+			},
+			Cancel : function() {
+				$('.return-this').removeClass('return-this');
+				$("#return-confirm").dialog('close');
+			}
+		},
+		close : function() {
+			$('.return-this').removeClass('return-this');
+		}
+	});
+	
+	$('#allCheckouts').on('click', '.index-return', function(){
+		var _me = $(this).parent().parent();
+		
+		_me.addClass('return-this');
+		$('#attendee_name').text(_me.data('attendee_name'));
+		$('#game_name').text(_me.data('game_name'));
+		
+		$("#return-confirm").dialog('open');
+	});
+	
 });
 
 var randId = function(){

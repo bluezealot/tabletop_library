@@ -178,23 +178,10 @@ input{
   visibility: hidden;
 }
 
-.ui-dialog-buttonset{
-  background-color: #FFF;
-}
-
 .ui-widget-overlay {
-   background: #CCC;
-   opacity: .80;
-   position: absolute;
-   left: 0;
-   top: 0;
+   opacity: .80 !important;
 }
 
-.ui-tooltip {
-  padding: 10px 20px;
-  color: #000;
-  background-color: #FFF;
-}
 //bootstrap override
 ul, span {
   margin: auto;
