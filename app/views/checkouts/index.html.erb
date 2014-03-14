@@ -5,8 +5,8 @@
 		<th>Check out time</th>
 		</tr>
 
-	<% @checkouts.each do |co| %>
-		<tr
+	<% @checkouts.each_with_index do |co, index| %>
+		<tr <%= index.even? ? 'class=oddRow' : nil %>
 		  data-a_id='<%= co.attendee.barcode %>'
 		  data-g_id='<%= co.game.barcode %>'
 		  data-attendee_name='<%= co.attendee.name %>'
