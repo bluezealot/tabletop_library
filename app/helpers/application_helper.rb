@@ -1,37 +1,16 @@
 module ApplicationHelper
 
-  def full_title(page_title)
-    base = "PAX TT HQ"
-    if page_title.empty?
-      base
-    else
-      "#{base} - #{page_title}"
-    end
-  end
-  
   def open_checkout_count
     Checkout.where(closed: false).size
+  end
+  
+  def active_game_count
+    Game.where(active: true, culled: false).size
   end
   
   def admin_label(user)
     if user.nil?
       link_to 'Sign In', signin_url
-    else
-      admin_name(user)
-    end
-  end
-  
-  def admin_name(user)
-    if user.nil?
-      nil
-    else
-      sign_out_link(user)
-    end
-  end
-  
-  def sign_out_link(user)
-    if user.nil?
-      nil
     else
       link_to user.name + ' - sign out', signout_path, method: "delete"
     end

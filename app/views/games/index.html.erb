@@ -1,38 +1,40 @@
-<%= form_tag games_path, :method => 'get' do %>
-	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode'} %>
-	<%= text_field_tag :title, nil, { autocomplete: "off", placeholder: 'Title', autofocus: true} %>
-	<%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for), :prompt=>'Select a Department'%>
-	<%= button_tag 'search', class: 'submit-btn btn btn-primary form-button' %>
-<% end %>
+<div>
+	<%= form_tag games_path, :method => 'get', id: 'searchForm' do %>
+		<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', autofocus: true } %>
+		<%= text_field_tag :title, nil, { autocomplete: "off", placeholder: 'Title' } %>
+		<%= select_tag :section_id, options_for_select(@sections, :selected => select_option_for), :prompt=>'Select a Department'%>
+		<%= button_tag 'search', class: 'submit-btn btn btn-primary form-button' %>
+	<% end %>
+	</div>
 
 <% if @games.count > 0 %>
-    <table id='games' style='border-spacing:0;width:100%;'>
-        <% @games.each_with_index do |game, index| %>
-        	<tr <%= index.even? ? 'class=oddRow' : nil %> <%= "id=game-#{game.barcode}" %>>
-                <td><%= bool_img(game.checked_in) %></td>
-                <td data-id="<%= game.id %>" data-barcode="<%= game.barcode %>"><%= game.barcode %></td>
-                <td data-id="<%= game.id %>" data-title="<%= game.title.title %>"><%= game.title.title %></td>
-                <td data-id="<%= game.id %>" data-publisher="<%= game.title.publisher.name %>"><%= game.title.publisher.name %></td>
-                <td data-id="<%= game.id %>" data-section="<%= game.section.id %>">
-                	<% if signed_in? %>
-                		<%= select_tag nil, options_for_select(@sections, :selected => [game.section.name, game.section.id]) %>
-                	<% else  %>
-                		<%= game.section.name %>
-                	<% end  %>
-                	</td>
-                <td style="width:10px;">
-                	<%= image_tag("tiny_check.png", alt: "success", class: 'invis', id:"#{game.id}-tinycheck") %>
-                	<%= image_tag("tiny_x.png", alt: "failed", class: 'invis', id:"#{game.id}-tinyx") %>
-                	</td>
-                <% if signed_in? %>
-            	<td>
-            		<input <%= game.active? ? 'checked' : nil %> type="checkbox" class="switch-mini active-chkbox" data-id="<%= game.id %>" data-on-label="active" data-off-label="inactive">
-            		</td>
-        		<% end %>
-            </tr>
-        <% end %>
-    </table>
-    <div style='float:right;'>
-    	<%= will_paginate @games %>
-    </div>
+<table id='games' style='border-spacing:0;width:100%;'>
+    <% @games.each_with_index do |game, index| %>
+	<tr <%= index.even? ? 'class=oddRow' : nil %> <%= "id=game-#{game.barcode}" %>>
+        <td><%= bool_img(game.checked_in) %></td>
+        <td data-id="<%= game.id %>" data-barcode="<%= game.barcode %>"><%= game.barcode %></td>
+        <td data-id="<%= game.id %>" data-title="<%= game.title.title %>"><%= game.title.title %></td>
+        <td data-id="<%= game.id %>" data-publisher="<%= game.title.publisher.name %>"><%= game.title.publisher.name %></td>
+        <td data-id="<%= game.id %>" data-section="<%= game.section.id %>">
+        	<% if signed_in? %>
+        		<%= select_tag nil, options_for_select(@sections, :selected => [game.section.name, game.section.id]) %>
+        	<% else  %>
+        		<%= game.section.name %>
+        	<% end  %>
+        	</td>
+        <td style="width:10px;">
+        	<%= image_tag("tiny_check.png", alt: "success", class: 'invis', id:"#{game.id}-tinycheck") %>
+        	<%= image_tag("tiny_x.png", alt: "failed", class: 'invis', id:"#{game.id}-tinyx") %>
+        	</td>
+        <% if signed_in? %>
+    	<td>
+    		<input <%= game.active? ? 'checked' : nil %> type="checkbox" class="switch-mini active-chkbox" data-id="<%= game.id %>" data-on-label="active" data-off-label="inactive">
+    		</td>
+		<% end %>
+    	</tr>
+    <% end %>
+	</table>
+<div style='float:right;'>
+	<%= will_paginate @games %>
+	</div>
 <% end %>

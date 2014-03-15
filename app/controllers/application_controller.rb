@@ -37,16 +37,12 @@ class ApplicationController < ActionController::Base
     end
     
     def game_has_unclosed_co(id)
-        pax = get_current_pax
-        Checkout.where(:game_id => id, :closed => false, :pax_id => pax.id).size > 0
+      pax = get_current_pax
+      Checkout.where(:game_id => id, :closed => false, :pax_id => pax.id).size > 0
     end
     
-    def get_open_count_for_atte(id)
-      Checkout.where(:attendee_id => id, :closed => false, :pax_id => get_current_pax.id).size
-    end
-
     def signed_in_user
-        redirect_to signin_url, alert: "Please sign in." unless signed_in?
+      redirect_to signin_url, alert: "Please sign in." unless signed_in?
     end
     
     def capitalize_all(str)
@@ -54,7 +50,7 @@ class ApplicationController < ActionController::Base
     end
     
     def select_sections
-        @sections = Section.all.collect {|s| [s.name, s.id]}
+      @sections = Section.all.collect {|s| [s.name, s.id]}
     end
   
 end

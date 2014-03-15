@@ -1,6 +1,5 @@
 class GamesController < ApplicationController
-    before_filter :select_sections, only: [:index, :new]
-    before_filter :signed_in_user, only: [:new, :remove]
+    before_filter :select_sections, only: [:index]
 
     def index
       @games = []
@@ -9,8 +8,8 @@ class GamesController < ApplicationController
       unless signed_in?
         search[:active] = true
       end
-      search[:barcode]    = params[:g_id]       unless params[:g_id].blank?
-      search[:section_id] = params[:section_id] unless params[:section_id].blank?
+      search[:barcode]    = params[:g_id].upcase  unless params[:g_id].blank?
+      search[:section_id] = params[:section_id]   unless params[:section_id].blank?
       unless params[:title].blank?
         if params[:title].size == 1
           search[:title_id]   = Title.where("lower(title) like lower(? || '%')", params[:title])

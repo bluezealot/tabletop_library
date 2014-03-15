@@ -1,3 +1,15 @@
+var openCheckoutCount = function(bool){
+	var count = parseInt($('#openCheckoutCount').text());
+	if(bool){
+		++count;
+	}else{
+		if(--count < 0){
+			count = 0;
+		}
+	}
+	$('#openCheckoutCount').text(count);
+};
+
 var enableCheckoutButton = function() {
 	checkBoxInvis(c_o != 1);
 	$('#x_atte').toggleClass('invis', !v_a);
@@ -88,19 +100,22 @@ $(document).ready(function() {
 	//entry for game barcode
 	$("#co_g_id").change(function(e) {
 		if (bc_regex.test(this.value)) {
-			data = {
+			q_data = {
 				g_id : $('#co_g_id').val(),
 				a_id : $('#co_a_id').val(),
 				swap : $('#swap_chkbox').parent().parent().is(':visible') ? $('#swap_chkbox').bootstrapSwitch('state') : false
 			};
 			$.ajax({
 				url : '/checkouts/create',
-				data : data,
+				data : q_data,
 				dataType : "json",
 				type : 'POST',
 				complete : enableCheckoutButton,
 				success : function(data) {
 					if (data.success) {
+						if(!q_data.swap){
+							openCheckoutCount(true);
+						}
 						resetCheckout();
 						clearReturns();
 						$("#g_label").text(data.message);
@@ -129,6 +144,7 @@ $(document).ready(function() {
 			success : function(data) {
 				$("#g_label").text('');
 				if (data.success) {
+					openCheckoutCount(false);
 					$('#returns tr[id="barcode' + field.id + '"]').remove();
 					c_o--;
 				}
@@ -217,6 +233,7 @@ $(document).ready(function() {
 					success : function(data) {
 						//remove checkout row
 						if (data.success) {
+							openCheckoutCount(false);
 							$('.return-this').remove();
 						}else{
 							$('.return-this').removeClass('return-this');

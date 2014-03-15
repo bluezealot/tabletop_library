@@ -90,5 +90,9 @@ class CheckoutsController < ApplicationController
       return json
     end
   end
+  
+  def get_open_count_for_atte(id)
+    Checkout.where(:attendee_id => id, :closed => false, :pax_id => get_current_pax.id).size
+  end
     
 end

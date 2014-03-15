@@ -5,9 +5,11 @@
         </span>
     <span class='mid'>
         <%= link_to "All Current Checkouts", checkouts_path %>
-        <span id="openCheckoutLabel" data-title="This count is only updated on page refresh.">
+        <span id="openCheckoutLabel">
         	<span id="openCheckoutCount"><%= open_checkout_count %></span>
-        	<span> open</span>
+        	<span> open checkouts | </span>
+        	<span id="activeGameCount"><%= active_game_count %></span>
+        	<span> active games</span>
         	</span>
         </span>
     <span class='right'>

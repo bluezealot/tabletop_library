@@ -1,38 +1,20 @@
-var clearEntryForm = function(){
-	$('#game_form input[type="text"], #section_id').val('');
+var activeGameCount = function(bool){
+	var count = parseInt($('#activeGameCount').text());
+	if(bool){
+		++count;
+	}else{
+		if(--count < 0){
+			count = 0;
+		}
+	}
+	$('#activeGameCount').text(count);
 };
 
 $(document).ready(function() {
 	$(".active-chkbox").bootstrapSwitch();
+	//replace un-formatted <em> field with matching <a> field
+	$('em.current').replaceWith('<a class="current" style="background-color: #ccc;">' + $('em.current').text() + '</a>');
 
-	//add game on click
-	$('#add_btn').click(function() {
-		if (bc_regex.test($('#g_id').val())) {
-			$('#g_label').text('');
-			$('#game_form input[type="text"]').removeClass('error');
-			
-			data = $('#game_form input[type="text"], #section_id').serializeArray();
-			$.ajax({
-				url : '/games/create',
-				data : data,
-				dataType : 'json',
-				type : 'POST',
-				//complete : enableCheckoutButton,
-				success : function(data) {
-					if(data.success || data.exists){
-						clearEntryForm();
-					}else{
-						//highlight missing fields
-						for(var i = 0; i < data.missing.length; i++){
-							$('#' + data.missing[i]).addClass('error');
-						}
-					}
-					$('#g_label').text(data.message);
-				}
-			});
-		}
-	});
-	
 	//update section on selection oooh that kind of rhymes hee hee
 	$('td[data-section] select').change(function(e){
 		id = $(e.currentTarget).parent().data('id');
@@ -91,6 +73,7 @@ $(document).ready(function() {
 			success : function(data) {
 				//set field back to editable
 				if(data.success){
+					activeGameCount(state);
 					//set check mark to show and delay-disappear
 					$('#' + data.info.id + '-tinycheck').removeClass('invis');
 					setTimeout(function(){ $('#' + data.info.id + '-tinycheck').addClass('invis'); }, 1000);

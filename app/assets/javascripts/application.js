@@ -34,6 +34,3 @@ var pTipOut = function(e){
 	$('div[data-target="' + id + '"]').fadeOut('150');
 	$('div[data-target="' + id + '"]').remove();
 };
-$(document).ready(function() {
-	$('#openCheckoutLabel').hover(pTipIn, pTipOut);
-});
