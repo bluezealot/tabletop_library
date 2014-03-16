@@ -12,13 +12,13 @@ class GamesController < ApplicationController
       search[:section_id] = params[:section_id]   unless params[:section_id].blank?
       unless params[:title].blank?
         if params[:title].size == 1
-          search[:title_id]   = Title.where("lower(title) like lower(? || '%')", params[:title])
+          search[:title_id] = Title.where("(lower(title) like lower(? || '%') or lower(title) like lower('The ' || ? || '%'))", params[:title], params[:title])
         else
-          search[:title_id]   = Title.where("lower(title) like lower('%' || ? || '%')", params[:title])
+          search[:title_id] = Title.where("(lower(title) like lower('%' || ? || '%') or lower(title) like lower('The %' || ? || '%'))", params[:title], params[:title])
         end
       end
       
-      @games = Game.where(search).order('title_id, section_id, id ASC').paginate(:page => params[:page], :per_page => 10)
+      @games = Game.where(search).joins(:title).order("lower(regexp_replace(title, 'The ', '')), section_id, id ASC").paginate(:page => params[:page], :per_page => 10)
     end
 
     def update_section

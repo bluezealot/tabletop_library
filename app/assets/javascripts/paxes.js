@@ -54,8 +54,8 @@ var addAction = function(){
 				cols += '<td data-id="' + data.info.id + '" data-start_date="' + data.info.start_date + '" >' + data.info.start_date + '</td>';
 				cols += '<td data-id="' + data.info.id + '" data-end_date="' + data.info.end_date + '" >' + data.info.end_date + '</td>';
 				cols += '<td><img alt="' + data.info.current + '" src="' + (data.info.current ? '/assets/check.png' : '/assets/x.png') + '" /></td>';
-				cols += '<td><button data-id="' + data.info.id + '" type="button" class="setCurrentBtn btn btn-default">Set Current</button></td>';
-				cols += '<td><button data-id="' + data.info.id + '" type="button" class="editBtn btn btn-default">Edit</button></td>';
+				cols += '<td><button data-id="' + data.info.id + '" type="button" class="setCurrentBtn btn btn-small btn-default">Set Current</button></td>';
+				cols += '<td><button data-id="' + data.info.id + '" type="button" class="editBtn btn btn-small btn-default">Edit</button></td>';
 				
 				row.append(cols);
 				$('#paxes').append(row);
@@ -167,8 +167,8 @@ var editAction = function(e){
 	cols += '<td><input type="text" value="' + vals[1].data('location') + '" placeHolder="Location" id="location-' + id + '" /></td>';
 	cols += '<td><input type="text" value="' + vals[2].data('start_date') + '" placeHolder="Start Date {yyyy-mm-dd}" id="start_date-' + id + '" /></td>';
 	cols += '<td><input type="text" value="' + vals[3].data('end_date') + '" placeHolder="End Date {yyyy-mm-dd}" id="end_date-' + id + '" /></td>';
-	cols += '<td><button type="button" id="updateBtn" class="btn btn-default">Update</button></td>';
-	cols += '<td><button type="button" id="cancelUpdateBtn" class="btn btn-default">Cancel</button></td>';
+	cols += '<td><button type="button" id="updateBtn" class="btn btn-small btn-default">Update</button></td>';
+	cols += '<td><button type="button" id="cancelUpdateBtn" class="btn btn-small btn-default">Cancel</button></td>';
 
 	row.append(cols);
 	$('#pax-' + id).after(row);
@@ -196,8 +196,8 @@ $(document).ready(function() {
 		cols += '<td><input type="text" placeHolder="Location" id="location" /></td>';
 		cols += '<td><input type="text" placeHolder="Start Date {yyyy-mm-dd}" id="start_date" /></td>';
 		cols += '<td><input type="text" placeHolder="End Date {yyyy-mm-dd}" id="end_date" /></td>';
-		cols += '<td><button type="button" id="addBtn" class="btn btn-default">Add</button></td>';
-		cols += '<td><button type="button" id="cancelBtn" class="btn btn-default">Cancel</button></td>';
+		cols += '<td><button type="button" id="addBtn" class="btn btn-small btn-default">Add</button></td>';
+		cols += '<td><button type="button" id="cancelBtn" class="btn btn-small btn-default">Cancel</button></td>';
 
 		row.append(cols);
 		$('#paxes').append(row);

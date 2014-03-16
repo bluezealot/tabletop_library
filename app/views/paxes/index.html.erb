@@ -16,8 +16,8 @@
 		    <td data-id='<%= pax.id %>' data-start_date='<%= pax.start_date %>'><%= pax.start_date %></td>
 		    <td data-id='<%= pax.id %>' data-end_date='<%= pax.end_date %>'><%= pax.end_date %></td>
 		    <td><%= bool_img pax.current %></td>
-		    <td><%= button_tag 'Set Current', { 'data-id'=> "#{pax.id}", class:'setCurrentBtn btn btn-default' } %></td>
-		    <td><%= button_tag 'Edit', { 'data-id'=> "#{pax.id}", class:'editBtn btn btn-default' } %></td>
+		    <td><%= button_tag 'Set Current', { 'data-id'=> "#{pax.id}", class:'setCurrentBtn btn btn-small btn-default' } %></td>
+		    <td><%= button_tag 'Edit', { 'data-id'=> "#{pax.id}", class:'editBtn btn btn-small btn-default' } %></td>
 	  		</tr>
 		<% end %>
 	</table>
