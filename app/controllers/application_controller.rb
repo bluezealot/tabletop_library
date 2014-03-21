@@ -52,5 +52,13 @@ class ApplicationController < ActionController::Base
     def select_sections
       @sections = Section.all.collect {|s| [s.name, s.id]}
     end
+    
+    def general_status
+      render json: {
+        success: true,
+        openCheckoutCount: Checkout.where(pax_id: get_current_pax, closed: false).size,
+        activeGameCount: Game.where(active: true, culled: false).size
+      }
+    end
   
 end

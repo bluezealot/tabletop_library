@@ -39,4 +39,6 @@ PaxTTlib::Application.routes.draw do
     match 'games/activate', to: 'games#activate', via: :post
     match 'games/deactivate', to: 'games#deactivate', via: :post
     
+    match '/status', to: 'application#general_status', via: :get
+    
 end
