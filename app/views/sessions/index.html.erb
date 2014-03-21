@@ -7,6 +7,7 @@
     <% if is_super_user %>
     	<%= link_to 'Sections', sections_path, { class: 'wide-link' } %>
 	    <%= link_to 'Paxes', paxes_path, { class: 'wide-link' } %>
+	    <%= button_tag 'Backup Database', { id:'backupDataBtn', class: 'btn btn-info form-button wide', data: { title: 'Dump the database to a SQL file in the server\'s root directory.' } }  %>
     <% end %>
     </div>
 
@@ -42,6 +43,12 @@
 	<%= text_field_tag :title, nil, { autocomplete: "off", placeholder: 'Title', list: 'titles' } %>
 	<%= text_field_tag :publisher, nil, { autocomplete: "off", placeholder: 'Publisher', list: 'publishers' } %>
 	<%= select_tag :section_id, options_for_select(@sections, selected: select_option_for), { prompt: 'Select a Department' } %>
+	</div>
+	
+<div id="backup_dialog" title="Backup the entire database?">
+  	<p>
+  		This may interrupt checkout processes.<br/>Please make sure to only do this at the end of teardown.
+  		</p>
 	</div>
 	
 <datalist id="titles">

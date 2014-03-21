@@ -60,5 +60,19 @@ class ApplicationController < ActionController::Base
         activeGameCount: Game.where(active: true, culled: false).size
       }
     end
+    
+    def backup_database
+      path = "#{Rails.root}/#{Time.new.strftime('%Y-%m-%d')}_#{Time.new.strftime('%s')}.sql"
+      comd = "pg_dump --file='#{path}' --column-inserts -C --username=postgres #{Rails.configuration.database_configuration[Rails.env]['database']}"
+      
+      fork do
+        exec comd
+      end
+      
+      render json: {
+        success: true,
+        save_path: path
+      }
+    end
   
 end

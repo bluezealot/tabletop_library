@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#actGameBtn').click(function(){
 		// fade out admin form
+		$('#g_label').text('');
 		$('#adminForm').fadeOut(250, function(){
 			$('#actGameField').fadeIn(250);
 			$('#a_g_id').focus();
@@ -9,6 +10,7 @@ $(document).ready(function() {
 	
 	$('#trdGameBtn').click(function(){
 		// fade out admin form
+		$('#g_label').text('');
 		$('#adminForm').fadeOut(250, function(){
 			$('#trdGameField').fadeIn(250);
 			$('#t_g_id').focus();
@@ -17,6 +19,7 @@ $(document).ready(function() {
 	
 	$('#newGameBtn').click(function(){
 		// fade out admin form
+		$('#g_label').text('');
 		$('#adminForm').fadeOut(250, function(){
 			$('#newGameField').fadeIn(250);
 			$('#g_id').focus();
@@ -25,6 +28,7 @@ $(document).ready(function() {
 	
 	$('#rmvGameBtn').click(function(){
 		// fade out admin form
+		$('#g_label').text('');
 		$('#adminForm').fadeOut(250, function(){
 			$('#rmvGameField').fadeIn(250);
 			$('#r_g_id').focus();
@@ -242,5 +246,37 @@ $(document).ready(function() {
 	$('#trdGameBtn').hover(pTipIn, pTipOut);
 	$('#rmvGameBtn').hover(pTipIn, pTipOut);
 	$('#newGameBtn').hover(pTipIn, pTipOut);
+	$('#backupDataBtn').hover(pTipIn, pTipOut);
+	
+	$("#backup_dialog").dialog({
+		autoOpen : false,
+		modal : true,
+		resizable : true,
+		buttons : {
+			"Confirm" : function() {
+				$.ajax({
+					url : '/backup_database',
+					dataType : 'json',
+					type : 'POST',
+					success : function(data) {
+						$('#backup_dialog').dialog('close');
+						
+						if (data.success) {
+							$('#g_label').html('The database was backed up to:<br/>' + data.save_path);
+						}else{
+							$('#g_label').text('Backup failed. Please contact your administrator.');
+						}
+					}
+				});
+			},
+			Cancel : function() { $('#backup_dialog').dialog('close'); }
+		}
+	});
+	
+	$('#backupDataBtn').click(function(){
+		// fade out admin form
+		$('#g_label').text('');
+		$('#backup_dialog').dialog('open');
+	});
 	
 });
