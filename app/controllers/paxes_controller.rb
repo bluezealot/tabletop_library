@@ -120,7 +120,7 @@ class PaxesController < ApplicationController
     current = get_current_pax
     
     if Checkout.where(:pax_id => current.id, :closed => false).count <= 0
-      if current
+      if current && current.id != id
           current.update_attributes({
               :current => false
           })
