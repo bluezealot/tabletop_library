@@ -67,7 +67,7 @@ $(document).ready(function() {
 				}else{
 					//set x to show and delay-disappear
 					$('.active-chkbox[data-id="' + data.info.id + '"]').addClass('failed');
-					$('.active-chkbox[data-id="' + data.info.id + '"]').bootstrapSwitch('setState', !state);
+					$('.active-chkbox[data-id="' + data.info.id + '"]').bootstrapSwitch('state', !state);
 					$('#' + data.info.id + '-tinyx').removeClass('invis');
 					setTimeout(function(){ $('#' + data.info.id + '-tinyx').addClass('invis'); }, 1000);
 				}
