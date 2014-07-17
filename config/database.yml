@@ -9,8 +9,9 @@ development:
   database: paxTTlib_development
   pool: 5
   #timeout: 5000
+  host: localhost
   username: postgres
-  password:
+  password: cloud9
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -20,15 +21,17 @@ test:
   encoding: unicode
   database: paxTTlib_test
   pool: 5
+  host: localhost
   #timeout: 5000
   username: postgres
-  password:
+  password: cloud9
 
 production:
   adapter: postgresql
   encoding: unicode
   database: paxTTlib_production
   pool: 5
+  host: localhost
   #timeout: 5000
   username: postgres
-  password:
+  password: cloud9

@@ -21,7 +21,7 @@ var resetCheckout = function() {
 	
 	checkBoxInvis(true);
 	
-	$('#swap_chkbox').bootstrapSwitch('setState', true);
+	$('#swap_chkbox').bootstrapSwitch('state', true);
 	v_a = false;
 	v_g = false;
 	c_o = 0;

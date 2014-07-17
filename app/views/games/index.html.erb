@@ -28,7 +28,7 @@
         	</td>
         <% if signed_in? %>
     	<td>
-    		<input <%= game.active? ? 'checked' : nil %> type="checkbox" class="switch-mini active-chkbox" data-id="<%= game.id %>" data-on-label="active" data-off-label="inactive">
+    		<input <%= game.active? ? 'checked' : nil %> type="checkbox" class="switch-mini active-chkbox" data-id="<%= game.id %>" data-size="mini" data-on-text="active" data-off-text="inactive">
     		</td>
 		<% end %>
     	</tr>

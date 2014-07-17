@@ -16,7 +16,7 @@ hr {
 }
 
 td button {
-  margin-bottom: 0px !important;
+  margin-bottom: 0px;
 }
 
 .form-button {
@@ -187,11 +187,12 @@ ul, span {
   margin: auto;
 }
 
-.switch-mini, .switch-small {
-  width: 83%;
-  margin-bottom: 10px;
+.bootstrap-switch-mini, .bootstrap-switch-switch-small {
+  width: 80%;
+  margin-bottom: 5px;
 }
 
-td .switch-mini {
-  margin-bottom: 0px;
+td .bootstrap-switch-mini, td .btn {
+  margin-top: 2.5px;
+  margin-bottom: 2.5px;
 }

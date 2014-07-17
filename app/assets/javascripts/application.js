@@ -11,8 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery-ui
+//= require jquery.ui.all
 //= require jquery_ujs
+//= require bootstrap
 //= require bootstrap-switch
 
 var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;

@@ -34,7 +34,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('#games').on('switch-change', '.active-chkbox', function(e){
+	$('#games').on('switchChange.bootstrapSwitch', '.active-chkbox', function(e){
 		if($(this).hasClass('failed')){
 			$(this).removeClass('failed');
 			return;
