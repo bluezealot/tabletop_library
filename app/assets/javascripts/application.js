@@ -15,41 +15,25 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-switch
+//= require pTipping
 
 var bc_regex = /^[a-z]{3}[a-z0-9]{3,6}$/i;
 
-var pTipIn = function(e){
-	var text = $(e.currentTarget).data('title');
-	if(text && !$(e.currentTarget).prop('readOnly')){
-		var pos = $(e.currentTarget).position();
-		pos.left += $(e.currentTarget)[0].offsetWidth + 10;
-		
-		var tip = '<div class="ptip" style="top:' + pos.top +'px;left:' + pos.left + 'px;display:none;" data-target="' + $(e.currentTarget).attr('id') + '">' + text + '</div>';
-		$('body').append(tip);
-		$('.ptip').fadeIn(300);
-	}
-};
-
-var pTipOut = function(e){
-	var id = $(e.currentTarget).attr('id');
-	$('div[data-target="' + id + '"]').fadeOut('150');
-	$('div[data-target="' + id + '"]').remove();
-};
-
 var getStatus = function(){
-	$.ajax({
-		url : "/status",
-		dataType : "json",
-		success : function(data) {
-			if (data.success) {
-				$('#openCheckoutCount').text(data.openCheckoutCount);
-				$('#activeGameCount').text(data.activeGameCount);
-			}
-			setTimeout(getStatus, 2500);
-		}
-	});
+    $.ajax({
+        url : "/status",
+        dataType : "json",
+        success : function(data) {
+            if (data.success) {
+                $('#openCheckoutCount').text(data.openCheckoutCount);
+                $('#activeGameCount').text(data.activeGameCount);
+            }
+            setTimeout(getStatus, 2500);
+        }
+    });
 };
 
 $(document).ready(function(){
-	setTimeout(getStatus, 2500);
+    setTimeout(getStatus, 2500);
+    $('[data-title]').pTip();
 });

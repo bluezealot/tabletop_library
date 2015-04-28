@@ -13,25 +13,25 @@
 
 <div id="actGameField" class="center-form" style="display: none;">
 	<div class="wide-link" style="border: none;">UnPack Game</div>
-	<%= text_field_tag :a_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to put it into ACTIVE show inventory.' } } %>
+	<%= text_field_tag :a_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to put it into ACTIVE show inventory.', actions: ['focus'] } } %>
 	<%= button_tag 'Cancel', { id: 'cancelActBtn', class: 'btn btn-danger form-button wide' } %>
 	</div>
 
 <div id="trdGameField" class="center-form" style="display: none;">
 	<div class="wide-link" style="border: none;">Pack Game</div>
-	<%= text_field_tag :t_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to deactivate it for packing.' } } %>
+	<%= text_field_tag :t_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter a GAME barcode to deactivate it for packing.', actions: ['focus'] } } %>
 	<%= button_tag 'Cancel', { id: 'cancelTrdBtn', class: 'btn btn-danger form-button wide' } %>
 	</div>
 
 <div id="newGameField" class="center-form" style="display: none;">
 	<div class="wide-link" style="border: none;">New Game</div>
-	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
+	<%= text_field_tag :g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Enter the barcode of the new game.', actions: ['focus'] } } %>
 	<%= button_tag 'Cancel', { id: 'cancelNewBtn', class: 'btn btn-danger form-button wide' } %>
 	</div>
 	
 <div id="rmvGameField" class="center-form" style="display: none;">
 	<div class="wide-link" style="border: none;">Cull Game</div>
-	<%= text_field_tag :r_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;' } %>
+	<%= text_field_tag :r_g_id, nil, { autocomplete: "off", placeholder: 'Game Barcode', style: 'width: 96%;', data: { title: 'Scan a barcode to remove the game from the system.', actions: ['focus'] } } %>
 	<%= button_tag 'Cancel', { id: 'cancelRmvBtn', class: 'btn btn-danger form-button wide' } %>
 	</div>
 	

@@ -1,0 +1,8 @@
+.ptip {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 3px;
+    border: 1px #ccc solid;
+    vertical-align: middle;
+    padding: 4px;
+}

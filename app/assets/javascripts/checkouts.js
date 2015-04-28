@@ -198,9 +198,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#checkout_form > input').focus(pTipIn);
-	$('#checkout_form > input').blur(pTipOut);
-	
 	$("#return-confirm").dialog({
 		autoOpen : false,
 		modal : true,

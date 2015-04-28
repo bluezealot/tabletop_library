@@ -236,18 +236,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#a_g_id').focus(pTipIn);
-	$('#a_g_id').blur(pTipOut);
-	
-	$('#t_g_id').focus(pTipIn);
-	$('#t_g_id').blur(pTipOut);
-	
-	$('#actGameBtn').hover(pTipIn, pTipOut);
-	$('#trdGameBtn').hover(pTipIn, pTipOut);
-	$('#rmvGameBtn').hover(pTipIn, pTipOut);
-	$('#newGameBtn').hover(pTipIn, pTipOut);
-	$('#backupDataBtn').hover(pTipIn, pTipOut);
-	
 	$("#backup_dialog").dialog({
 		autoOpen : false,
 		modal : true,
